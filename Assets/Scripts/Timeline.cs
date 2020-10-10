@@ -14,6 +14,8 @@ public struct KeyData
 }
 public class Timeline : MonoBehaviour
 {
+    FMOD.Studio.EventInstance vEventIns;
+
     static Timeline ins;
     List<KeyData> keyData;
     public Dictionary<string, string> generalProperties;
@@ -21,12 +23,15 @@ public class Timeline : MonoBehaviour
     {
         ins = this;
     }
-    public static void LoadMusicScript(string musicName)
+    public static void StartMusicScript(string musicName)
     {
         Dictionary<string, Dictionary<string, string>> sections;
-        Interpreter.Open("Assets/Music/Resources/" + musicName + "/keyscript.b3ks", out ins.keyData, out sections);
+        Interpreter.Open("Assets/Music/Resources/" + musicName + ".b3ks", out ins.keyData, out sections);
         GeneralSettings.exitCount = int.Parse(sections["General"]["Exit"]);
         foreach (var k in ins.keyData) ins.StartCoroutine(ins.StartFalling(k));
+
+        ins.vEventIns = FMODUnity.RuntimeManager.CreateInstance("event:/" + musicName);
+        ins.vEventIns.start();
     }
     IEnumerator StartFalling(KeyData kd)
     {

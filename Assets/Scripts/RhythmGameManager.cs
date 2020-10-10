@@ -62,7 +62,7 @@ public class RhythmGameManager : MonoBehaviour
         bottomRect = new Rect(brt.anchoredPosition - brt.sizeDelta / 2, brt.sizeDelta);
 
 
-        Timeline.LoadMusicScript(songName);
+        Timeline.StartMusicScript(songName);
         GenerateExits();
     }
     public static float GetBottom()
