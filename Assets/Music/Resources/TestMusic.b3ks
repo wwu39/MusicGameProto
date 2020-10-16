@@ -2,12 +2,13 @@
 Exit=7
 
 [0.9710034]
-Type=HorizontalMove
+Type=Rouxian
 Exit=3
 FallingTime=4.418258
 Width=3
 Direction=Left
 Length=3
+TimeLast=10
 
 [4.011882]
 Type=FallingBlock

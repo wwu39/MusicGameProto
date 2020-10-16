@@ -1,14 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Dynamic;
+﻿using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class DefRes // 开发用分辨率
 {
     public static int x { private set; get; } = 1920;
     public static int y { private set; get; } = 1080;
+}
+
+public struct GeneralSettings
+{
+    public static int exitCount;
 }
 
 public class ExitData
@@ -25,17 +28,23 @@ public class ExitData
             return true;
         return false;
     }
-}
-
-public struct GeneralSettings
-{
-    public static int exitCount;
+    public bool IsBeingTouchedBy(Touch t, out Vector2 pos)
+    {
+        pos = Utils.ScreenToCanvasPos(t.position);
+        if (RhythmGameManager.bottomRect.Contains(pos) && pos.x > x1 && pos.x < x2)
+            return true;
+        return false;
+    }
+    ~ExitData()
+    {
+        if (obj) Object.Destroy(obj);
+    }
 }
 
 public class RhythmGameManager : MonoBehaviour
 {
-    public string songName;
     [SerializeField] Transform parentNode;
+    [SerializeField] GameObject selectSong;
     public static ExitData[] exits;
     [SerializeField] GameObject bottom;
     [SerializeField] Text UIScore;
@@ -45,6 +54,10 @@ public class RhythmGameManager : MonoBehaviour
     int score;
     float time;
     public static Rect bottomRect;
+    Vector2 buttonStart = new Vector2(-720, 388);
+    Vector2 buttonSpaces = new Vector2(360, -90);
+    List<ExitData[]> oldExits = new List<ExitData[]>();
+    bool removingOldExits;
 
     public static RhythmGameManager ins;
 
@@ -62,9 +75,59 @@ public class RhythmGameManager : MonoBehaviour
         bottomRect = new Rect(brt.anchoredPosition - brt.sizeDelta / 2, brt.sizeDelta);
 
 
-        Timeline.StartMusicScript(songName);
+        var info = new DirectoryInfo("Assets/Music/Resources");
+        var files = info.GetFiles();
+        int i = 0;
+        foreach(var f in files)
+        {
+            if (f.Extension == ".b3ks")
+            {
+                string songName = f.Name.Substring(0, f.Name.Length - 5);
+                var btn = Instantiate(Resources.Load<GameObject>("SongName"), selectSong.transform);
+                btn.GetComponent<RectTransform>().anchoredPosition = buttonStart + new Vector2(i % 5 * buttonSpaces.x, i / 5 * buttonSpaces.y);
+                btn.GetComponentInChildren<Text>().text = songName;
+                btn.GetComponent<Button>().onClick.AddListener(delegate
+                {
+                    Timeline.StartMusicScript(songName);
+                    GenerateExits();
+                    Destroy(selectSong);
+                });
+                ++i;
+            }
+        }
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            StopGame();
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            RestartGame();
+        }
+    }
+
+    public void RestartGame(string newSongName = "", int startScore = 0)
+    {
+        score = startScore;
+        UIScore.text = "Score: " + score;
+
+        RectTransform brt = bottom.GetComponent<RectTransform>();
+        brt.sizeDelta = new Vector2(DefRes.x, blockHeight);
+        bottomRect = new Rect(brt.anchoredPosition - brt.sizeDelta / 2, brt.sizeDelta);
+
+        Timeline.Stop();
+        Timeline.StartMusicScript(newSongName);
         GenerateExits();
     }
+
+    public void StopGame()
+    {
+        exits = null;
+        Timeline.Stop();
+    }
+
     public static float GetBottom()
     {
         return (ins.bottom.transform as RectTransform).anchoredPosition.y;

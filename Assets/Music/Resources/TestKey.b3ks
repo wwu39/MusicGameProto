@@ -1,0 +1,12 @@
+[General]
+Exit=6
+Music=none
+
+[0.971]
+Type=Rouxian
+Exit=2
+FallingTime=4.418258
+Width=3
+Direction=Left
+Length=3
+TimeLast=10

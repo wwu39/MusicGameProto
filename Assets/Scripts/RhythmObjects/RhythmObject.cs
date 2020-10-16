@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public delegate void Void_0Arg();
 public enum RhythmType
 {
     None,
@@ -24,6 +25,8 @@ public abstract class RhythmObject : MonoBehaviour
     float time, altime;
     protected Vector2 start, end;
 
+    public event Void_0Arg OnBottomReached;
+
     protected virtual void Start()
     {
         rt = transform as RectTransform;
@@ -40,9 +43,9 @@ public abstract class RhythmObject : MonoBehaviour
         else 
             Update_Activated();
     }
-    public virtual RhythmObject Initialize(int _exit, Color c, int _perfectScore = 20, int _goodScore = 10, int _badScore = 0)
+    public virtual RhythmObject Initialize(int _exit, Color? c = null, int _perfectScore = 20, int _goodScore = 10, int _badScore = 0)
     {
-        foreach (Graphic g in GetComponentsInChildren<Graphic>()) g.color = c;
+        if (c != null) foreach (Graphic g in GetComponentsInChildren<Graphic>()) g.color = c.Value;
         exit = _exit;
         perfectScore = _perfectScore;
         goodScore = _goodScore;
@@ -63,11 +66,14 @@ public abstract class RhythmObject : MonoBehaviour
     public abstract RhythmType Type { get; }
 
     protected abstract void CheckActivateCondition();
-    protected virtual void Update_Falling()
+    protected void Update_Falling()
     {
         if (time >= 0.0166666667f)
         {
+            bool a = altime < fallingTime;
             altime += time;
+            bool b = altime < fallingTime;
+            if (a != b) OnBottomReached.Invoke();
             if (!fallBelowBottom) if (altime > fallingTime) altime = fallingTime;
             rt.anchoredPosition = Utils.LerpWithoutClamp(start, end, altime / fallingTime);
             time = 0;
