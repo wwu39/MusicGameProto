@@ -39,7 +39,7 @@ public class HorizontalMove : RhythmObject
         bool getTouched = false;
         for (int i = 0; i < Input.touchCount; ++i)
         {
-            if (RhythmGameManager.exits[exit].IsBeingTouchedBy(Input.GetTouch(i)))
+            if (exits[exit].IsBeingTouchedBy(Input.GetTouch(i)))
             {
                 getTouched = true;
                 break;
@@ -64,7 +64,7 @@ public class HorizontalMove : RhythmObject
             {
                 if (!checkpoints[i])
                 {
-                    Score(0, RhythmGameManager.exits[direction == Direction.Right ? exit + i : exit - i].center);
+                    Score(0, exits[direction == Direction.Right ? exit + i : exit - i].center);
                     checkpoints[i] = true;
                 }
             }
@@ -106,10 +106,10 @@ public class HorizontalMove : RhythmObject
                     for (int j = 0; j < Input.touchCount; ++j)
                     {
                         int curExit = direction == Direction.Right ? exit + i : exit - i;
-                        if (RhythmGameManager.exits[curExit].IsBeingTouchedBy(Input.GetTouch(j)))
+                        if (exits[curExit].IsBeingTouchedBy(Input.GetTouch(j)))
                         {
                             curScore = Mathf.Clamp(curScore + 1, 0, 2);
-                            Score(curScore, RhythmGameManager.exits[curExit].center);
+                            Score(curScore, exits[curExit].center);
                             checkpoints[i] = true;
                             break;
                         }
@@ -124,7 +124,7 @@ public class HorizontalMove : RhythmObject
             {
                 if (!checkpoints[i])
                 {
-                    Score(0, RhythmGameManager.exits[direction == Direction.Right ? exit + i : exit - i].center);
+                    Score(0, exits[direction == Direction.Right ? exit + i : exit - i].center);
                 }
             }
             Destroy(gameObject);
@@ -137,17 +137,17 @@ public class HorizontalMove : RhythmObject
         switch (direction)
         {
             case Direction.Right:
-                arrow.rectTransform.anchoredPosition = new Vector2(RhythmGameManager.exits[exit + width - 1].x2 - RhythmGameManager.exits[exit].x2 + RhythmGameManager.exitWidth / 2, 0);
-                line.rectTransform.anchoredPosition = new Vector2((RhythmGameManager.exits[exit + width - 1].x2 - RhythmGameManager.exits[exit].x2) / 2 + RhythmGameManager.exitWidth / 2, 0);
+                arrow.rectTransform.anchoredPosition = new Vector2(exits[exit + width - 1].x2 - exits[exit].x2 + RhythmGameManager.exitWidth / 2, 0);
+                line.rectTransform.anchoredPosition = new Vector2((exits[exit + width - 1].x2 - exits[exit].x2) / 2 + RhythmGameManager.exitWidth / 2, 0);
                 size = line.rectTransform.sizeDelta;
-                size.x = RhythmGameManager.exits[exit + width - 1].x2 - RhythmGameManager.exits[exit].x2;
+                size.x = exits[exit + width - 1].x2 - exits[exit].x2;
                 line.rectTransform.sizeDelta = size;
                 break;
             case Direction.Left:
-                arrow.rectTransform.anchoredPosition = new Vector2(RhythmGameManager.exits[exit - width + 1].x1 - RhythmGameManager.exits[exit].x1 - RhythmGameManager.exitWidth / 2, 0);
-                line.rectTransform.anchoredPosition = new Vector2((RhythmGameManager.exits[exit - width + 1].x1 - RhythmGameManager.exits[exit].x1) / 2 - RhythmGameManager.exitWidth / 2, 0);
+                arrow.rectTransform.anchoredPosition = new Vector2(exits[exit - width + 1].x1 - exits[exit].x1 - RhythmGameManager.exitWidth / 2, 0);
+                line.rectTransform.anchoredPosition = new Vector2((exits[exit - width + 1].x1 - exits[exit].x1) / 2 - RhythmGameManager.exitWidth / 2, 0);
                 size = line.rectTransform.sizeDelta;
-                size.x = RhythmGameManager.exits[exit].x1 - RhythmGameManager.exits[exit - width + 1].x1;
+                size.x = exits[exit].x1 - exits[exit - width + 1].x1;
                 line.rectTransform.sizeDelta = size;
                 break;
         }

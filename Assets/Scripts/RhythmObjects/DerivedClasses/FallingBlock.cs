@@ -21,7 +21,7 @@ public class FallingBlock : RhythmObject
     {
         for (int i = 0; i < Input.touchCount; ++i)
         {
-            if (RhythmGameManager.exits[exit].IsBeingTouchedBy(Input.GetTouch(i)))
+            if (exits[exit].IsBeingTouchedBy(Input.GetTouch(i)))
             {
                 OnClick();
                 break;
@@ -31,7 +31,7 @@ public class FallingBlock : RhythmObject
         if (rt.anchoredPosition.y < RhythmGameManager.GetBottom() - 1.5f * RhythmGameManager.blockHeight)
         {
             RhythmGameManager.UpdateScore(badScore);
-            FlyingText.Create("Miss", Color.grey, RhythmGameManager.exits[exit].center);
+            FlyingText.Create("Miss", Color.grey, exits[exit].center);
             Destroy(gameObject);
         }
 

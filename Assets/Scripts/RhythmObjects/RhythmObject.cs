@@ -10,7 +10,8 @@ public enum RhythmType
     FallingBlock, // 点按
     LongFallingBlock, // 长按
     HorizontalMove, // 单次左右滑
-    Rouxian
+    Rouxian,
+    ChangeGameMode
 }
 public abstract class RhythmObject : MonoBehaviour
 {
@@ -18,9 +19,10 @@ public abstract class RhythmObject : MonoBehaviour
     [HideInInspector] public int goodScore = 10;
     [HideInInspector] public int badScore = 0;
     [HideInInspector] public int exit;
+    protected ExitData[] exits;
     protected bool activated;
     protected bool fallBelowBottom = true;
-    public float fallingTime;
+    public float fallingTime = 3;
     protected RectTransform rt;
     float time, altime;
     protected Vector2 start, end;
@@ -47,20 +49,21 @@ public abstract class RhythmObject : MonoBehaviour
     {
         if (c != null) foreach (Graphic g in GetComponentsInChildren<Graphic>()) g.color = c.Value;
         exit = _exit;
+        exits = RhythmGameManager.exits;
         perfectScore = _perfectScore;
         goodScore = _goodScore;
         badScore = _badScore;
-        transform.position = RhythmGameManager.exits[exit].obj.transform.position;
+        transform.position = exits[exit].obj.transform.position;
         end = start = (transform as RectTransform).anchoredPosition;
         end.y = RhythmGameManager.GetBottom();
         return this;
     }
     protected virtual void Activate()
     {
-        if (!RhythmGameManager.exits[exit].currentRhythmObject)
+        if (!exits[exit].currentRhythmObject)
         {
             activated = true;
-            RhythmGameManager.exits[exit].currentRhythmObject = this;
+            exits[exit].currentRhythmObject = this;
         }
     }
     public abstract RhythmType Type { get; }
@@ -73,7 +76,7 @@ public abstract class RhythmObject : MonoBehaviour
             bool a = altime < fallingTime;
             altime += time;
             bool b = altime < fallingTime;
-            if (a != b) OnBottomReached.Invoke();
+            if (a != b) OnBottomReached?.Invoke();
             if (!fallBelowBottom) if (altime > fallingTime) altime = fallingTime;
             rt.anchoredPosition = Utils.LerpWithoutClamp(start, end, altime / fallingTime);
             time = 0;
@@ -105,6 +108,13 @@ public abstract class RhythmObject : MonoBehaviour
                 break;
         }
         RhythmGameManager.UpdateScore(_score);
-        FlyingText.Create(_text, _color, pos == null ? RhythmGameManager.exits[exit].center : pos.Value);
+        FlyingText.Create(_text, _color, pos == null ? exits[exit].center : pos.Value);
+    }
+
+    protected bool TouchedByBinggui()
+    {
+        if (RhythmGameManager.binggui == null) return false;
+        var pos = rt.anchoredPosition;
+        return pos.x > RhythmGameManager.binggui.x1 && pos.x < RhythmGameManager.binggui.x2 && Mathf.Abs(pos.y - RhythmGameManager.binggui.center.y) <= RhythmGameManager.blockHeight;
     }
 }

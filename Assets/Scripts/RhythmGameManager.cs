@@ -1,7 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using FMOD;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
+using UnityEditor.Android;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class DefRes // 开发用分辨率
 {
@@ -11,13 +16,15 @@ public class DefRes // 开发用分辨率
 
 public struct GeneralSettings
 {
+    public static int mode; // 0=正常, 1=拖轨
     public static int exitCount;
+    public static float bingguiSpeed = 1750;
 }
 
 public class ExitData
 {
     public int id;
-    public GameObject obj;
+    public GameObject obj, idctor;
     public float x1, x2;
     public RhythmObject currentRhythmObject;
     public Vector2 center;
@@ -35,10 +42,6 @@ public class ExitData
             return true;
         return false;
     }
-    ~ExitData()
-    {
-        if (obj) Object.Destroy(obj);
-    }
 }
 
 public class RhythmGameManager : MonoBehaviour
@@ -46,8 +49,11 @@ public class RhythmGameManager : MonoBehaviour
     [SerializeField] Transform parentNode;
     [SerializeField] GameObject selectSong;
     public static ExitData[] exits;
+    public static ExitData binggui;
     [SerializeField] GameObject bottom;
     [SerializeField] Text UIScore;
+    [SerializeField] bool showIndicators;
+    [SerializeField] Button reload;
     public static float blockHeight { private set; get; } = 90; // 方块高度
     public static float exitWidth { private set; get; } = 180; // 出口/方块横向长度
 
@@ -57,13 +63,17 @@ public class RhythmGameManager : MonoBehaviour
     Vector2 buttonStart = new Vector2(-720, 388);
     Vector2 buttonSpaces = new Vector2(360, -90);
     List<ExitData[]> oldExits = new List<ExitData[]>();
-    bool removingOldExits;
 
     public static RhythmGameManager ins;
 
     private void Awake()
     {
         ins = this;
+        reload.onClick.AddListener(delegate 
+        {
+            SceneManager.LoadScene(0);
+            Timeline.Stop();
+        });
     }
     void Start()
     {
@@ -96,16 +106,43 @@ public class RhythmGameManager : MonoBehaviour
             }
         }
     }
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            StopGame();
+            print("*********************************");
+            SceneManager.LoadScene(0);
         }
-        if (Input.GetKeyDown(KeyCode.R))
+    }
+    private void FixedUpdate()
+    {
+        BingguiUpdate();
+        oldExits.RemoveAll(RemoveOldExits);
+    }
+
+    bool RemoveOldExits(ExitData[] es)
+    {
+        bool shouldBeRemoved = true;
+        foreach (ExitData ed in es)
         {
-            RestartGame();
+            if (ed.currentRhythmObject)
+            {
+                shouldBeRemoved = false;
+                break;
+            }
         }
+        if (shouldBeRemoved)
+        {
+            print("Removing");
+            StopAllCoroutines();
+            foreach (ExitData ed in es)
+            {
+                Destroy(ed.obj);
+                if (ed.idctor) Destroy(ed.idctor);
+            }
+        }
+        return shouldBeRemoved;
     }
 
     public void RestartGame(string newSongName = "", int startScore = 0)
@@ -140,34 +177,116 @@ public class RhythmGameManager : MonoBehaviour
 
     public static RhythmObject CreateBlock(int exit, string blockName, Color? c = null, int perfectScore = 20, int goodScore = 10, int badScore = 0)
     {
-        return Instantiate(Resources.Load<GameObject>(blockName), ins.parentNode).GetComponent<RhythmObject>().Initialize(exit, c == null ? Color.white : c.GetValueOrDefault(), perfectScore, goodScore, badScore);
+        string prefabName = blockName;
+        if (GeneralSettings.mode > 0 && prefabName != "ChangeGameMode") prefabName += "_" + GeneralSettings.mode;
+        print("Creating " + prefabName);
+        return Instantiate(Resources.Load<GameObject>(prefabName), ins.parentNode).GetComponent<RhythmObject>().Initialize(exit, c == null ? Color.white : c.GetValueOrDefault(), perfectScore, goodScore, badScore);
     }
 
-    void GenerateExits()
+    public static void GenerateExits()
     {
+        // handling old exits
+        if (exits != null)
+        {
+            //for (int i = 0; i < exits.Length; ++i) ins.StartCoroutine(ins.ExitFlashing(exits[i]));
+            ins.oldExits.Add(exits);
+        }
+
+        if (GeneralSettings.mode == 1) // 并轨
+        {
+            if (binggui != null) Destroy(binggui.obj);
+            binggui = new ExitData();
+            binggui.obj = Instantiate(Resources.Load<GameObject>("exit"), ins.parentNode);
+            binggui.obj.GetComponentInChildren<Graphic>().color = Color.green;
+            RectTransform rt = binggui.obj.transform as RectTransform;
+            rt.sizeDelta = new Vector2(exitWidth, blockHeight);
+            binggui.center = rt.anchoredPosition = new Vector2(0, GetBottom());
+            binggui.x1 = rt.anchoredPosition.x - rt.sizeDelta.x / 2;
+            binggui.x2 = rt.anchoredPosition.x + rt.sizeDelta.x / 2;
+            var puff = Instantiate(Resources.Load<GameObject>("Puff"), ins.parentNode);
+            (puff.transform as RectTransform).anchoredPosition = binggui.center;
+        }
+        else if (binggui != null)
+        {
+            Destroy(binggui.obj);
+            binggui = null;
+        }
+
         int num = GeneralSettings.exitCount;
         exits = new ExitData[num];
         float step = DefRes.x / num;
+        float top = GeneralSettings.mode == 1 ? DefRes.y / 2 + blockHeight / 2 : DefRes.y / 2 - blockHeight;
         for (int i = 0; i < num; ++i)
         {
             exits[i] = new ExitData();
             exits[i].id = i;
-            exits[i].obj = Instantiate(Resources.Load<GameObject>("exit"), parentNode);
+            exits[i].obj = Instantiate(Resources.Load<GameObject>("exit"), ins.parentNode);
             RectTransform rt = exits[i].obj.transform as RectTransform;
             rt.sizeDelta = new Vector2(exitWidth, blockHeight);
-            rt.anchoredPosition = new Vector2(step * (i + 0.5f) - DefRes.x / 2f, 450);
+            rt.anchoredPosition = new Vector2(step * (i + 0.5f) - DefRes.x / 2f, top);
             exits[i].x1 = rt.anchoredPosition.x - rt.sizeDelta.x / 2;
             exits[i].x2 = rt.anchoredPosition.x + rt.sizeDelta.x / 2;
             exits[i].center = new Vector2(rt.anchoredPosition.x, GetBottom());
 
-            GameObject indicator = Instantiate(exits[i].obj, parentNode);
-            indicator.GetComponentInChildren<Graphic>().color = Color.black;
-            rt = indicator.transform as RectTransform;
-            Vector2 pos = rt.anchoredPosition;
-            pos.y = GetBottom();
-            rt.anchoredPosition = pos;
+            if (ins.showIndicators)
+            {
+                GameObject indicator = Instantiate(exits[i].obj, ins.parentNode);
+                indicator.GetComponentInChildren<Graphic>().color = Color.black;
+                rt = indicator.transform as RectTransform;
+                Vector2 pos = rt.anchoredPosition;
+                pos.y = GetBottom();
+                rt.anchoredPosition = pos;
+                exits[i].idctor = indicator;
+            }
+
+            var puff = Instantiate(Resources.Load<GameObject>("Puff"), ins.parentNode);
+            (puff.transform as RectTransform).anchoredPosition = new Vector2(rt.anchoredPosition.x, top);
         }
     }
+
+    IEnumerator ExitFlashing(ExitData e)
+    {
+        bool flashing = true;
+        while (true)
+        {
+            flashing = !flashing;
+            e.obj.SetActive(flashing);
+            if (e.idctor) e.idctor.SetActive(flashing);
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+    void BingguiUpdate()
+    {
+        if (GeneralSettings.mode != 1) return;
+        for (int i = 0; i < Input.touchCount; ++i)
+        {
+            Touch t = Input.GetTouch(i);
+            var pos = Utils.ScreenToCanvasPos(t.position);
+            if (true || bottomRect.Contains(pos))
+            {
+                if (binggui.center.x < pos.x)
+                {
+                    binggui.center.x = Mathf.Min(binggui.center.x + GeneralSettings.bingguiSpeed * Time.fixedDeltaTime, pos.x);
+                    RectTransform rt = binggui.obj.GetComponent<RectTransform>();
+                    rt.anchoredPosition = binggui.center;
+                    binggui.x1 = rt.anchoredPosition.x - rt.sizeDelta.x / 2;
+                    binggui.x2 = rt.anchoredPosition.x + rt.sizeDelta.x / 2;
+
+                }
+                if (binggui.center.x > pos.x)
+                {
+                    binggui.center.x = Mathf.Max(binggui.center.x - GeneralSettings.bingguiSpeed * Time.fixedDeltaTime, pos.x);
+                    RectTransform rt = binggui.obj.GetComponent<RectTransform>();
+                    rt.anchoredPosition = binggui.center;
+                    binggui.x1 = rt.anchoredPosition.x - rt.sizeDelta.x / 2;
+                    binggui.x2 = rt.anchoredPosition.x + rt.sizeDelta.x / 2;
+                }
+                break;
+            }
+        }
+    }
+
     float altime;
     void Update_Debug_GenerateRandomBlocks()
     {

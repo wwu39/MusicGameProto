@@ -29,10 +29,12 @@ public class Timeline : MonoBehaviour
         GeneralSettings.exitCount = int.Parse(sections["General"]["Exit"]);
         string musicName;
         if (!sections["General"].TryGetValue("Music", out musicName)) musicName = scriptName;
+        string str;
+        if (sections["General"].TryGetValue("GameMode", out str)) GeneralSettings.mode = int.Parse(str); else GeneralSettings.mode = 0;
         foreach (var k in ins.keyData) ins.StartCoroutine(ins.StartFalling(k));
         if (musicName != "none")
         {
-            ins.vEventIns = FMODUnity.RuntimeManager.CreateInstance("event:/" + scriptName);
+            ins.vEventIns = FMODUnity.RuntimeManager.CreateInstance("event:/" + musicName);
             ins.vEventIns.start();
         }
     }
@@ -46,10 +48,12 @@ public class Timeline : MonoBehaviour
     {
         yield return new WaitForSeconds(kd.startTime);
         //print(kd.prop["Type"] + " is falling from Exit " + kd.prop["Exit"] + " in " + kd.prop["FallingTime"]);
-        int exit = int.Parse(kd.prop["Exit"]);
+        string str;
+        int exit = 0;
+        if (kd.prop.TryGetValue("Exit", out str)) exit = int.Parse(str);
         string blockType = kd.prop["Type"];
         var block = RhythmGameManager.CreateBlock(exit, blockType, Utils.GetRandomColor());
-        block.fallingTime = float.Parse(kd.prop["FallingTime"]);
+        if (kd.prop.TryGetValue("FallingTime", out str)) block.fallingTime = float.Parse(str); else block.fallingTime = 3;
         switch (blockType)
         {
             case "FallingBlock":
@@ -67,6 +71,12 @@ public class Timeline : MonoBehaviour
                 Rouxian rx = (Rouxian)block;
                 rx.width = int.Parse(kd.prop["Width"]);
                 rx.timeLast = float.Parse(kd.prop["TimeLast"]);
+                rx.FMODEvent = kd.prop["FMODEvent"];
+                break;
+            case "ChangeGameMode":
+                ChangeGameMode cec = (ChangeGameMode)block;
+                if (kd.prop.TryGetValue("NewExitCount", out str)) cec.newExitCount = int.Parse(str); else cec.newExitCount = -1;
+                if (kd.prop.TryGetValue("NewGameMode", out str)) cec.newGameMode = int.Parse(str); else cec.newGameMode = -1;
                 break;
             default:
                 break;

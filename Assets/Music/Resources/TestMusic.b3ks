@@ -1,58 +1,33 @@
 [General]
 Exit=7
 
-[0.9710034]
-Type=Rouxian
+[1]
+Type=LongFallingBlock
 Exit=3
 FallingTime=4.418258
-Width=3
-Direction=Left
 Length=3
-TimeLast=10
 
-[4.011882]
-Type=FallingBlock
+[5]
+Type=HorizontalMove
 Exit=4
 FallingTime=4.451458
+Width=3
+Direction=Left
 
-[7.210461]
-Type=FallingBlock
-Exit=2
-FallingTime=3.604062
+[9]
+Type=HorizontalMove
+Exit=1
+FallingTime=4.451458
+Width=3
+Direction=Right
 
-[8.558807]
-Type=FallingBlock
-Exit=2
-FallingTime=4.13745
-
-[9.852131]
-Type=FallingBlock
-Exit=3
-FallingTime=4.441659
-
-[12.07266]
-Type=FallingBlock
-Exit=4
-FallingTime=3.82678
-
-[13.32539]
-Type=FallingBlock
-Exit=4
-FallingTime=4.37737
-
-[14.76967]
-Type=FallingBlock
-Exit=0
-FallingTime=3.807495
-
-[16.71001]
-Type=FallingBlock
-Exit=2
-FallingTime=3.842205
+[16]
+Type=ChangeGameMode
+NewExitCount=4
 
 [17.84707]
 Type=FallingBlock
-Exit=5
+Exit=1
 FallingTime=3.901889
 
 [20.60756]
@@ -62,23 +37,18 @@ FallingTime=3.573494
 
 [22.46454]
 Type=FallingBlock
-Exit=4
+Exit=0
 FallingTime=3.857729
 
 [25.56129]
 Type=FallingBlock
-Exit=6
-FallingTime=4.230831
+Exit=2
+FallingTime=4
 
-[28.21233]
-Type=FallingBlock
-Exit=1
-FallingTime=3.935792
-
-[29.42017]
-Type=FallingBlock
-Exit=5
-FallingTime=4.195612
+[30]
+Type=ChangeGameMode
+NewGameMode=1
+NewExitCount=7
 
 [31.43943]
 Type=FallingBlock
@@ -113,12 +83,12 @@ FallingTime=4.070717
 [46.2432]
 Type=FallingBlock
 Exit=2
-FallingTime=3.715938
+FallingTime=3
 
-[49.54262]
-Type=FallingBlock
-Exit=2
-FallingTime=3.811272
+[50]
+Type=ChangeGameMode
+NewGameMode=0
+NewExitCount=7
 
 [51.0476]
 Type=FallingBlock

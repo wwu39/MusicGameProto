@@ -29,7 +29,7 @@ public class LongFallingBlock : RhythmObject
         bool getTouched = false;
         for (int i = 0; i < Input.touchCount; ++i)
         {
-            if (RhythmGameManager.exits[exit].IsBeingTouchedBy(Input.GetTouch(i)))
+            if (exits[exit].IsBeingTouchedBy(Input.GetTouch(i)))
             {
                 getTouched = true;
                 break;
