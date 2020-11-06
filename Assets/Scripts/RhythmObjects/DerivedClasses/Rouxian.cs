@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using TreeEditor;
 using UnityEngine;
 using UnityEngine.UI;
 public enum VibDepth
@@ -16,7 +17,7 @@ public enum VibRate
 public class Rouxian : RhythmObject
 {
     static float lowSpeed=0.4f;
-    static float[] deepness = new float[3] { 0.2f, 0.5f, 1f };
+    Vector2 rightend;
     public class TouchTracker
     {
         Rouxian owner;
@@ -76,9 +77,11 @@ public class Rouxian : RhythmObject
     public VibDepth vd;
     public VibRate vr;
     [Header("Graphics")]
-    [SerializeField] Image[] deepnessZones;
+    [SerializeField] Image block;
+    [SerializeField] Image back;
     [SerializeField] Image cord;
     [SerializeField] Text debugText;
+    GameObject particle;
     FMOD.Studio.EventInstance vEventIns;
     TouchTracker tt;
     int speedUpdateCount = 0;
@@ -93,17 +96,20 @@ public class Rouxian : RhythmObject
         GraphicSetup();
         fallBelowBottom = false;
         OnBottomReached += delegate { StartCoroutine(Interacting()); };
-        vEventIns = FMODUnity.RuntimeManager.CreateInstance("event:/" + FMODEvent);
+        if (FMODEvent != "none") vEventIns = FMODUnity.RuntimeManager.CreateInstance("event:/" + FMODEvent);
         cordPos = GetCordPos();
     }
 
     public override RhythmObject Initialize(int _exit, Color? c = null, int _perfectScore = 20, int _goodScore = 10, int _badScore = 0)
     {
-        return base.Initialize(_exit, null, _perfectScore, _goodScore, _badScore);
+        var ret = base.Initialize(_exit, c, _perfectScore, _goodScore, _badScore);
+        back.color /= 2;
+        cord.color = Color.black;
+        return ret;
     }
     protected override void CheckActivateCondition()
     {
-        if (rt.anchoredPosition.y < RhythmGameManager.GetBottom() + 1.5 * RhythmGameManager.blockHeight)
+        if (rt.anchoredPosition.y <= RhythmGameManager.GetBottom())
         {
             Activate();
         }
@@ -164,23 +170,66 @@ public class Rouxian : RhythmObject
         debugText.text = tt.GetStateString();
     }
 
+    float timeCount;
+    float pardelay;
+    bool toLeft;
     protected override void Update_Activated()
     {
         float diff = rt.anchoredPosition.y - RhythmGameManager.GetBottom();
         if (diff < -2f * RhythmGameManager.blockHeight) Destroy(gameObject);
+
+        Vector2 dotpos = new Vector2();
+        if (timeCount >= 1f)
+        {
+            timeCount = 0;
+            toLeft = !toLeft;
+        }
+        else
+        {
+            float frac = timeCount / 1f;
+            if (toLeft)
+            {
+                block.rectTransform.anchoredPosition = Vector2.Lerp(rightend, Vector2.zero, frac);
+                dotpos.x = block.rectTransform.anchoredPosition.x;
+                dotpos.y = 400 + 100 * Mathf.Sin(2 * Mathf.PI * frac);
+            }
+            else
+            {
+                block.rectTransform.anchoredPosition = Vector2.Lerp(Vector2.zero, rightend, frac);
+                dotpos.x = block.rectTransform.anchoredPosition.x;
+                dotpos.y = 400 + 100 * Mathf.Cos(2 * Mathf.PI * (1 - frac) + 0.5f * Mathf.PI);
+            }
+            timeCount += Time.deltaTime;
+        }
+        if (pardelay >= 0.05f)
+        {
+            var trail = Instantiate(Resources.Load<GameObject>("Trail"), transform);
+            (trail.transform as RectTransform).anchoredPosition = dotpos;
+            pardelay = 0;
+        }
+        else
+        {
+            pardelay += Time.deltaTime;
+        }
     }
 
     void GraphicSetup()
     {
         keyWidth = exits[exit + width - 1].x2 - exits[exit].x1;
         float centerX = keyWidth / 2 - RhythmGameManager.exitWidth / 2;
-        for (int i = 0; i < 3; ++i)
-        {
-            deepnessZones[i].rectTransform.sizeDelta = new Vector2(keyWidth * deepness[i], RhythmGameManager.blockHeight);
-            deepnessZones[i].rectTransform.anchoredPosition = new Vector2(centerX, 0);
-        }
+        back.rectTransform.sizeDelta = new Vector2(keyWidth, RhythmGameManager.blockHeight);
+        block.rectTransform.sizeDelta = new Vector2(RhythmGameManager.exitWidth, RhythmGameManager.blockHeight);
         cord.rectTransform.sizeDelta = new Vector2(4, RhythmGameManager.blockHeight);
-        cord.rectTransform.anchoredPosition = new Vector2(centerX, 0);
+        back.rectTransform.anchoredPosition = cord.rectTransform.anchoredPosition = new Vector2(centerX, 0);
+        block.rectTransform.anchoredPosition = Vector2.zero;
+        rightend = new Vector2(keyWidth - RhythmGameManager.exitWidth, 0);
+
+        OnBottomReached += delegate
+        {
+            particle = Instantiate(Resources.Load<GameObject>("RouxianParticle"), transform);
+            (particle.transform as RectTransform).anchoredPosition = new Vector2(centerX, RhythmGameManager.blockHeight / 2f);
+            particle.transform.localScale = new Vector3(2, 1, 1) * 4.5f * keyWidth / 1140f;
+        };
     }
 
     IEnumerator Interacting()

@@ -13,6 +13,7 @@ public class HorizontalMove : RhythmObject
     public int width;
     public Direction direction = Direction.Right;
     [Header("Graphics")]
+    [SerializeField] Image block;
     [SerializeField] Image line;
     [SerializeField] Image arrow;
     bool[] checkpoints;
@@ -25,9 +26,15 @@ public class HorizontalMove : RhythmObject
         ApplyWidth();
         checkpoints = new bool[width];
     }
+    public override RhythmObject Initialize(int _exit, Color? c = null, int _perfectScore = 20, int _goodScore = 10, int _badScore = 0)
+    {
+        var ret = base.Initialize(_exit, c, _perfectScore, _goodScore, _badScore);
+        line.color = c != null ? c.Value / 2 : Color.grey;
+        return ret;
+    }
     protected override void CheckActivateCondition()
     {
-        if (rt.anchoredPosition.y < RhythmGameManager.GetBottom() + 2.5 * RhythmGameManager.blockHeight)
+        if (rt.anchoredPosition.y < RhythmGameManager.GetBottom() + 1.5 * RhythmGameManager.blockHeight)
         {
             Activate();
         }
@@ -111,6 +118,7 @@ public class HorizontalMove : RhythmObject
                             curScore = Mathf.Clamp(curScore + 1, 0, 2);
                             Score(curScore, exits[curExit].center);
                             checkpoints[i] = true;
+                            block.rectTransform.anchoredPosition = new Vector2(exits[curExit].center.x - rt.anchoredPosition.x, 0);
                             break;
                         }
                     }
@@ -133,22 +141,17 @@ public class HorizontalMove : RhythmObject
 
     void ApplyWidth()
     {
-        Vector2 size;
         switch (direction)
         {
             case Direction.Right:
                 arrow.rectTransform.anchoredPosition = new Vector2(exits[exit + width - 1].x2 - exits[exit].x2 + RhythmGameManager.exitWidth / 2, 0);
                 line.rectTransform.anchoredPosition = new Vector2((exits[exit + width - 1].x2 - exits[exit].x2) / 2 + RhythmGameManager.exitWidth / 2, 0);
-                size = line.rectTransform.sizeDelta;
-                size.x = exits[exit + width - 1].x2 - exits[exit].x2;
-                line.rectTransform.sizeDelta = size;
+                line.rectTransform.sizeDelta = new Vector2(exits[exit + width - 1].x2 - exits[exit].x2, RhythmGameManager.blockHeight);
                 break;
             case Direction.Left:
                 arrow.rectTransform.anchoredPosition = new Vector2(exits[exit - width + 1].x1 - exits[exit].x1 - RhythmGameManager.exitWidth / 2, 0);
                 line.rectTransform.anchoredPosition = new Vector2((exits[exit - width + 1].x1 - exits[exit].x1) / 2 - RhythmGameManager.exitWidth / 2, 0);
-                size = line.rectTransform.sizeDelta;
-                size.x = exits[exit].x1 - exits[exit - width + 1].x1;
-                line.rectTransform.sizeDelta = size;
+                line.rectTransform.sizeDelta = new Vector2(exits[exit].x1 - exits[exit - width + 1].x1, RhythmGameManager.blockHeight);
                 break;
         }
     }

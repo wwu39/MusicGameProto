@@ -18,6 +18,7 @@ public struct GeneralSettings
 {
     public static int mode; // 0=正常, 1=拖轨
     public static int exitCount;
+    public static float delay;
     public static float bingguiSpeed = 1750;
 }
 
@@ -54,6 +55,7 @@ public class RhythmGameManager : MonoBehaviour
     [SerializeField] Text UIScore;
     [SerializeField] bool showIndicators;
     [SerializeField] Button reload;
+    [SerializeField] Text timeShown;
     public static float blockHeight { private set; get; } = 90; // 方块高度
     public static float exitWidth { private set; get; } = 180; // 出口/方块横向长度
 
@@ -66,13 +68,20 @@ public class RhythmGameManager : MonoBehaviour
 
     public static RhythmGameManager ins;
 
+    public event Void_Float OnBinguiXFracUpdate;
+
     private void Awake()
     {
+        MidiTranslator.Translate();
         ins = this;
-        reload.onClick.AddListener(delegate 
+        exits = null;
+        binggui = null;
+        reload.onClick.AddListener(delegate
         {
-            SceneManager.LoadScene(0);
             Timeline.Stop();
+            Destroy(binggui.obj);
+            binggui = null;
+            SceneManager.LoadScene(0);
         });
     }
     void Start()
@@ -82,7 +91,7 @@ public class RhythmGameManager : MonoBehaviour
 
         RectTransform brt = bottom.GetComponent<RectTransform>();
         brt.sizeDelta = new Vector2(DefRes.x, blockHeight);
-        bottomRect = new Rect(brt.anchoredPosition - brt.sizeDelta / 2, brt.sizeDelta);
+        bottomRect = new Rect(brt.anchoredPosition - brt.sizeDelta / 2 - new Vector2(0, blockHeight / 2f), brt.sizeDelta + new Vector2(0, blockHeight));
 
 
         var info = new DirectoryInfo("Assets/Music/Resources");
@@ -109,12 +118,9 @@ public class RhythmGameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            print("*********************************");
-            SceneManager.LoadScene(0);
-        }
+        timeShown.text = ((int)(Time.time * 1000)).ToString();
     }
+
     private void FixedUpdate()
     {
         BingguiUpdate();
@@ -138,6 +144,7 @@ public class RhythmGameManager : MonoBehaviour
             StopAllCoroutines();
             foreach (ExitData ed in es)
             {
+                Instantiate(Resources.Load<GameObject>("explosion"), ins.parentNode).transform.position = ed.obj.transform.position;
                 Destroy(ed.obj);
                 if (ed.idctor) Destroy(ed.idctor);
             }
@@ -175,12 +182,18 @@ public class RhythmGameManager : MonoBehaviour
         ins.UIScore.text = "Score: " + ins.score;
     }
 
-    public static RhythmObject CreateBlock(int exit, string blockName, Color? c = null, int perfectScore = 20, int goodScore = 10, int badScore = 0)
+    public static RhythmObject CreateBlock(int exit, string blockName, Color? c = null, int perfectScore = 20, int goodScore = 10, int badScore = 0, float debugTime = -1)
     {
         string prefabName = blockName;
         if (GeneralSettings.mode > 0 && prefabName != "ChangeGameMode") prefabName += "_" + GeneralSettings.mode;
-        print("Creating " + prefabName);
-        return Instantiate(Resources.Load<GameObject>(prefabName), ins.parentNode).GetComponent<RhythmObject>().Initialize(exit, c == null ? Color.white : c.GetValueOrDefault(), perfectScore, goodScore, badScore);
+        var ret = Instantiate(Resources.Load<GameObject>(prefabName), ins.parentNode).GetComponent<RhythmObject>().Initialize(exit, c == null ? Color.white : c.GetValueOrDefault(), perfectScore, goodScore, badScore);
+        var text = ret.GetComponentInChildren<Text>();
+        if (text)
+        {
+            text.color = Color.black;
+            text.text = debugTime.ToString();
+        }
+        return ret;
     }
 
     public static void GenerateExits()
@@ -189,6 +202,7 @@ public class RhythmGameManager : MonoBehaviour
         if (exits != null)
         {
             //for (int i = 0; i < exits.Length; ++i) ins.StartCoroutine(ins.ExitFlashing(exits[i]));
+            print("ccccc");
             ins.oldExits.Add(exits);
         }
 
@@ -203,8 +217,9 @@ public class RhythmGameManager : MonoBehaviour
             binggui.center = rt.anchoredPosition = new Vector2(0, GetBottom());
             binggui.x1 = rt.anchoredPosition.x - rt.sizeDelta.x / 2;
             binggui.x2 = rt.anchoredPosition.x + rt.sizeDelta.x / 2;
-            var puff = Instantiate(Resources.Load<GameObject>("Puff"), ins.parentNode);
-            (puff.transform as RectTransform).anchoredPosition = binggui.center;
+            //var puff = Instantiate(Resources.Load<GameObject>("explosion"), ins.parentNode);
+            //(puff.transform as RectTransform).anchoredPosition = binggui.center;
+            ins.OnBinguiXFracUpdate?.Invoke((binggui.center.x + DefRes.x / 2f) / DefRes.x);
         }
         else if (binggui != null)
         {
@@ -239,20 +254,8 @@ public class RhythmGameManager : MonoBehaviour
                 exits[i].idctor = indicator;
             }
 
-            var puff = Instantiate(Resources.Load<GameObject>("Puff"), ins.parentNode);
-            (puff.transform as RectTransform).anchoredPosition = new Vector2(rt.anchoredPosition.x, top);
-        }
-    }
-
-    IEnumerator ExitFlashing(ExitData e)
-    {
-        bool flashing = true;
-        while (true)
-        {
-            flashing = !flashing;
-            e.obj.SetActive(flashing);
-            if (e.idctor) e.idctor.SetActive(flashing);
-            yield return new WaitForSeconds(0.1f);
+            // var puff = Instantiate(Resources.Load<GameObject>("explosion"), ins.parentNode);
+            // (puff.transform as RectTransform).anchoredPosition = new Vector2(rt.anchoredPosition.x, top);
         }
     }
 
@@ -272,7 +275,7 @@ public class RhythmGameManager : MonoBehaviour
                     rt.anchoredPosition = binggui.center;
                     binggui.x1 = rt.anchoredPosition.x - rt.sizeDelta.x / 2;
                     binggui.x2 = rt.anchoredPosition.x + rt.sizeDelta.x / 2;
-
+                    OnBinguiXFracUpdate?.Invoke((binggui.center.x + DefRes.x / 2f) / DefRes.x);
                 }
                 if (binggui.center.x > pos.x)
                 {
@@ -281,6 +284,7 @@ public class RhythmGameManager : MonoBehaviour
                     rt.anchoredPosition = binggui.center;
                     binggui.x1 = rt.anchoredPosition.x - rt.sizeDelta.x / 2;
                     binggui.x2 = rt.anchoredPosition.x + rt.sizeDelta.x / 2;
+                    OnBinguiXFracUpdate?.Invoke((binggui.center.x + DefRes.x / 2f) / DefRes.x);
                 }
                 break;
             }

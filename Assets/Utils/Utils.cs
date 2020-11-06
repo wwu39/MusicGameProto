@@ -1,6 +1,9 @@
 ﻿using System.Runtime.InteropServices;
 using UnityEngine;
 
+public delegate void Void_Float(float f);
+public delegate void Void_FloatInt(float f, int i);
+public delegate void Void_Int(int i);
 public class Utils
 {
     static Vector2 defRes = new Vector2(1920, 1080);

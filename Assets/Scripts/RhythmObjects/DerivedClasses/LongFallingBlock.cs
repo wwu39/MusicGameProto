@@ -12,7 +12,7 @@ public class LongFallingBlock : RhythmObject
 
     protected override void CheckActivateCondition()
     {
-        if (rt.anchoredPosition.y < RhythmGameManager.GetBottom() + 2.5 * RhythmGameManager.blockHeight)
+        if (rt.anchoredPosition.y < RhythmGameManager.GetBottom() + 1.5 * RhythmGameManager.blockHeight)
         {
             Activate();
         }
@@ -24,6 +24,7 @@ public class LongFallingBlock : RhythmObject
         ApplyLength();
         checkpoints = new bool[length];
     }
+    int curScore;
     protected override void Update_Activated()
     {
         bool getTouched = false;
@@ -36,7 +37,6 @@ public class LongFallingBlock : RhythmObject
             }
         }
 
-        int curScore = 2; // 0 = bad, 1 = good, 2 = perfect
         float diff = rt.anchoredPosition.y - RhythmGameManager.GetBottom();
 
         // 判定第一次按键
@@ -45,16 +45,19 @@ public class LongFallingBlock : RhythmObject
             if (diff > 1.5f * RhythmGameManager.blockHeight)
             {
                 Score(0);
+                curScore = 0;
                 checkpoints[0] = true;
             }
             else if (diff > 0.5f * RhythmGameManager.blockHeight)
             {
                 Score(1);
+                curScore = 1;
                 checkpoints[0] = true;
             }
             else if (diff > -0.5 * RhythmGameManager.blockHeight)
             {
                 Score(2);
+                curScore = 2;
                 checkpoints[0] = true;
             }
         }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public struct KeyData
 {
@@ -16,8 +17,10 @@ public class Timeline : MonoBehaviour
 {
     FMOD.Studio.EventInstance vEventIns;
 
-    static Timeline ins;
+    public static Timeline ins;
     List<KeyData> keyData;
+    public delegate void Void_RhythmObject(RhythmObject o);
+    public event Void_RhythmObject OnBlockCreated;
     private void Awake()
     {
         ins = this;
@@ -31,11 +34,21 @@ public class Timeline : MonoBehaviour
         if (!sections["General"].TryGetValue("Music", out musicName)) musicName = scriptName;
         string str;
         if (sections["General"].TryGetValue("GameMode", out str)) GeneralSettings.mode = int.Parse(str); else GeneralSettings.mode = 0;
-        foreach (var k in ins.keyData) ins.StartCoroutine(ins.StartFalling(k));
+        if (sections["General"].TryGetValue("Delay", out str)) GeneralSettings.delay = int.Parse(str); else GeneralSettings.delay = 3;
+        float timeEnd = -1f;
+        foreach (var k in ins.keyData)
+        {
+            float fallingTime;
+            if (k.prop.TryGetValue("FallingTime", out str)) fallingTime = float.Parse(str); else fallingTime = 3;
+            float totalTime = k.startTime + fallingTime;
+            if (totalTime > timeEnd) timeEnd = totalTime;
+            ins.StartCoroutine(ins.StartFalling(k));
+        }
+        // ins.StartCoroutine(ins.GameOver(timeEnd + 10));
         if (musicName != "none")
         {
             ins.vEventIns = FMODUnity.RuntimeManager.CreateInstance("event:/" + musicName);
-            ins.vEventIns.start();
+            ins.StartCoroutine(ins.StartMusic(GeneralSettings.delay));
         }
     }
 
@@ -43,6 +56,13 @@ public class Timeline : MonoBehaviour
     {
         ins.StopAllCoroutines();
         ins.vEventIns.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+    }
+    public static void SyncMusic(float time)
+    {
+        FMOD.Studio.PLAYBACK_STATE state;
+        ins.vEventIns.getPlaybackState(out state);
+        if (state == FMOD.Studio.PLAYBACK_STATE.PLAYING)
+            ins.vEventIns.setTimelinePosition((int)(time * 1000));
     }
     IEnumerator StartFalling(KeyData kd)
     {
@@ -52,7 +72,7 @@ public class Timeline : MonoBehaviour
         int exit = 0;
         if (kd.prop.TryGetValue("Exit", out str)) exit = int.Parse(str);
         string blockType = kd.prop["Type"];
-        var block = RhythmGameManager.CreateBlock(exit, blockType, Utils.GetRandomColor());
+        var block = RhythmGameManager.CreateBlock(exit, blockType, Utils.GetRandomColor(), debugTime: kd.startTime);
         if (kd.prop.TryGetValue("FallingTime", out str)) block.fallingTime = float.Parse(str); else block.fallingTime = 3;
         switch (blockType)
         {
@@ -81,6 +101,18 @@ public class Timeline : MonoBehaviour
             default:
                 break;
         }
-        // TODO: sync music
+        OnBlockCreated?.Invoke(block);
+        yield return new WaitForSeconds(block.fallingTime);
+        SyncMusic(kd.startTime + block.fallingTime);
+    }
+    IEnumerator StartMusic(float time)
+    {
+        yield return new WaitForSeconds(time);
+        vEventIns.start();
+    }
+    IEnumerator GameOver(float time)
+    {
+        yield return new WaitForSeconds(time);
+        Instantiate(Resources.Load<GameObject>("结算画面"), GameObject.Find("Canvas").transform);
     }
 }

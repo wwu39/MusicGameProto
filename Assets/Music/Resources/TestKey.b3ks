@@ -3,34 +3,13 @@ Exit=6
 Music=none
 
 [1]
-Type=FallingBlock
+Type=Rouxian
 Exit=0
 FallingTime=4
-
-[1.5]
-Type=FallingBlock
-Exit=1
-FallingTime=4
-
-[2]
-Type=FallingBlock
-Exit=2
-FallingTime=4
-
-[2.5]
-Type=FallingBlock
-Exit=3
-FallingTime=4
-
-[3]
-Type=FallingBlock
-Exit=4
-FallingTime=4
-
-[3.5]
-Type=FallingBlock
-Exit=5
-FallingTime=4
+Width=4
+Direction=Right
+TimeLast=10
+FMODEvent=none
 
 [4]
 Type=ChangeGameMode
@@ -67,5 +46,5 @@ Exit=0
 FallingTime=4
 
 [11]
-Type=ChangeExitCount
+Type=ChangeGameMode
 NewExitCount=0

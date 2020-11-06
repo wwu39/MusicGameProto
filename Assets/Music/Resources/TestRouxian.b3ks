@@ -8,4 +8,8 @@ Exit=1
 FallingTime=4
 Width=4
 TimeLast=30
-FMODEvent=Rouxian1
+FMODEvent=none
+
+[35]
+Type=FallingBlock
+Exit=3

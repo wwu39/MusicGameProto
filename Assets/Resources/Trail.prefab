@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3255145114183441004}
   - component: {fileID: 3255145114183430332}
   - component: {fileID: 371708830767984288}
-  - component: {fileID: 4674918615697749962}
+  - component: {fileID: 4343946234940816409}
   m_Layer: 0
   m_Name: Glow
   m_TagString: Untagged
@@ -4840,7 +4840,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: e653836c30661fe419b8992e230ca189, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4894,7 +4894,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3255145114169604590}
   m_CullTransparentMesh: 0
---- !u!114 &4674918615697749962
+--- !u!114 &4343946234940816409
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4903,7 +4903,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3255145114169604590}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00369b560f962184daf76f1ee38c95d2, type: 3}
+  m_Script: {fileID: 11500000, guid: 44ca2d70f54cb433f8564e11c76c120e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -4932,8 +4932,8 @@ GameObject:
   - component: {fileID: 3255145114183417978}
   - component: {fileID: 3255145114185450112}
   - component: {fileID: 2132144646808614242}
-  - component: {fileID: 8354585219789377474}
-  - component: {fileID: 8544185648389439189}
+  - component: {fileID: 87031003480835428}
+  - component: {fileID: -9014458531327066660}
   m_Layer: 0
   m_Name: Trail
   m_TagString: Untagged
@@ -4950,7 +4950,7 @@ RectTransform:
   m_GameObject: {fileID: 3255145114169671222}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0.01}
-  m_LocalScale: {x: 30, y: 30, z: 30}
+  m_LocalScale: {x: 50, y: 50, z: 50}
   m_Children:
   - {fileID: 9063584028793125547}
   m_Father: {fileID: 0}
@@ -4958,7 +4958,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 633.62244, y: 1011.72736}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!198 &3255145114183417978
@@ -9632,7 +9632,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 150aee38b5d848b42b75593618992bb7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9686,7 +9686,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3255145114169671222}
   m_CullTransparentMesh: 0
---- !u!114 &8354585219789377474
+--- !u!114 &87031003480835428
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9695,7 +9695,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3255145114169671222}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00369b560f962184daf76f1ee38c95d2, type: 3}
+  m_Script: {fileID: 11500000, guid: 44ca2d70f54cb433f8564e11c76c120e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -9712,7 +9712,7 @@ MonoBehaviour:
   m_Scale: 1
   m_IgnoreParent: 0
   m_AnimatableProperties: []
---- !u!114 &8544185648389439189
+--- !u!114 &-9014458531327066660
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9721,6 +9721,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 3255145114169671222}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c208827fb7cd0e40a89c2e83ffca500, type: 3}
+  m_Script: {fileID: 11500000, guid: f2a1e7e1c66f9da4eb63842e109ece28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

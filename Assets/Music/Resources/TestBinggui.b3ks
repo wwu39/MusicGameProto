@@ -1,6 +1,6 @@
 [General]
 GameMode=1
-Exit=7
+Exit=6
 Music=none
 
 [1]
@@ -29,12 +29,13 @@ Exit=1
 FallingTime=3.935792
 
 [6]
-Type=ChangeGameMode
-NewExitCount=7
+Type=FallingBlock
+Exit=1
+FallingTime=4
 
 [7]
 Type=FallingBlock
-Exit=6
+Exit=5
 FallingTime=3.960718
 
 [8]
@@ -74,7 +75,7 @@ FallingTime=3.811272
 
 [15]
 Type=FallingBlock
-Exit=6
+Exit=4
 FallingTime=4.375121
 
 [16]
@@ -89,12 +90,12 @@ FallingTime=3.829027
 
 [18]
 Type=FallingBlock
-Exit=6
+Exit=3
 FallingTime=4.215292
 
 [19]
 Type=FallingBlock
-Exit=6
+Exit=2
 FallingTime=4.093598
 
 [20]
@@ -104,7 +105,7 @@ FallingTime=3.70984
 
 [21]
 Type=FallingBlock
-Exit=6
+Exit=1
 FallingTime=4.171317
 
 [22]
