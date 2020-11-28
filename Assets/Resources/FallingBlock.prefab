@@ -212,7 +212,9 @@ MonoBehaviour:
   exit: 0
   coloringParts:
   - {fileID: 4997397842490328333}
+  parent: {fileID: 0}
   fallingTime: 3
+  rt: {fileID: 0}
 --- !u!1 &2121722959254526411
 GameObject:
   m_ObjectHideFlags: 0
