@@ -11,7 +11,7 @@ public enum RhythmType
     LongFallingBlock, // 长按
     HorizontalMove, // 单次左右滑
     Rouxian,
-    ChangeGameMode
+    Misc,
 }
 public abstract class RhythmObject : MonoBehaviour
 {
@@ -19,25 +19,25 @@ public abstract class RhythmObject : MonoBehaviour
     [HideInInspector] public int goodScore = 10;
     [HideInInspector] public int badScore = 0;
     [HideInInspector] public int exit;
+    [SerializeField] Graphic[] coloringParts;
+    public RhythmObject parent = null;
     protected ExitData[] exits;
     protected bool activated;
     protected bool fallBelowBottom = true;
     public float fallingTime = 3;
-    protected RectTransform rt;
-    float time, altime;
+    public RectTransform rt;
     protected Vector2 start, end;
 
     public event Void_0Arg OnBottomReached;
     public event Void_Float OnFallingFracUpdated;
     public event Void_Int OnScored;
 
-    float createTime;
+    protected float createTime;
     protected virtual void Start()
     {
-        rt = transform as RectTransform;
         Vector2 size = rt.sizeDelta;
-        size.x = RhythmGameManager.exitWidth;
-        size.y = RhythmGameManager.blockHeight;
+        size.x = BlockSize.x;
+        size.y = BlockSize.y;
         rt.sizeDelta = size;
 
         createTime = Time.time;
@@ -52,7 +52,8 @@ public abstract class RhythmObject : MonoBehaviour
     }
     public virtual RhythmObject Initialize(int _exit, Color? c = null, int _perfectScore = 20, int _goodScore = 10, int _badScore = 0)
     {
-        if (c != null) foreach (Graphic g in GetComponentsInChildren<Graphic>()) g.color = c.Value;
+        if (c != null) foreach (Graphic g in coloringParts) g.color = c.Value;
+        rt = transform as RectTransform;
         exit = _exit;
         exits = RhythmGameManager.exits;
         perfectScore = _perfectScore;
@@ -74,8 +75,11 @@ public abstract class RhythmObject : MonoBehaviour
     public abstract RhythmType Type { get; }
 
     protected abstract void CheckActivateCondition();
+
+    bool bottomReached;
     protected void Update_Falling()
     {
+        /*
         time += Time.deltaTime;
         if (time >= 0.0166666667f)
         {
@@ -89,6 +93,17 @@ public abstract class RhythmObject : MonoBehaviour
             OnFallingFracUpdated?.Invoke(frac);
             time = 0;
         }
+        */
+
+        float frac = (Time.time - createTime) / fallingTime;
+        if (frac >= 1 && !bottomReached)
+        {
+            OnBottomReached?.Invoke();
+            bottomReached = true;
+        }
+        if (!fallBelowBottom) if (frac > 1) frac = 1;
+        rt.anchoredPosition = Utils.LerpWithoutClamp(start, end, frac);
+        OnFallingFracUpdated?.Invoke(frac);
     }
     protected abstract void Update_Activated();
     protected void Score(int s, Vector2? pos = null)
@@ -102,20 +117,23 @@ public abstract class RhythmObject : MonoBehaviour
                 _score = badScore;
                 _text = "Miss";
                 _color = Color.grey;
+                ++Scoring.missCount;
                 break;
             case 1:
                 _score = goodScore;
                 _text = "Good";
                 _color = Color.green;
+                ++Scoring.goodCount;
                 break;
             case 2:
                 _score = perfectScore;
                 _text = "Perfect";
                 _color = Color.yellow;
+                ++Scoring.perfectCount;
                 break;
         }
         RhythmGameManager.UpdateScore(_score);
-        FlyingText.Create(_text, _color, pos == null ? exits[exit].center : pos.Value);
+        FlyingText.Create(_text, _color, pos == null ? exits[exit].center : pos.Value, rt.parent);
         OnScored?.Invoke(s);
     }
 
@@ -123,6 +141,11 @@ public abstract class RhythmObject : MonoBehaviour
     {
         if (RhythmGameManager.binggui == null) return false;
         var pos = rt.anchoredPosition;
-        return pos.x > RhythmGameManager.binggui.x1 && pos.x < RhythmGameManager.binggui.x2 && Mathf.Abs(pos.y - RhythmGameManager.binggui.center.y) <= RhythmGameManager.blockHeight;
+        return pos.x > RhythmGameManager.binggui.x1 && pos.x < RhythmGameManager.binggui.x2 && Mathf.Abs(pos.y - RhythmGameManager.binggui.center.y) <= BlockSize.y;
+    }
+    
+    public bool IsBeingInteracted()
+    {
+        return RhythmGameManager.exits[exit].currentRhythmObject == this;
     }
 }

@@ -13,6 +13,7 @@ public class Interpreter
         bool isSection = true;
         string curSec = "";
         string[] lines = File.ReadAllLines(filename);
+        Dictionary<string, float> vars = new Dictionary<string, float>();
         foreach (var line in lines)
         {
             // remove comment
@@ -21,11 +22,33 @@ public class Interpreter
             {
                 if (nocom[0] == '[') // section begins
                 {
-                    curSec = nocom.Substring(1, line.Length - 2);
-                    float curTime;
-                    if (float.TryParse(curSec, out curTime))
+                    bool needAddition = false;
+                    bool needStoring = false;
+                    string varName = "";
+                    string curTimeString = curSec = nocom.Substring(1, line.Length - 2);
+                    string[] seg = curSec.Split('=');
+                    if (seg.Length > 1)
                     {
-                        KeyData kd = new KeyData(curTime);
+                        varName = seg[0];
+                        curTimeString = seg[1];
+                        needStoring = true;
+                    }
+                    seg = curSec.Split('+');
+                    if (seg.Length > 1)
+                    {
+                        varName = seg[0];
+                        curTimeString = seg[1];
+                        needAddition = true;
+                    }
+                    float curTime;
+                    if (float.TryParse(curTimeString, out curTime))
+                    {
+                        if (needStoring)
+                        {
+                            Debug.Log("Detect Variable " + varName + "=" + curTimeString);
+                            vars.Add(varName, curTime);
+                        }
+                        KeyData kd = new KeyData(curTime + (needAddition ? vars[varName] : 0));
                         keyData.Add(kd);
                         isSection = false;
                     }
@@ -38,7 +61,7 @@ public class Interpreter
                 else
                 {
                     var pair = line.Split('=');
-                    (isSection? sections[curSec]:keyData[keyData.Count - 1].prop).Add(pair[0], pair[1]);
+                    (isSection ? sections[curSec] : keyData[keyData.Count - 1].prop).Add(pair[0], pair[1]);
                 }
             }
         }

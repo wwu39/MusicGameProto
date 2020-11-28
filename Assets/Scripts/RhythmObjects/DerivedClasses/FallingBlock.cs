@@ -11,7 +11,7 @@ public class FallingBlock : RhythmObject
 
     protected override void CheckActivateCondition()
     {
-        if (rt.anchoredPosition.y < RhythmGameManager.GetBottom() + 1.5 * RhythmGameManager.blockHeight)
+        if (rt.anchoredPosition.y < RhythmGameManager.GetBottom() + 1.5 * BlockSize.y)
         {
             Activate();
         }
@@ -28,10 +28,9 @@ public class FallingBlock : RhythmObject
             }
         }
 
-        if (rt.anchoredPosition.y < RhythmGameManager.GetBottom() - 1.5f * RhythmGameManager.blockHeight)
+        if (rt.anchoredPosition.y < RhythmGameManager.GetBottom() - 1.5f * BlockSize.y)
         {
-            RhythmGameManager.UpdateScore(badScore);
-            FlyingText.Create("Miss", Color.grey, exits[exit].center);
+            Score(0);
             Destroy(gameObject);
         }
 
@@ -39,22 +38,19 @@ public class FallingBlock : RhythmObject
     void OnClick()
     {
         float diff = rt.anchoredPosition.y - RhythmGameManager.GetBottom();
-        if (diff > 1.5f * RhythmGameManager.blockHeight || diff < -1.5f * RhythmGameManager.blockHeight)
+        if (diff > 1.5f * BlockSize.y || diff < -1.5f * BlockSize.y)
         {
-            RhythmGameManager.UpdateScore(badScore);
-            FlyingText.Create("Miss", Color.grey, rt.anchoredPosition);
+            Score(0);
             Destroy(gameObject);
         }
-        else if (diff > 0.5f * RhythmGameManager.blockHeight || diff < -0.5f * RhythmGameManager.blockHeight)
+        else if (diff > 0.5f * BlockSize.y || diff < -0.5f * BlockSize.y)
         {
-            RhythmGameManager.UpdateScore(goodScore);
-            FlyingText.Create("Good", Color.green, rt.anchoredPosition);
+            Score(1);
             Destroy(gameObject);
         }
         else
         {
-            RhythmGameManager.UpdateScore(perfectScore);
-            FlyingText.Create("Perfect", Color.yellow, rt.anchoredPosition);
+            Score(2);
             Destroy(gameObject);
         }
     }

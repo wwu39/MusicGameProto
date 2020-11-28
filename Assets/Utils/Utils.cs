@@ -4,6 +4,12 @@ using UnityEngine;
 public delegate void Void_Float(float f);
 public delegate void Void_FloatInt(float f, int i);
 public delegate void Void_Int(int i);
+
+public enum NlerpMode
+{
+    InSine,
+    OutSine
+}
 public class Utils
 {
     static Vector2 defRes = new Vector2(1920, 1080);
@@ -37,6 +43,14 @@ public class Utils
 
     public static Vector2 LerpWithoutClamp(Vector2 a, Vector2 b, float frac)
     {
+        return a + (b - a) * frac;
+    }
+
+    public static Vector2 NLerp(Vector2 a, Vector2 b, float frac, NlerpMode curve)
+    {
+        if (frac <= 0) return a; else if (frac >= 1) return b;
+        if (curve == NlerpMode.InSine) return a + (b - a) * Mathf.Sin(frac * Mathf.PI / 2);
+        else if (curve == NlerpMode.OutSine) return a + (b - a) * (1 - Mathf.Sin((1 - frac) * Mathf.PI / 2));
         return a + (b - a) * frac;
     }
 }

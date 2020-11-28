@@ -40,9 +40,9 @@ public class FlyingText : MonoBehaviour
         return this;
     }
 
-    public static void Create(string msg, Color c, Vector3 pos)
+    public static void Create(string msg, Color c, Vector2 pos, Transform parent)
     {
-        FlyingText ft = Instantiate(Resources.Load<GameObject>("FlyingText"), GameObject.Find("Canvas").transform).GetComponent<FlyingText>().Init(msg, c);
+        FlyingText ft = Instantiate(Resources.Load<GameObject>("FlyingText"), parent).GetComponent<FlyingText>().Init(msg, c);
         (ft.transform as RectTransform).anchoredPosition = pos;
         ft.canvasPoint = pos;
     }

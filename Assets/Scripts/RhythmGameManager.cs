@@ -13,13 +13,32 @@ public class DefRes // 开发用分辨率
     public static int x { private set; get; } = 1920;
     public static int y { private set; get; } = 1080;
 }
+public class BlockSize
+{
+    public static int x = 180;
+    public static int y = 90;
+}
 
 public struct GeneralSettings
 {
     public static int mode; // 0=正常, 1=拖轨
     public static int exitCount;
     public static float delay;
-    public static float bingguiSpeed = 1750;
+    public static float bingguiSpeed = 2750;
+    public static int specialMode = 0; // 0=正常, 1=把所有方块当作下落方块, 2=不下落任何方块
+}
+
+public struct Scoring
+{
+    public static int perfectCount;
+    public static int goodCount;
+    public static int missCount;
+    public static void Reset()
+    {
+        perfectCount = 0;
+        goodCount = 0;
+        missCount = 0;
+    }
 }
 
 public class ExitData
@@ -48,6 +67,7 @@ public class ExitData
 public class RhythmGameManager : MonoBehaviour
 {
     [SerializeField] Transform parentNode;
+    [SerializeField] GameObject gameContent;
     [SerializeField] GameObject selectSong;
     public static ExitData[] exits;
     public static ExitData binggui;
@@ -55,12 +75,13 @@ public class RhythmGameManager : MonoBehaviour
     [SerializeField] Text UIScore;
     [SerializeField] bool showIndicators;
     [SerializeField] Button reload;
+    public Button pauseButton;
+    [SerializeField] Sprite[] pauseButtonSprites;
     [SerializeField] Text timeShown;
-    public static float blockHeight { private set; get; } = 90; // 方块高度
-    public static float exitWidth { private set; get; } = 180; // 出口/方块横向长度
+    [SerializeField] GameObject loading;
+    public GameObject invisibleBlocker;
 
     int score;
-    float time;
     public static Rect bottomRect;
     Vector2 buttonStart = new Vector2(-720, 388);
     Vector2 buttonSpaces = new Vector2(360, -90);
@@ -72,15 +93,17 @@ public class RhythmGameManager : MonoBehaviour
 
     private void Awake()
     {
-        MidiTranslator.Translate();
         ins = this;
         exits = null;
         binggui = null;
         reload.onClick.AddListener(delegate
         {
             Timeline.Stop();
-            Destroy(binggui.obj);
-            binggui = null;
+            if (binggui != null)
+            {
+                Destroy(binggui.obj);
+                binggui = null;
+            }
             SceneManager.LoadScene(0);
         });
     }
@@ -90,41 +113,62 @@ public class RhythmGameManager : MonoBehaviour
         UIScore.text = "Score: 0";
 
         RectTransform brt = bottom.GetComponent<RectTransform>();
-        brt.sizeDelta = new Vector2(DefRes.x, blockHeight);
-        bottomRect = new Rect(brt.anchoredPosition - brt.sizeDelta / 2 - new Vector2(0, blockHeight / 2f), brt.sizeDelta + new Vector2(0, blockHeight));
+        brt.sizeDelta = new Vector2(DefRes.x, BlockSize.y);
+        bottomRect = new Rect(brt.anchoredPosition - brt.sizeDelta / 2 - new Vector2(0, BlockSize.y / 2f), brt.sizeDelta + new Vector2(0, BlockSize.y));
 
+        pauseButton.onClick.AddListener(OnPauseButtonPressed);
+        pauseButton.gameObject.SetActive(false);
 
-        var info = new DirectoryInfo("Assets/Music/Resources");
-        var files = info.GetFiles();
-        int i = 0;
-        foreach(var f in files)
+        if (!SelectLevel.ins)
         {
-            if (f.Extension == ".b3ks")
+            var info = new DirectoryInfo("Assets/Music/Resources");
+            var files = info.GetFiles();
+            int i = 0;
+            foreach (var f in files)
             {
-                string songName = f.Name.Substring(0, f.Name.Length - 5);
-                var btn = Instantiate(Resources.Load<GameObject>("SongName"), selectSong.transform);
-                btn.GetComponent<RectTransform>().anchoredPosition = buttonStart + new Vector2(i % 5 * buttonSpaces.x, i / 5 * buttonSpaces.y);
-                btn.GetComponentInChildren<Text>().text = songName;
-                btn.GetComponent<Button>().onClick.AddListener(delegate
+                if (f.Extension == ".b3ks")
                 {
-                    Timeline.StartMusicScript(songName);
-                    GenerateExits();
-                    Destroy(selectSong);
-                });
-                ++i;
+                    string songName = f.Name.Substring(0, f.Name.Length - 5);
+                    var btn = Instantiate(Resources.Load<GameObject>("SongName"), selectSong.transform);
+                    btn.GetComponent<RectTransform>().anchoredPosition = buttonStart + new Vector2(i % 5 * buttonSpaces.x, i / 5 * buttonSpaces.y);
+                    btn.GetComponentInChildren<Text>().text = songName;
+                    btn.GetComponent<Button>().onClick.AddListener(delegate
+                    {
+                        Timeline.StartMusicScript(songName);
+                        GenerateExits();
+                        Destroy(selectSong);
+                    });
+                    ++i;
+                }
             }
+        }
+        else
+        {
+            Timeline.StartMusicScript(SelectLevel.ins.preselectedSongName);
+            Destroy(SelectLevel.ins.gameObject);
+            GenerateExits();
+            Destroy(selectSong);
         }
     }
 
+    bool pause;
     private void Update()
     {
-        timeShown.text = ((int)(Time.time * 1000)).ToString();
+        timeShown.text = ((int)((Time.time - Timeline.ins.startTime) * 1000)).ToString();
+        if (Input.GetKeyDown(KeyCode.Escape)) OnPauseButtonPressed();
     }
 
     private void FixedUpdate()
     {
         BingguiUpdate();
         oldExits.RemoveAll(RemoveOldExits);
+    }
+
+    public void OnPauseButtonPressed()
+    {
+        pause = !pause;
+        pauseButton.image.sprite = pauseButtonSprites[pause ? 1 : 0];
+        Timeline.Pause(pause);
     }
 
     bool RemoveOldExits(ExitData[] es)
@@ -144,7 +188,7 @@ public class RhythmGameManager : MonoBehaviour
             StopAllCoroutines();
             foreach (ExitData ed in es)
             {
-                Instantiate(Resources.Load<GameObject>("explosion"), ins.parentNode).transform.position = ed.obj.transform.position;
+                // Instantiate(Resources.Load<GameObject>("explosion"), ins.parentNode).transform.position = ed.obj.transform.position;
                 Destroy(ed.obj);
                 if (ed.idctor) Destroy(ed.idctor);
             }
@@ -158,7 +202,7 @@ public class RhythmGameManager : MonoBehaviour
         UIScore.text = "Score: " + score;
 
         RectTransform brt = bottom.GetComponent<RectTransform>();
-        brt.sizeDelta = new Vector2(DefRes.x, blockHeight);
+        brt.sizeDelta = new Vector2(DefRes.x, BlockSize.y);
         bottomRect = new Rect(brt.anchoredPosition - brt.sizeDelta / 2, brt.sizeDelta);
 
         Timeline.Stop();
@@ -182,18 +226,40 @@ public class RhythmGameManager : MonoBehaviour
         ins.UIScore.text = "Score: " + ins.score;
     }
 
+    public static bool IsMetaBlock(string blockName)
+    {
+        HashSet<string> metas = new HashSet<string>()
+        {
+            "ChangeGameMode",
+            "GameOver",
+            "PlayAVideo"
+        };
+        return metas.Contains(blockName);
+    }
     public static RhythmObject CreateBlock(int exit, string blockName, Color? c = null, int perfectScore = 20, int goodScore = 10, int badScore = 0, float debugTime = -1)
     {
         string prefabName = blockName;
-        if (GeneralSettings.mode > 0 && prefabName != "ChangeGameMode") prefabName += "_" + GeneralSettings.mode;
+        if (GeneralSettings.mode > 0 && !IsMetaBlock(blockName)) prefabName += "_" + GeneralSettings.mode;
         var ret = Instantiate(Resources.Load<GameObject>(prefabName), ins.parentNode).GetComponent<RhythmObject>().Initialize(exit, c == null ? Color.white : c.GetValueOrDefault(), perfectScore, goodScore, badScore);
-        var text = ret.GetComponentInChildren<Text>();
-        if (text)
+        if (debugTime > 0)
         {
-            text.color = Color.black;
-            text.text = debugTime.ToString();
+            var text = ret.GetComponentInChildren<Text>();
+            if (text)
+            {
+                text.color = Color.black;
+                text.text = debugTime.ToString();
+            }
         }
         return ret;
+    }
+
+    public static Beat CreateBeat(int exit, Color? c = null, int perfectScore = 20, int goodScore = 10, int badScore = 0)
+    {
+        var ret = Instantiate(Resources.Load<GameObject>("Beat"), ins.parentNode).GetComponent<Beat>().Initialize(exit, c == null ? Color.white : c.GetValueOrDefault(), perfectScore, goodScore, badScore);
+        var pos = (ret.transform as RectTransform).anchoredPosition;
+        pos.y = Harp.GetHeight();
+        (ret.transform as RectTransform).anchoredPosition = pos;
+        return (Beat)ret;
     }
 
     public static void GenerateExits()
@@ -202,7 +268,6 @@ public class RhythmGameManager : MonoBehaviour
         if (exits != null)
         {
             //for (int i = 0; i < exits.Length; ++i) ins.StartCoroutine(ins.ExitFlashing(exits[i]));
-            print("ccccc");
             ins.oldExits.Add(exits);
         }
 
@@ -213,7 +278,7 @@ public class RhythmGameManager : MonoBehaviour
             binggui.obj = Instantiate(Resources.Load<GameObject>("exit"), ins.parentNode);
             binggui.obj.GetComponentInChildren<Graphic>().color = Color.green;
             RectTransform rt = binggui.obj.transform as RectTransform;
-            rt.sizeDelta = new Vector2(exitWidth, blockHeight);
+            rt.sizeDelta = new Vector2(BlockSize.x, BlockSize.y);
             binggui.center = rt.anchoredPosition = new Vector2(0, GetBottom());
             binggui.x1 = rt.anchoredPosition.x - rt.sizeDelta.x / 2;
             binggui.x2 = rt.anchoredPosition.x + rt.sizeDelta.x / 2;
@@ -230,14 +295,14 @@ public class RhythmGameManager : MonoBehaviour
         int num = GeneralSettings.exitCount;
         exits = new ExitData[num];
         float step = DefRes.x / num;
-        float top = GeneralSettings.mode == 1 ? DefRes.y / 2 + blockHeight / 2 : DefRes.y / 2 - blockHeight;
+        float top = GeneralSettings.mode == 1 ? DefRes.y / 2 + BlockSize.y / 2 : DefRes.y / 2 - BlockSize.y * 1.5f;
         for (int i = 0; i < num; ++i)
         {
             exits[i] = new ExitData();
             exits[i].id = i;
             exits[i].obj = Instantiate(Resources.Load<GameObject>("exit"), ins.parentNode);
             RectTransform rt = exits[i].obj.transform as RectTransform;
-            rt.sizeDelta = new Vector2(exitWidth, blockHeight);
+            rt.sizeDelta = new Vector2(BlockSize.x, BlockSize.y);
             rt.anchoredPosition = new Vector2(step * (i + 0.5f) - DefRes.x / 2f, top);
             exits[i].x1 = rt.anchoredPosition.x - rt.sizeDelta.x / 2;
             exits[i].x2 = rt.anchoredPosition.x + rt.sizeDelta.x / 2;
@@ -291,28 +356,40 @@ public class RhythmGameManager : MonoBehaviour
         }
     }
 
-    float altime;
-    void Update_Debug_GenerateRandomBlocks()
+    public void LoadMainMenu()
     {
-        if (altime > 303) return;
-        if (time >= Random.Range(1.111f, 3.333f))
+        StartCoroutine(WaitForLoadMainMenuFinished());
+    }
+
+    IEnumerator WaitForLoadMainMenuFinished()
+    {
+        loading.SetActive(true);
+        AsyncOperation async;
+        do
         {
-            int exit = Random.Range(0, exits.Length);
-            if (Random.Range(0, 15) == 1)
-            {
-                LongFallingBlock b = (LongFallingBlock)CreateBlock(exit, "LongFallingBlock", Utils.GetRandomColor());
-                b.fallingTime = Random.Range(3.5f, 4.5f);
-                b.length = Random.Range(2, 3);
-                b.ApplyLength();
-            }
-            else
-            {
-                var b = CreateBlock(exit, "FallingBlock", Utils.GetRandomColor());
-                b.fallingTime = Random.Range(3.5f, 4.5f);
-            }
-            altime += time;
-            time = 0;
+            async = SceneManager.LoadSceneAsync(0);
+            yield return new WaitForSecondsRealtime(0.1f);
         }
-        else time += Time.deltaTime;
+        while (async == null);
+        async.allowSceneActivation = false;
+        yield return new WaitForSecondsRealtime(5f);
+        loading.SetActive(false);
+        async.allowSceneActivation = true;
+    }
+
+    public static void HideContent(bool hide = true)
+    {
+        ins.gameContent.SetActive(!hide);
+    }
+
+    public static void HideExit(bool hide = true)
+    {
+        foreach (ExitData ed in exits) ed.obj.SetActive(!hide);
+        if (binggui != null) binggui.obj.SetActive(!hide);
+    }
+
+    public static void HideBottomBar(bool hide = true)
+    {
+        ins.bottom.SetActive(!hide);
     }
 }

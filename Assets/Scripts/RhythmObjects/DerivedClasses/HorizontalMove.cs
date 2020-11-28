@@ -15,7 +15,10 @@ public class HorizontalMove : RhythmObject
     [Header("Graphics")]
     [SerializeField] Image block;
     [SerializeField] Image line;
-    [SerializeField] Image arrow;
+    [Header("UI 1")]
+    [SerializeField] bool enableUI1;
+    [SerializeField] Image outterFrame;
+    [SerializeField] Image outterBg;
     bool[] checkpoints;
 
     public override RhythmType Type => RhythmType.HorizontalMove;
@@ -34,7 +37,7 @@ public class HorizontalMove : RhythmObject
     }
     protected override void CheckActivateCondition()
     {
-        if (rt.anchoredPosition.y < RhythmGameManager.GetBottom() + 1.5 * RhythmGameManager.blockHeight)
+        if (rt.anchoredPosition.y < RhythmGameManager.GetBottom() + 1.5 * BlockSize.y)
         {
             Activate();
         }
@@ -80,14 +83,14 @@ public class HorizontalMove : RhythmObject
         // 初次接触判定
         if (getTouched && !checkpoints[0])
         {
-            if (diff > 1.5f * RhythmGameManager.blockHeight || diff < -1.5f * RhythmGameManager.blockHeight)
+            if (diff > 1.5f * BlockSize.y || diff < -1.5f * BlockSize.y)
             {
                 Score(0);
                 curScore = 0;
                 checkpoints[0] = true;
                 fallBelowBottom = false;
             }
-            else if (diff > 0.5f * RhythmGameManager.blockHeight || diff < -0.5f * RhythmGameManager.blockHeight)
+            else if (diff > 0.5f * BlockSize.y || diff < -0.5f * BlockSize.y)
             {
                 Score(1);
                 curScore = 1;
@@ -126,7 +129,7 @@ public class HorizontalMove : RhythmObject
             }
         }
 
-        if (diff < -2f * RhythmGameManager.blockHeight)
+        if (diff < -2f * BlockSize.y)
         {
             for (int i = 0; i < checkpoints.Length; ++i)
             {
@@ -144,15 +147,24 @@ public class HorizontalMove : RhythmObject
         switch (direction)
         {
             case Direction.Right:
-                arrow.rectTransform.anchoredPosition = new Vector2(exits[exit + width - 1].x2 - exits[exit].x2 + RhythmGameManager.exitWidth / 2, 0);
-                line.rectTransform.anchoredPosition = new Vector2((exits[exit + width - 1].x2 - exits[exit].x2) / 2 + RhythmGameManager.exitWidth / 2, 0);
-                line.rectTransform.sizeDelta = new Vector2(exits[exit + width - 1].x2 - exits[exit].x2, RhythmGameManager.blockHeight);
+                line.rectTransform.anchoredPosition = new Vector2((exits[exit + width - 1].x2 - exits[exit].x1) / 2 - BlockSize.x / 2, 0);
+                line.rectTransform.sizeDelta = new Vector2(exits[exit + width - 1].x2 - exits[exit].x1, BlockSize.y);
                 break;
             case Direction.Left:
-                arrow.rectTransform.anchoredPosition = new Vector2(exits[exit - width + 1].x1 - exits[exit].x1 - RhythmGameManager.exitWidth / 2, 0);
-                line.rectTransform.anchoredPosition = new Vector2((exits[exit - width + 1].x1 - exits[exit].x1) / 2 - RhythmGameManager.exitWidth / 2, 0);
-                line.rectTransform.sizeDelta = new Vector2(exits[exit].x1 - exits[exit - width + 1].x1, RhythmGameManager.blockHeight);
+                line.rectTransform.anchoredPosition = new Vector2((exits[exit - width + 1].x1 - exits[exit].x2) / 2 + BlockSize.x / 2, 0);
+                line.rectTransform.sizeDelta = new Vector2(exits[exit].x2 - exits[exit - width + 1].x1, BlockSize.y);
                 break;
+        }
+        if (enableUI1)
+        {
+            line.enabled = false;
+            outterFrame.rectTransform.sizeDelta = line.rectTransform.sizeDelta + new Vector2(25, 25);
+            outterBg.rectTransform.sizeDelta = line.rectTransform.sizeDelta + new Vector2(67, 67);
+        }
+        else
+        {
+            Destroy(outterFrame.gameObject);
+            Destroy(outterBg.gameObject);
         }
     }
 }

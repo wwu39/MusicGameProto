@@ -176,7 +176,7 @@ public class Rouxian : RhythmObject
     protected override void Update_Activated()
     {
         float diff = rt.anchoredPosition.y - RhythmGameManager.GetBottom();
-        if (diff < -2f * RhythmGameManager.blockHeight) Destroy(gameObject);
+        if (diff < -2f * BlockSize.y) Destroy(gameObject);
 
         Vector2 dotpos = new Vector2();
         if (timeCount >= 1f)
@@ -216,18 +216,18 @@ public class Rouxian : RhythmObject
     void GraphicSetup()
     {
         keyWidth = exits[exit + width - 1].x2 - exits[exit].x1;
-        float centerX = keyWidth / 2 - RhythmGameManager.exitWidth / 2;
-        back.rectTransform.sizeDelta = new Vector2(keyWidth, RhythmGameManager.blockHeight);
-        block.rectTransform.sizeDelta = new Vector2(RhythmGameManager.exitWidth, RhythmGameManager.blockHeight);
-        cord.rectTransform.sizeDelta = new Vector2(4, RhythmGameManager.blockHeight);
+        float centerX = keyWidth / 2 - BlockSize.x / 2;
+        back.rectTransform.sizeDelta = new Vector2(keyWidth, BlockSize.y);
+        block.rectTransform.sizeDelta = new Vector2(BlockSize.x, BlockSize.y);
+        cord.rectTransform.sizeDelta = new Vector2(4, BlockSize.y);
         back.rectTransform.anchoredPosition = cord.rectTransform.anchoredPosition = new Vector2(centerX, 0);
         block.rectTransform.anchoredPosition = Vector2.zero;
-        rightend = new Vector2(keyWidth - RhythmGameManager.exitWidth, 0);
+        rightend = new Vector2(keyWidth - BlockSize.x, 0);
 
         OnBottomReached += delegate
         {
             particle = Instantiate(Resources.Load<GameObject>("RouxianParticle"), transform);
-            (particle.transform as RectTransform).anchoredPosition = new Vector2(centerX, RhythmGameManager.blockHeight / 2f);
+            (particle.transform as RectTransform).anchoredPosition = new Vector2(centerX, BlockSize.y / 2f);
             particle.transform.localScale = new Vector3(2, 1, 1) * 4.5f * keyWidth / 1140f;
         };
     }
@@ -275,7 +275,7 @@ public class Rouxian : RhythmObject
     float GetCordPos()
     {
         float maxWidth = exits[exit + width - 1].x2 - exits[exit].x1;
-        float centerX = maxWidth / 2 - RhythmGameManager.exitWidth / 2;
+        float centerX = maxWidth / 2 - BlockSize.x / 2;
         return exits[exit].center.x + centerX;
     }
 }

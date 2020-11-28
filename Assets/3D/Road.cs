@@ -34,13 +34,22 @@ public class Road : MonoBehaviour
     private void Awake()
     {
         ins = this;
-        enableDisplay.onClick.AddListener(delegate
-        {
-            bool a = display.IsActive();
-            display.gameObject.SetActive(!a);
-            enableDisplay.GetComponentInChildren<Text>().text = a ? "3D" : "2D";
-        });
+        enableDisplay.onClick.AddListener(EnableDisplay);
     }
+
+    public void EnableDisplay()
+    {
+        bool a = display.IsActive();
+        display.gameObject.SetActive(!a);
+        enableDisplay.GetComponentInChildren<Text>().text = a ? "3D" : "2D";
+    }
+    public void EnableDisplay(bool enabled)
+    {
+        bool a = display.IsActive();
+        if (enabled && !a) EnableDisplay();
+        if (!enabled && a) EnableDisplay();
+    }
+
     private void Start()
     {
         RhythmGameManager.ins.OnBinguiXFracUpdate += OnCarPositionUpdate;
