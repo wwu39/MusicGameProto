@@ -1,0 +1,8 @@
+[General]
+Exit=6
+Delay=3
+Music=none
+
+[5]
+Type=GameOver
+Exit=0

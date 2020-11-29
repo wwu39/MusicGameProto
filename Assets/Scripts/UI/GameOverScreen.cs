@@ -39,6 +39,7 @@ public class GameOverScreen : MonoBehaviour
         for (int i = 0; i < 3; ++i)
         {
             anims[i].GetComponent<RectTransform>().localScale = startScale;
+            anims[i].GetComponent<Text>().enabled = true;
             Graphic g = anims[i].GetComponent<Graphic>();
             Color c = g.color;
             c.a = 0.5f;
@@ -87,9 +88,9 @@ public class GameOverScreen : MonoBehaviour
 
     IEnumerator PreloadMainMenu()
     {
+        async = SceneManager.LoadSceneAsync(0);
         while (async == null)
         {
-            async = SceneManager.LoadSceneAsync(0);
             yield return new WaitForSecondsRealtime(0.1f);
         }
         async.allowSceneActivation = false;

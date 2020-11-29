@@ -11,6 +11,8 @@ public class SelectLevel : MonoBehaviour
     [SerializeField] GameObject node;
     [SerializeField] GameObject chapterPrefab;
     [SerializeField] Sprite[] tilepages;
+    [SerializeField] string[] titles;
+    [SerializeField] string[] desc;
     [HideInInspector] public string preselectedSongName;
 
     public static SelectLevel ins;
@@ -21,21 +23,19 @@ public class SelectLevel : MonoBehaviour
         var info = new DirectoryInfo("Assets/Music/Resources");
         var files = info.GetFiles();
         int i = 0;
-        foreach (var f in files)
+        foreach (string t in titles)
         {
-            if (f.Extension == ".b3ks")
+            var btn = Instantiate(chapterPrefab, node.transform).GetComponent<ChapterButton>();
+            btn.buttonTitle = t;
+            btn.statusItem = ChapterButton.StatusItem.NONE;
+            btn.backgroundImage = tilepages[i];
+            btn.buttonDescription = desc[i];
+            btn.GetComponent<Button>().onClick.AddListener(delegate
             {
-                var btn = Instantiate(chapterPrefab, node.transform).GetComponent<ChapterButton>();
-                btn.buttonTitle = f.Name.Substring(0, f.Name.Length - 5);
-                btn.statusItem = ChapterButton.StatusItem.NONE;
-                btn.backgroundImage = tilepages[i % tilepages.Length];
-                btn.GetComponent<Button>().onClick.AddListener(delegate
-                {
-                    preselectedSongName = btn.buttonTitle;
-                    SceneManager.LoadScene(1);
-                });
-                ++i;
-            }
+                preselectedSongName = btn.buttonTitle;
+                SceneManager.LoadScene(1);
+            });
+            ++i;
         }
         DontDestroyOnLoad(this);
     }

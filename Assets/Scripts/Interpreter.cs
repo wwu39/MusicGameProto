@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 
 public class Interpreter
 {
@@ -12,7 +13,7 @@ public class Interpreter
         sections = new Dictionary<string, Dictionary<string, string>>();
         bool isSection = true;
         string curSec = "";
-        string[] lines = File.ReadAllLines(filename);
+        string[] lines = Regex.Split(Resources.Load<TextAsset>(filename).text, "\n|\r|\r\n");
         Dictionary<string, float> vars = new Dictionary<string, float>();
         foreach (var line in lines)
         {

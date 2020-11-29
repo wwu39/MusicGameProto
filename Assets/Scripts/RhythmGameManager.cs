@@ -124,9 +124,9 @@ public class RhythmGameManager : MonoBehaviour
             int i = 0;
             foreach (var f in files)
             {
-                if (f.Extension == ".b3ks")
+                if (f.Extension == ".txt")
                 {
-                    string songName = f.Name.Substring(0, f.Name.Length - 5);
+                    string songName = f.Name.Substring(0, f.Name.Length - 4);
                     var btn = Instantiate(Resources.Load<GameObject>("SongName"), selectSong.transform);
                     btn.GetComponent<RectTransform>().anchoredPosition = buttonStart + new Vector2(i % 5 * buttonSpaces.x, i / 5 * buttonSpaces.y);
                     btn.GetComponentInChildren<Text>().text = songName;
@@ -361,16 +361,16 @@ public class RhythmGameManager : MonoBehaviour
 
     IEnumerator WaitForLoadMainMenuFinished()
     {
+        Time.timeScale = 1;
         loading.SetActive(true);
-        AsyncOperation async;
+        AsyncOperation async = SceneManager.LoadSceneAsync(0);
         do
         {
-            async = SceneManager.LoadSceneAsync(0);
             yield return new WaitForSecondsRealtime(0.1f);
         }
         while (async == null);
         async.allowSceneActivation = false;
-        yield return new WaitForSecondsRealtime(5f);
+        yield return new WaitForSecondsRealtime(1f);
         loading.SetActive(false);
         async.allowSceneActivation = true;
     }

@@ -39,7 +39,9 @@ public class Timeline : MonoBehaviour
     public static void StartMusicScript(string scriptName)
     {
         Dictionary<string, Dictionary<string, string>> sections;
-        Interpreter.Open("Assets/Music/Resources/" + scriptName + ".b3ks", out ins.keyData, out sections);
+        Interpreter.Open(scriptName, out ins.keyData, out sections);
+        print(sections.Count);
+        foreach (var s in sections) print(s.Key + " " + s.Value);
         GeneralSettings.exitCount = int.Parse(sections["General"]["Exit"]);
         string musicName;
         if (!sections["General"].TryGetValue("Music", out musicName)) musicName = scriptName;
