@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using TreeEditor;
 using UnityEngine;
 using UnityEngine.UI;
 public enum VibDepth
