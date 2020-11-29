@@ -20,8 +20,6 @@ public class SelectLevel : MonoBehaviour
     private void Awake()
     {
         if (ins) Destroy(gameObject); else ins = this;
-        var info = new DirectoryInfo("Assets/Music/Resources");
-        var files = info.GetFiles();
         int i = 0;
         foreach (string t in titles)
         {
