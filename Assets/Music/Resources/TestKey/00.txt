@@ -9,5 +9,5 @@ Exit=0
 Width=4
 TimeLast=150
 Rouxian=yes
-Roufa=deep
-Rousu=quick
+Roufa=shallow
+Rousu=slow

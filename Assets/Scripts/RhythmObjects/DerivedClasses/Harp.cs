@@ -119,8 +119,9 @@ public class Harp : RhythmObject
 
         if (trailDelayCount >= 0.05f)
         {
-            var trail = Instantiate(Resources.Load<GameObject>("Trail"), transform);
-            (trail.transform as RectTransform).anchoredPosition = dotPos;
+            var trail = Instantiate(Resources.Load<GameObject>("Trail"), transform).GetComponent<RectTransform>();
+            trail.anchoredPosition = dotPos;
+            if (roufa == 1) trail.localScale *= 0.75f;
             trailDelayCount = 0;
         }
         else
