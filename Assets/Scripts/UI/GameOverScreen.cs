@@ -28,6 +28,7 @@ public class GameOverScreen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Timeline.Stop();
         startTime = Time.time;
         titles = new Text[3] { perfect, good, miss };
         counts = new int[3] { Scoring.perfectCount, Scoring.goodCount, Scoring.missCount };

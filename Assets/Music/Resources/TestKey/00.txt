@@ -1,0 +1,13 @@
+[General]
+Exit=6
+Delay=3
+Music=none
+
+[1]
+Type=Harp
+Exit=0
+Width=4
+TimeLast=150
+Rouxian=yes
+Roufa=deep
+Rousu=quick

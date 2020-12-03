@@ -24,6 +24,14 @@ public struct GeneralSettings
     public static float delay;
     public static float bingguiSpeed = 2750;
     public static int specialMode = 0; // 0=正常, 1=把所有方块当作下落方块, 2=不下落任何方块
+    public static void Reset()
+    {
+        mode = 0;
+        exitCount = 0;
+        delay = 0;
+        bingguiSpeed = 2750;
+        specialMode = 0;
+    }
 }
 
 public struct Scoring
@@ -120,24 +128,21 @@ public class RhythmGameManager : MonoBehaviour
         if (!SelectLevel.ins)
         {
             var info = new DirectoryInfo("Assets/Music/Resources");
-            var files = info.GetFiles();
+            var dirs = info.GetDirectories();
             int i = 0;
-            foreach (var f in files)
+            foreach (var d in dirs)
             {
-                if (f.Extension == ".txt")
+                string songName = d.Name;
+                var btn = Instantiate(Resources.Load<GameObject>("SongName"), selectSong.transform);
+                btn.GetComponent<RectTransform>().anchoredPosition = buttonStart + new Vector2(i % 5 * buttonSpaces.x, i / 5 * buttonSpaces.y);
+                btn.GetComponentInChildren<Text>().text = songName;
+                btn.GetComponent<Button>().onClick.AddListener(delegate
                 {
-                    string songName = f.Name.Substring(0, f.Name.Length - 4);
-                    var btn = Instantiate(Resources.Load<GameObject>("SongName"), selectSong.transform);
-                    btn.GetComponent<RectTransform>().anchoredPosition = buttonStart + new Vector2(i % 5 * buttonSpaces.x, i / 5 * buttonSpaces.y);
-                    btn.GetComponentInChildren<Text>().text = songName;
-                    btn.GetComponent<Button>().onClick.AddListener(delegate
-                    {
-                        Timeline.StartMusicScript(songName);
-                        GenerateExits();
-                        Destroy(selectSong);
-                    });
-                    ++i;
-                }
+                    Timeline.StartMusicScript(songName);
+                    GenerateExits();
+                    Destroy(selectSong);
+                });
+                ++i;
             }
         }
         else

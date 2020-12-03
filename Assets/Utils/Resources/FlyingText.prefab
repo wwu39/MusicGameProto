@@ -96,7 +96,7 @@ MonoBehaviour:
   msg: 
   color: {r: 1, g: 1, b: 1, a: 1}
   lifetime: 0.5
-  height: 45
+  height: 90
 --- !u!114 &7005980189352290736
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -38,10 +38,9 @@ public class Timeline : MonoBehaviour
     }
     public static void StartMusicScript(string scriptName)
     {
+        GeneralSettings.Reset();
         Dictionary<string, Dictionary<string, string>> sections;
         Interpreter.Open(scriptName, out ins.keyData, out sections);
-        print(sections.Count);
-        foreach (var s in sections) print(s.Key + " " + s.Value);
         GeneralSettings.exitCount = int.Parse(sections["General"]["Exit"]);
         string musicName;
         if (!sections["General"].TryGetValue("Music", out musicName)) musicName = scriptName;
@@ -184,11 +183,13 @@ public class Timeline : MonoBehaviour
         {
             if (Harp.Contains(kd))
             {
-                Beat beat = RhythmGameManager.CreateBeat(exit, Utils.GetRandomColor());
-
-                float waitTime = Mathf.Max(0, fallingTime - beat.lifetime);
-                OnBlockCreated?.Invoke(beat);
-                // if (waitTime > 0) yield return new WaitForSeconds(waitTime);
+                if (Harp.ins.rouxian)
+                {
+                    Beat beat = RhythmGameManager.CreateBeat(exit, Utils.GetRandomColor());
+                    float waitTime = Mathf.Max(0, fallingTime - beat.lifetime);
+                    OnBlockCreated?.Invoke(beat);
+                    // if (waitTime > 0) yield return new WaitForSeconds(waitTime);
+                }
             }
             else
             {
@@ -220,16 +221,21 @@ public class Timeline : MonoBehaviour
                         hrm.width = int.Parse(kd.prop["Width"]);
                         hrm.direction = kd.prop["Direction"] == "Left" ? Direction.Left : Direction.Right;
                         break;
-                    case "Rouxian":
-                        Rouxian rx = (Rouxian)block;
-                        rx.width = int.Parse(kd.prop["Width"]);
-                        rx.timeLast = float.Parse(kd.prop["TimeLast"]);
-                        rx.FMODEvent = kd.prop["FMODEvent"];
-                        break;
                     case "Harp":
                         Harp h = (Harp)block;
                         h.width = int.Parse(kd.prop["Width"]);
                         h.timeLast = float.Parse(kd.prop["TimeLast"]);
+                        str = kd.prop["Rouxian"];
+                        if (str == "yes") h.rouxian = true; else if (str == "no") h.rouxian = false;
+                        if (h.rouxian)
+                        {
+                            str = kd.prop["Roufa"];
+                            if (str == "deep") h.roufa = 0; else if (str == "shallow") h.roufa = 1;
+                            str = kd.prop["Rousu"];
+                            if (str == "quick") h.rousu = 0; else if (str == "slow") h.rousu = 1;
+                            if (kd.prop.TryGetValue("LimitTime", out str)) h.limitTime = float.Parse(str); else h.limitTime = 0.5f;
+                            if (kd.prop.TryGetValue("Cooldown", out str)) h.cooldown = float.Parse(str); else h.cooldown = 0.6f;
+                        }
                         break;
                     case "PlayAVideo":
                         PlayAVideo pav = (PlayAVideo)block;

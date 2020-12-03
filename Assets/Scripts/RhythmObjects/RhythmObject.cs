@@ -106,7 +106,7 @@ public abstract class RhythmObject : MonoBehaviour
         OnFallingFracUpdated?.Invoke(frac);
     }
     protected abstract void Update_Activated();
-    protected void Score(int s, Vector2? pos = null)
+    protected virtual void Score(int s, Vector2? pos = null)
     {
         int _score;
         string _text;
