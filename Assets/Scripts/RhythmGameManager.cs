@@ -24,6 +24,10 @@ public struct GeneralSettings
     public static float delay;
     public static float bingguiSpeed = 2750;
     public static int specialMode = 0; // 0=正常, 1=把所有方块当作下落方块, 2=不下落任何方块
+    public static float musicStartTime;
+    
+    // 难度: 0=困难, 1=中等, 2=简单
+    public static int difficulty = 0;
     public static void Reset()
     {
         mode = 0;
@@ -31,6 +35,8 @@ public struct GeneralSettings
         delay = 0;
         bingguiSpeed = 2750;
         specialMode = 0;
+        difficulty = 0;
+        musicStartTime = 0;
     }
 }
 
@@ -86,6 +92,7 @@ public class RhythmGameManager : MonoBehaviour
     [SerializeField] Text timeShown;
     [SerializeField] GameObject loading;
     public GameObject invisibleBlocker;
+    public Transform imageNode;
 
     int score;
     public static Rect bottomRect;
@@ -389,6 +396,11 @@ public class RhythmGameManager : MonoBehaviour
     {
         foreach (ExitData ed in exits) ed.obj.SetActive(!hide);
         if (binggui != null) binggui.obj.SetActive(!hide);
+    }
+
+    public static void HideExit(HashSet<int> exitsToHide)
+    {
+        for (int i = 0; i < exits.Length; ++i) if (exitsToHide.Contains(i)) exits[i].obj.SetActive(false);
     }
 
     public static void HideBottomBar(bool hide = true)

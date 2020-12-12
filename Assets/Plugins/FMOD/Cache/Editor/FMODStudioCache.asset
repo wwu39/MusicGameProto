@@ -1,5 +1,81 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8504787286752051914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/Quality
+  m_EditorClassIdentifier: 
+  Name: Quality
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
+--- !u!114 &-8299884745194502239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637433508145991248
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
+--- !u!114 &-8250870040815893375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Voices.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Voices.bank
+  SubDir: 
+  lastModified: 637433493927470217
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
+--- !u!114 &-8250821516738796975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/820-3
+  m_EditorClassIdentifier: 
+  Path: event:/820-3
+  guid: 49b2c7cdde53e24aa9c9e6cbd60bc72e
+  Banks:
+  - {fileID: -5372915802959776696}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1071
 --- !u!114 &-7972162543516808085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51,7 +127,7 @@ MonoBehaviour:
   Path: event:/Jack06
   guid: 0651b9038e5751489f21cd0100665d3c
   Banks:
-  - {fileID: 402828597134409274}
+  - {fileID: 2266651601260145625}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -59,6 +135,28 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 3885
+--- !u!114 &-7379445462070132333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/vo_ry/818
+  m_EditorClassIdentifier: 
+  Path: event:/vo_ry/818
+  guid: d9a35c207f34d54d8d934c83428693a7
+  Banks: []
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 2011
 --- !u!114 &-7366171140698742423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,6 +175,24 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 0
+--- !u!114 &-7026723323135765248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637433506973917204
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
 --- !u!114 &-6567527044738336732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,7 +208,7 @@ MonoBehaviour:
   Path: event:/Rouxian1
   guid: 9da98404dac1cd41a13d57db27f695da
   Banks:
-  - {fileID: -3962523613497750581}
+  - {fileID: -5372915802959776696}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -100,6 +216,23 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 0
+--- !u!114 &-6126007394139201205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/SingerOn
+  m_EditorClassIdentifier: 
+  Name: SingerOn
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
 --- !u!114 &-6074406681843397094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,7 +266,7 @@ MonoBehaviour:
   Path: event:/Jack01
   guid: c406e2e4f2bfbe47b852dcd7855ec0c1
   Banks:
-  - {fileID: 402828597134409274}
+  - {fileID: 2266651601260145625}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -141,6 +274,140 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 996
+--- !u!114 &-5532757206299235545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/820-1
+  m_EditorClassIdentifier: 
+  Path: event:/820-1
+  guid: 6d3585f0771e8343aeb12d7a6aa87a48
+  Banks:
+  - {fileID: -5372915802959776696}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1097
+--- !u!114 &-5372915802959776696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637433538559672832
+  LoadResult: 0
+  FileSizes: []
+  Exists: 1
+--- !u!114 &-5076686961267845389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/818
+  m_EditorClassIdentifier: 
+  Path: event:/818
+  guid: d9a35c207f34d54d8d934c83428693a7
+  Banks:
+  - {fileID: -5372915802959776696}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 2011
+--- !u!114 &-5044138407359826135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637433493927212523
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
+--- !u!114 &-4900188507592550240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/Quality
+  m_EditorClassIdentifier: 
+  Name: Quality
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
+--- !u!114 &-4846176012168288331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637433501932939674
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
+--- !u!114 &-4144506554965486829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/Quality
+  m_EditorClassIdentifier: 
+  Name: Quality
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
 --- !u!114 &-3962523613497750581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,7 +425,7 @@ MonoBehaviour:
   lastModified: 637418757689849175
   LoadResult: 0
   FileSizes: []
-  Exists: 1
+  Exists: 0
 --- !u!114 &-3849503743843460910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,6 +444,23 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 0
+--- !u!114 &-3806951245192209860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/SingerOn
+  m_EditorClassIdentifier: 
+  Name: SingerOn
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
 --- !u!114 &-3702158815383522697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,7 +476,7 @@ MonoBehaviour:
   Path: event:/Jack02
   guid: 05958089b2f04d4ea1f087ef56e6b5d6
   Banks:
-  - {fileID: 402828597134409274}
+  - {fileID: 2266651601260145625}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -215,7 +499,7 @@ MonoBehaviour:
   Path: event:/Jack Battle
   guid: e6b96f5c2c63124a8aa311e6bd396f7e
   Banks:
-  - {fileID: -3962523613497750581}
+  - {fileID: -5372915802959776696}
   IsStream: 1
   Is3D: 0
   IsOneShot: 1
@@ -223,6 +507,29 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 208039
+--- !u!114 &-3422907936298984570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/821-2
+  m_EditorClassIdentifier: 
+  Path: event:/821-2
+  guid: 72aaf422f05aa146867c15deb41b8d45
+  Banks:
+  - {fileID: -5372915802959776696}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 3192
 --- !u!114 &-3294090422481070123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,7 +545,7 @@ MonoBehaviour:
   Path: event:/TBC
   guid: 70dbcf8fee11f248978fd5313ce53f56
   Banks:
-  - {fileID: -3962523613497750581}
+  - {fileID: -5372915802959776696}
   IsStream: 1
   Is3D: 0
   IsOneShot: 1
@@ -246,6 +553,29 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 9944
+--- !u!114 &-3147369766233615447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/821-1
+  m_EditorClassIdentifier: 
+  Path: event:/821-1
+  guid: 83eff06f4a0c044ebb236b3912076b1a
+  Banks:
+  - {fileID: -5372915802959776696}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 600
 --- !u!114 &-3134343985391826634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,7 +591,7 @@ MonoBehaviour:
   Path: event:/Jack04
   guid: 8bea559f2916ba4ab698dd52432ca4d8
   Banks:
-  - {fileID: 402828597134409274}
+  - {fileID: 2266651601260145625}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -269,6 +599,118 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 1280
+--- !u!114 &-2917922684177785412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Voices.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Voices.bank
+  SubDir: 
+  lastModified: 637433516439654005
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
+--- !u!114 &-2497700721031721551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Voices.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Voices.bank
+  SubDir: 
+  lastModified: 637433508146255633
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
+--- !u!114 &-2423834685400802136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/SingerOn
+  m_EditorClassIdentifier: 
+  Name: SingerOn
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
+--- !u!114 &-2057279211406706646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637433516439388199
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
+--- !u!114 &-2011496824597213986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Voices.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Voices.bank
+  SubDir: 
+  lastModified: 637430953732350017
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
+--- !u!114 &-2002930469380033541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/820-2
+  m_EditorClassIdentifier: 
+  Path: event:/820-2
+  guid: 3f6cf7a0c6974145b0cee3ec57bdf8da
+  Banks:
+  - {fileID: -5372915802959776696}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 1044
 --- !u!114 &-1950170642659238741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -309,6 +751,93 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 208039
+--- !u!114 &-1675059759562502657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/Quality
+  m_EditorClassIdentifier: 
+  Name: Quality
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
+--- !u!114 &-1128439770841249145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/Quality
+  m_EditorClassIdentifier: 
+  Name: Quality
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
+--- !u!114 &-1091986867878092551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/SingerOn
+  m_EditorClassIdentifier: 
+  Name: SingerOn
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
+--- !u!114 &-1027279685769906816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637430921127293275
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
+--- !u!114 &-646599645101621432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Voices.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Voices.bank
+  SubDir: 
+  lastModified: 637433491438902016
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
 --- !u!114 &-625618225398449996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -324,7 +853,7 @@ MonoBehaviour:
   Path: event:/The Bass Part
   guid: 4726c3910ac2cd46be58d4488cf78267
   Banks:
-  - {fileID: -3962523613497750581}
+  - {fileID: -5372915802959776696}
   IsStream: 1
   Is3D: 0
   IsOneShot: 1
@@ -332,6 +861,63 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 114755
+--- !u!114 &-527876222315164096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/SingerOn
+  m_EditorClassIdentifier: 
+  Name: SingerOn
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 1
+--- !u!114 &-465861761478151007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/vo_ry/816
+  m_EditorClassIdentifier: 
+  Path: event:/vo_ry/816
+  guid: e631ae64eaf71d449cd3925159153be1
+  Banks: []
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 3134
+--- !u!114 &-150211039227312757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Voices.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Voices.bank
+  SubDir: 
+  lastModified: 637433501933209163
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -346,8 +932,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EditorBanks:
   - {fileID: 7407921767779674772}
-  - {fileID: -3962523613497750581}
-  - {fileID: 402828597134409274}
+  - {fileID: -5372915802959776696}
+  - {fileID: 2266651601260145625}
   EditorEvents:
   - {fileID: 474354688781625152}
   - {fileID: -625618225398449996}
@@ -361,13 +947,75 @@ MonoBehaviour:
   - {fileID: -3134343985391826634}
   - {fileID: 6139552633280765666}
   - {fileID: -7566396747857759005}
+  - {fileID: 660688704881353816}
+  - {fileID: -5076686961267845389}
+  - {fileID: 5662560997587927120}
+  - {fileID: -2002930469380033541}
+  - {fileID: -8250821516738796975}
+  - {fileID: -5532757206299235545}
+  - {fileID: -3422907936298984570}
+  - {fileID: -3147369766233615447}
+  - {fileID: 4025555294385458064}
   EditorParameters: []
   MasterBanks:
-  - {fileID: -3962523613497750581}
+  - {fileID: -5372915802959776696}
   StringsBanks:
   - {fileID: 7407921767779674772}
-  stringsBankWriteTime: 637418757689879110
+  stringsBankWriteTime: 637433538559702752
   cacheVersion: 3
+--- !u!114 &26263080295790260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Voices.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Voices.bank
+  SubDir: 
+  lastModified: 637430921128402893
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
+--- !u!114 &40032518045841738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/Quality
+  m_EditorClassIdentifier: 
+  Name: Quality
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
+--- !u!114 &44355487657241134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637433509853726667
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
 --- !u!114 &402828597134409274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -385,7 +1033,7 @@ MonoBehaviour:
   lastModified: 637418757690936055
   LoadResult: 0
   FileSizes: []
-  Exists: 1
+  Exists: 0
 --- !u!114 &474354688781625152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -401,7 +1049,7 @@ MonoBehaviour:
   Path: event:/TestMusic
   guid: 395ec695d6053147863a9785fea3b6ad
   Banks:
-  - {fileID: -3962523613497750581}
+  - {fileID: -5372915802959776696}
   IsStream: 1
   Is3D: 0
   IsOneShot: 1
@@ -409,6 +1057,65 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 307893
+--- !u!114 &482393345974353266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/SingerOn
+  m_EditorClassIdentifier: 
+  Name: SingerOn
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
+--- !u!114 &660688704881353816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Trust you
+  m_EditorClassIdentifier: 
+  Path: event:/Trust you
+  guid: 448b19a311ad01419ccdabb1207f7fac
+  Banks:
+  - {fileID: -5372915802959776696}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 7587498497150628495}
+  - {fileID: -527876222315164096}
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 100257
+--- !u!114 &707086425035661398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/SingerOn
+  m_EditorClassIdentifier: 
+  Name: SingerOn
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
 --- !u!114 &758609288772699895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -445,6 +1152,24 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 0
+--- !u!114 &1359452492320010262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637430952792757460
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
 --- !u!114 &1894902516355094078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -460,7 +1185,7 @@ MonoBehaviour:
   Path: event:/TestMidi
   guid: 82e5b87d57f30b48bf8582c3665acaed
   Banks:
-  - {fileID: -3962523613497750581}
+  - {fileID: -5372915802959776696}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -468,6 +1193,81 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 6060
+--- !u!114 &2266651601260145625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Voices.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Voices.bank
+  SubDir: 
+  lastModified: 637433538559934496
+  LoadResult: 0
+  FileSizes: []
+  Exists: 1
+--- !u!114 &2429595244062076093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Voices.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Voices.bank
+  SubDir: 
+  lastModified: 637432615485023934
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
+--- !u!114 &2557336439885605441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/816
+  m_EditorClassIdentifier: 
+  Path: event:/816
+  guid: e631ae64eaf71d449cd3925159153be1
+  Banks: []
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 3134
+--- !u!114 &3431565040240192817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/Quality
+  m_EditorClassIdentifier: 
+  Name: Quality
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
 --- !u!114 &3716488251171538298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -486,6 +1286,46 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 0
+--- !u!114 &3845150796292489997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/SingerOn
+  m_EditorClassIdentifier: 
+  Name: SingerOn
+  Min: 0
+  Max: 2
+  Default: 0
+  Exists: 0
+--- !u!114 &4025555294385458064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/n733
+  m_EditorClassIdentifier: 
+  Path: event:/n733
+  guid: 817d8f7e26273449946267f27d77d811
+  Banks:
+  - {fileID: -5372915802959776696}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 2455
 --- !u!114 &4477887228045200817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -522,6 +1362,41 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 0
+--- !u!114 &4571304053117454047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Voices.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Voices.bank
+  SubDir: 
+  lastModified: 637433509853990166
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
+--- !u!114 &4583611566280130505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/SingerOn
+  m_EditorClassIdentifier: 
+  Name: SingerOn
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
 --- !u!114 &4659501108559721643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -539,6 +1414,58 @@ MonoBehaviour:
   lastModified: 637416909731359593
   LoadResult: 0
   FileSizes: []
+  Exists: 0
+--- !u!114 &4923519034419187386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/SingerOn
+  m_EditorClassIdentifier: 
+  Name: SingerOn
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
+--- !u!114 &5149266855727318173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Voices.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Voices.bank
+  SubDir: 
+  lastModified: 637433506974170322
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
+--- !u!114 &5604724035149206354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/SingerOn
+  m_EditorClassIdentifier: 
+  Name: SingerOn
+  Min: 0
+  Max: 1
+  Default: 0
   Exists: 0
 --- !u!114 &5639809480430668622
 MonoBehaviour:
@@ -558,6 +1485,47 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 0
+--- !u!114 &5662560997587927120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/816
+  m_EditorClassIdentifier: 
+  Path: event:/816
+  guid: e631ae64eaf71d449cd3925159153be1
+  Banks:
+  - {fileID: 2266651601260145625}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 3134
+--- !u!114 &5671889971916375389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637432615484773078
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
 --- !u!114 &6139552633280765666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -573,7 +1541,7 @@ MonoBehaviour:
   Path: event:/Jack03
   guid: abd7a0f5ff4305449069aa413556f0f5
   Banks:
-  - {fileID: 402828597134409274}
+  - {fileID: 2266651601260145625}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -581,6 +1549,24 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 2037
+--- !u!114 &6665297491386951364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Voices.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Voices.bank
+  SubDir: 
+  lastModified: 637433456525987306
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
 --- !u!114 &6712904249764993046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -596,7 +1582,7 @@ MonoBehaviour:
   Path: event:/Jack05
   guid: 264c43bd32a81d49b3ede225b3ce5b06
   Banks:
-  - {fileID: 402828597134409274}
+  - {fileID: 2266651601260145625}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -604,6 +1590,59 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 1074
+--- !u!114 &7098128921428054474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637432709836305562
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
+--- !u!114 &7099129664765753838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Voices.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Voices.bank
+  SubDir: 
+  lastModified: 637430952793588716
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
+--- !u!114 &7369796991353938982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/Quality
+  m_EditorClassIdentifier: 
+  Name: Quality
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
 --- !u!114 &7407921767779674772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -618,11 +1657,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: FmodProj/Build/Desktop/Master.strings.bank
   SubDir: 
-  lastModified: 637418757689879110
+  lastModified: 637433538559702752
   LoadResult: 0
   FileSizes:
   - Name: Desktop
-    Value: 1228
+    Value: 1692
+  Exists: 1
+--- !u!114 &7587498497150628495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/Quality
+  m_EditorClassIdentifier: 
+  Name: Quality
+  Min: 0
+  Max: 1
+  Default: 0
   Exists: 1
 --- !u!114 &7667042782436712200
 MonoBehaviour:
@@ -639,6 +1695,24 @@ MonoBehaviour:
   Path: FmodProj/Build/Desktop/Master.bank
   SubDir: 
   lastModified: 637416922530353343
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
+--- !u!114 &7674115487559020282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637433491434640806
   LoadResult: 0
   FileSizes: []
   Exists: 0
@@ -660,6 +1734,59 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 0
+--- !u!114 &8425522613888622986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637433456524821318
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
+--- !u!114 &8570217334043292516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/Quality
+  m_EditorClassIdentifier: 
+  Name: Quality
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
+--- !u!114 &8645051981366341135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637430953732101461
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
 --- !u!114 &8744031428442083228
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -677,4 +1804,39 @@ MonoBehaviour:
   lastModified: 637412651468357703
   LoadResult: 0
   FileSizes: []
+  Exists: 0
+--- !u!114 &9163619702691908523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Voices.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Voices.bank
+  SubDir: 
+  lastModified: 637432709837745232
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
+--- !u!114 &9182358828318144925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/Quality
+  m_EditorClassIdentifier: 
+  Name: Quality
+  Min: 0
+  Max: 1
+  Default: 0
   Exists: 0

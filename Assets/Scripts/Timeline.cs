@@ -17,7 +17,8 @@ public struct KeyData
 public class Timeline : MonoBehaviour
 {
     [SerializeField] GameObject pauseGameUI;
-    FMOD.Studio.EventInstance vEventIns;
+    [HideInInspector] public FMOD.Studio.EventInstance vEventIns;
+    [HideInInspector] public bool hasMusic;
     [SerializeField] VideoPlayer vp;
     [SerializeField] VideoClip[] clips;
     [SerializeField] RenderTexture[] videoRatios;
@@ -28,6 +29,14 @@ public class Timeline : MonoBehaviour
     public delegate void Void_RhythmObject(RhythmObject o);
     public event Void_RhythmObject OnBlockCreated;
     public float startTime;
+
+    // 难度屏蔽
+    // 0=困难难度下无屏蔽
+    // 1=中等难度下方块屏蔽自身处理时间50%的其他方块
+    // 2=简单难度下方块屏蔽自身处理时间100%的其他方块
+    // 只有FallingBlock, LongFallingBlock, HorizontalMove受难度屏蔽影响
+    bool difficultyShielding = false;
+    static HashSet<string> difficultyShieldingTypes = new HashSet<string>() { "FallingBlock", "LongFallingBlock", "HorizontalMove" };
     private void OnValidate()
     {
         vp = GetComponent<VideoPlayer>();
@@ -47,10 +56,13 @@ public class Timeline : MonoBehaviour
         string str;
         if (sections["General"].TryGetValue("GameMode", out str)) GeneralSettings.mode = int.Parse(str); else GeneralSettings.mode = 0;
         if (sections["General"].TryGetValue("Delay", out str)) GeneralSettings.delay = float.Parse(str); else GeneralSettings.delay = 3;
+        if (sections["General"].TryGetValue("Difficulty", out str)) GeneralSettings.difficulty = int.Parse(str); else GeneralSettings.difficulty = 0;
+        if (sections["General"].TryGetValue("MusicStartPosition", out str)) GeneralSettings.musicStartTime = float.Parse(str); else GeneralSettings.musicStartTime = 0;
         foreach (var k in ins.keyData) ins.StartCoroutine(ins.StartFalling(k));
         // ins.StartCoroutine(ins.GameOver(timeEnd + 10));
         if (musicName != "none")
         {
+            ins.hasMusic = true;
             ins.vEventIns = FMODUnity.RuntimeManager.CreateInstance("event:/" + musicName);
             ins.StartCoroutine(ins.StartMusic(GeneralSettings.delay));
         }
@@ -118,7 +130,7 @@ public class Timeline : MonoBehaviour
 
     IEnumerator StartFalling(KeyData kd)
     {
-        yield return new WaitForSeconds(kd.startTime);
+        yield return new WaitForSeconds(kd.startTime - GeneralSettings.musicStartTime);
         //print(kd.prop["Type"] + " is falling from Exit " + kd.prop["Exit"] + " in " + kd.prop["FallingTime"]);
         string str; string[] seg;
         int exit = 0;
@@ -164,6 +176,13 @@ public class Timeline : MonoBehaviour
         {
             if (str == "true") RhythmGameManager.HideExit();
             else if (str == "false") RhythmGameManager.HideExit(false);
+            else
+            {
+                seg = str.Split(',');
+                HashSet<int> set = new HashSet<int>();
+                foreach (var s in seg) set.Add(int.Parse(s));
+                RhythmGameManager.HideExit(set);
+            }
         }
         if (kd.prop.TryGetValue("SpecialMode", out str))
         {
@@ -174,21 +193,32 @@ public class Timeline : MonoBehaviour
             if (str == "yes") Road.ins.EnableDisplay(true);
             else if (str == "no") Road.ins.EnableDisplay(false);
         }
+        if (kd.prop.TryGetValue("SetParam", out str))
+        {
+            seg = str.Split(',');
+            vEventIns.setParameterByName(seg[0], float.Parse(seg[1]));
+        }
+        if (kd.prop.TryGetValue("SFX", out str)) FMODUnity.RuntimeManager.PlayOneShot("event:/" + str);
+        if (kd.prop.TryGetValue("Image", out str)) Instantiate(Resources.Load<GameObject>(str), RhythmGameManager.ins.imageNode);
         if (kd.prop.TryGetValue("VideoVolumeFadeOut", out str)) ins.StartCoroutine(FadeVideoVolume(float.Parse(str)));
         if (kd.prop.TryGetValue("MusicFadeIn", out str)) ins.StartCoroutine(MusicFadeIn(float.Parse(str)));
         if (kd.prop.TryGetValue("MusicFadeOut", out str)) ins.StartCoroutine(MusicFadeOut(float.Parse(str)));
 
         // Generates block
-        if (blockType != "None" && (GeneralSettings.specialMode != 2 || IgnoresSpecialMode2(blockType)))
+        if (blockType != "None" && (GeneralSettings.specialMode != 2 || IgnoresSpecialMode2(blockType)) && !ShieldedByDifficulty(blockType))
         {
             if (Harp.Contains(kd))
             {
-                if (Harp.ins.rouxian)
+                if (!Harp.ins.rouxian)
                 {
                     Beat beat = RhythmGameManager.CreateBeat(exit, Utils.GetRandomColor());
                     float waitTime = Mathf.Max(0, fallingTime - beat.lifetime);
                     OnBlockCreated?.Invoke(beat);
                     // if (waitTime > 0) yield return new WaitForSeconds(waitTime);
+                }
+                else if (blockType == "Lyrics")
+                {
+                    Harp.CreateLyrics(kd.prop["Lyrics"], float.Parse(kd.prop["TimeLast"]));
                 }
             }
             else
@@ -202,9 +232,13 @@ public class Timeline : MonoBehaviour
                 // var block = RhythmGameManager.CreateBlock(exit, blockType, c, debugTime: kd.startTime);
                 var block = RhythmGameManager.CreateBlock(exit, blockType, c);
                 block.fallingTime = fallingTime;
+                float shieldingTime = -999;
                 switch (blockType)
                 {
                     case "FallingBlock":
+                        // 难度屏蔽
+                        if (GeneralSettings.difficulty == 1) shieldingTime = 0.3f;
+                        else if (GeneralSettings.difficulty == 2) shieldingTime = 0.6f;
                         break;
                     case "Beat":
                         Beat beat = (Beat)block;
@@ -215,18 +249,23 @@ public class Timeline : MonoBehaviour
                     case "LongFallingBlock":
                         LongFallingBlock lfb = (LongFallingBlock)block;
                         lfb.length = int.Parse(kd.prop["Length"]);
+                        // 难度屏蔽
+                        if (GeneralSettings.difficulty == 1) shieldingTime = 0.6f * lfb.length * 0.5f;
+                        else if (GeneralSettings.difficulty == 2) shieldingTime = 0.6f * lfb.length * 1f;
                         break;
                     case "HorizontalMove":
                         HorizontalMove hrm = (HorizontalMove)block;
                         hrm.width = int.Parse(kd.prop["Width"]);
                         hrm.direction = kd.prop["Direction"] == "Left" ? Direction.Left : Direction.Right;
+                        // 难度屏蔽
+                        if (GeneralSettings.difficulty == 1) shieldingTime = 0.6f * hrm.width * 0.5f;
+                        else if (GeneralSettings.difficulty == 2) shieldingTime = 0.6f * hrm.width * 1f;
                         break;
                     case "Harp":
                         Harp h = (Harp)block;
                         h.width = int.Parse(kd.prop["Width"]);
                         h.timeLast = float.Parse(kd.prop["TimeLast"]);
-                        str = kd.prop["Rouxian"];
-                        if (str == "yes") h.rouxian = true; else if (str == "no") h.rouxian = false;
+                        if (kd.prop.TryGetValue("Rouxian", out str)) h.rouxian = str == "yes";
                         if (h.rouxian)
                         {
                             str = kd.prop["Roufa"];
@@ -261,11 +300,18 @@ public class Timeline : MonoBehaviour
                         }
                         if (kd.prop.TryGetValue("MaxMiss", out str)) vt.maxMiss = int.Parse(str); else vt.maxMiss = 1;
                         if (kd.prop.TryGetValue("BeatLifetime", out str)) vt.beatLifetime = int.Parse(str); else vt.beatLifetime = 2;
+                        if (kd.prop.TryGetValue("NoAnim", out str)) if (str == "yes") vt.noAnim = true;
                         break;
                     default:
                         break;
                 }
                 OnBlockCreated?.Invoke(block);
+                if (shieldingTime > 0)
+                {
+                    difficultyShielding = true;
+                    yield return new WaitForSeconds(shieldingTime);
+                    difficultyShielding = false;
+                }
             }
         }
         // yield return new WaitForSeconds(block.fallingTime);
@@ -279,6 +325,10 @@ public class Timeline : MonoBehaviour
         RhythmType t = Resources.Load<GameObject>(blockType).GetComponent<RhythmObject>().Type;
         return t == RhythmType.Misc;
     }
+    static bool ShieldedByDifficulty(string blockType)
+    {
+        return ins.difficultyShielding && difficultyShieldingTypes.Contains(blockType);
+    }
 
     IEnumerator StartMusic(float time)
     {
@@ -290,7 +340,7 @@ public class Timeline : MonoBehaviour
         do
         {
             yield return new WaitForSeconds(1);
-            float sync = Time.time - startTime;
+            float sync = Time.time - startTime + GeneralSettings.musicStartTime;
             ins.vEventIns.setTimelinePosition((int)(sync * 1000));
             ins.vEventIns.getPlaybackState(out state);
         }

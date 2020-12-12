@@ -41,6 +41,24 @@ public class Harp : RhythmObject
     RectTransform hint;
     float trailDelayCount;
 
+
+    List<int> allScores;
+    float quality, volume;
+    float lastScoreTime = float.MaxValue;
+
+
+    public enum LyricsState { None, Parsing, FadingOut }
+    LyricsState lyricsState;
+    Text[] lyricsTexts;
+    Text[] lyricsAnimTexts;
+    float[] lyricsCharStartTimes;
+    Vector2[] lyricsStartPositions;
+    float lyricsTimeStep;
+    float lyricsTime;
+    int curlc;
+    float lyricsAnimTime = 1.5f;
+    float lyricsAlpha = 1f;
+
     protected override void Start()
     {
         if (ins) Destroy(gameObject); else ins = this;
@@ -63,38 +81,32 @@ public class Harp : RhythmObject
         harpImageIn = true;
         startTime = Time.time;
 
-        float hintAnim_x1 = 0;
-        float hintAnim_x2 = w;
-        if (roufa == 0) // 深揉
+        if (rouxian)
         {
-            hintAnim_x1 = 0;
-            hintAnim_x2 = w - BlockSize.x;
+            float hintAnim_x1 = 0;
+            float hintAnim_x2 = w;
+            if (roufa == 0) // 深揉
+            {
+                hintAnim_x1 = 0;
+                hintAnim_x2 = w - BlockSize.x;
+            }
+            else if (roufa == 1) // 浅揉
+            {
+                hintAnim_x1 = -BlockSize.x / 2 + 0.3f * w;
+                hintAnim_x2 = -BlockSize.x / 2 + 0.7f * w;
+            }
+            if (rousu == 0) // 快揉
+            {
+                hintAnimTotalTime = 1.5f * limitTime;
+            }
+            else if (rousu == 1) // 慢揉
+            {
+                hintAnimTotalTime = 2.25f * limitTime;
+            }
+            hintAnimStart = new Vector2(hintAnim_x1, -rt.anchoredPosition.y);
+            hintAnimEnd = new Vector2(hintAnim_x2, -rt.anchoredPosition.y);
+            allScores = new List<int>();
         }
-        else if (roufa == 1) // 浅揉
-        {
-            hintAnim_x1 = -BlockSize.x / 2 + 0.3f * w;
-            hintAnim_x2 = -BlockSize.x / 2 + 0.7f * w;
-        }
-        if (rousu == 0) // 快揉
-        {
-            hintAnimTotalTime = 1.5f * limitTime;
-        }
-        else if (rousu == 1) // 慢揉
-        {
-            hintAnimTotalTime = 2.25f * limitTime;
-        }
-        hintAnimStart = new Vector2(hintAnim_x1, -rt.anchoredPosition.y);
-        hintAnimEnd = new Vector2(hintAnim_x2, -rt.anchoredPosition.y);
-
-        /*
-        var obj = Instantiate(Resources.Load<GameObject>("VerticalLine"), transform).GetComponent<Graphic>();
-        obj.rectTransform.anchoredPosition = new Vector2(hintAnim_x1, -rt.anchoredPosition.y);
-        obj = Instantiate(Resources.Load<GameObject>("VerticalLine"), transform).GetComponent<Graphic>();
-        obj.rectTransform.anchoredPosition = new Vector2(hintAnim_x2, -rt.anchoredPosition.y);
-        */
-
-        //hint = Instantiate(Resources.Load<GameObject>("Magic"), transform).GetComponent<RectTransform>();
-        //hint.anchoredPosition = hintAnimStart;
     }
 
     protected override void Update()
@@ -104,29 +116,31 @@ public class Harp : RhythmObject
     }
     void UpdateAnimation()
     {
-        hintAnimTime += Time.deltaTime;
-        if (hintAnimTime >= hintAnimTotalTime)
+        if (rouxian)
         {
-            hintPingpong = !hintPingpong;
-            hintAnimTime = 0;
-        }
-        float hfrac = hintPingpong ? 1 - hintAnimTime / hintAnimTotalTime : hintAnimTime / hintAnimTotalTime;
-        var dotPos = Vector2.Lerp(hintAnimStart, hintAnimEnd, hfrac);
-        if (hintPingpong) dotPos.y = BlockSize.y / 2 + touchField.height / 2 + BlockSize.y / 2 * Mathf.Sin(2 * Mathf.PI * hfrac);
-        else dotPos.y = BlockSize.y / 2 + touchField.height / 2 + BlockSize.y / 2 * Mathf.Cos(2 * Mathf.PI * hfrac + 0.5f * Mathf.PI);
-        //hint.anchoredPosition = dotPos;
+            hintAnimTime += Time.deltaTime;
+            if (hintAnimTime >= hintAnimTotalTime)
+            {
+                hintPingpong = !hintPingpong;
+                hintAnimTime = 0;
+            }
+            float hfrac = hintPingpong ? 1 - hintAnimTime / hintAnimTotalTime : hintAnimTime / hintAnimTotalTime;
+            var dotPos = Vector2.Lerp(hintAnimStart, hintAnimEnd, hfrac);
+            if (hintPingpong) dotPos.y = BlockSize.y / 2 + touchField.height / 2 + BlockSize.y / 2 * Mathf.Sin(2 * Mathf.PI * hfrac);
+            else dotPos.y = BlockSize.y / 2 + touchField.height / 2 + BlockSize.y / 2 * Mathf.Cos(2 * Mathf.PI * hfrac + 0.5f * Mathf.PI);
+            //hint.anchoredPosition = dotPos;
 
-
-        if (trailDelayCount >= 0.05f)
-        {
-            var trail = Instantiate(Resources.Load<GameObject>("Trail"), transform).GetComponent<RectTransform>();
-            trail.anchoredPosition = dotPos;
-            if (roufa == 1) trail.localScale *= 0.75f;
-            trailDelayCount = 0;
-        }
-        else
-        {
-            trailDelayCount += Time.deltaTime;
+            if (trailDelayCount >= 0.05f)
+            {
+                var trail = Instantiate(Resources.Load<GameObject>("Trail"), transform).GetComponent<RectTransform>();
+                trail.anchoredPosition = dotPos;
+                if (roufa == 1) trail.localScale *= 0.75f;
+                trailDelayCount = 0;
+            }
+            else
+            {
+                trailDelayCount += Time.deltaTime;
+            }
         }
 
         if (harpImageIn)
@@ -143,6 +157,10 @@ public class Harp : RhythmObject
         }
         if (harpImageOut)
         {
+            quality = Mathf.Clamp(quality + Time.deltaTime, 0, 1);
+            volume = Mathf.Clamp(volume + Time.deltaTime * 2, 0, 1);
+            Timeline.ins.vEventIns.setParameterByName("Quality", 1 - quality);
+            Timeline.ins.vEventIns.setParameterByName("SingerOn", volume);
             float frac = (Time.time - startTime) / animTime;
             if (frac >= 1)
             {
@@ -206,6 +224,87 @@ public class Harp : RhythmObject
                 rd.untouchTime = 0;
             }
         }
+
+        if (Timeline.ins.hasMusic && !ins.harpImageOut)
+        {
+            bool qualityIncreasing = true;
+            if (allScores.Count > 1) qualityIncreasing = allScores[allScores.Count - 1] == 2;
+            bool volumeIncreasing = Time.time >= lastScoreTime && Time.time - lastScoreTime < 2f;
+            quality = Mathf.Clamp(quality + (qualityIncreasing ? 1 : -1) * Time.deltaTime, 0, 1);
+            volume = Mathf.Clamp(volume + (volumeIncreasing ? 1 : -1) * Time.deltaTime * 2, 0, 1);
+            Timeline.ins.vEventIns.setParameterByName("Quality", 1 - quality);
+            Timeline.ins.vEventIns.setParameterByName("SingerOn", volume);
+            //print("Quality: " + quality + "(" + (qualityIncreasing ? "increasing" : "decreasing") + ") SingerOn: " + volume + "(" + (volumeIncreasing ? "increasing" : "decreasing") + ")");
+        }
+
+        if (lyricsState == LyricsState.Parsing)
+        {
+            if (lyricsAlpha < 1)
+            {
+                for (int i = 0; i < lyricsTexts.Length; ++i) lyricsTexts[i].color = new Color(0.5f, 0.5f, 0.5f, lyricsAlpha);
+                lyricsAlpha += Time.deltaTime * 2;
+            }
+
+            if (lyricsTime >= lyricsTimeStep)
+            {
+                if (curlc >= lyricsAnimTexts.Length)
+                {
+                    if (lyricsTime >= lyricsTimeStep + lyricsAnimTime)
+                    {
+                        lyricsState = LyricsState.FadingOut;
+                        for (int i = 0; i < lyricsTexts.Length; ++i) if (lyricsAnimTexts[i]) Destroy(lyricsAnimTexts[i].gameObject);
+                        lyricsAlpha = 1f;
+                    }
+                }
+                else
+                {
+                    if (lastScorePos != null && volume > 0.1f)
+                    {
+                        lyricsAnimTexts[curlc] = Instantiate(lyricsTexts[curlc].gameObject, transform).GetComponent<Text>();
+                        lyricsAnimTexts[curlc].color = new Color(1, 0, 0.75f);
+                        lyricsCharStartTimes[curlc] = Time.time;
+                        lyricsStartPositions[curlc] = lastScorePos.Value - rt.anchoredPosition;
+                    }
+                    ++curlc;
+                    lyricsTime = 0;
+                }
+            }
+            lyricsTime += Time.deltaTime;
+
+            for (int i = 0; i < lyricsCharStartTimes.Length; ++i)
+            {
+                if (lyricsAnimTexts[i])
+                {
+                    float frac = (Time.time - lyricsCharStartTimes[i]) / lyricsAnimTime;
+                    if (frac >= 1)
+                    {
+                        lyricsAnimTexts[i].rectTransform.anchoredPosition = lyricsTexts[i].rectTransform.anchoredPosition + new Vector2(Random.Range(0, 10), Random.Range(0, 10));
+                    }
+                    else
+                    {
+                        lyricsAnimTexts[i].rectTransform.anchoredPosition = Vector3.Lerp(lyricsStartPositions[i], lyricsTexts[i].rectTransform.anchoredPosition, frac);
+                    }
+                }
+            }
+        }
+        else if (lyricsState == LyricsState.FadingOut)
+        {
+            lyricsAlpha -= Time.deltaTime * 2;
+            if (lyricsAlpha >= 0)
+            {
+                for (int i = 0; i < lyricsTexts.Length; ++i)
+                {
+                    Color c = lyricsTexts[i].color;
+                    c.a = lyricsAlpha;
+                    lyricsTexts[i].color = c;
+                }
+            }
+            else
+            {
+                for (int i = 0; i < lyricsTexts.Length; ++i) Destroy(lyricsTexts[i].gameObject);
+                lyricsState = LyricsState.None;
+            }
+        }
     }
     void RouxianValidation(float scoreHeight)
     {
@@ -261,6 +360,35 @@ public class Harp : RhythmObject
         return exit >= ins.exit && exit < ins.exit + ins.width;
     }
 
+    protected override void Score(int s, Vector2? pos = null)
+    {
+        base.Score(s, pos);
+        lastScoreTime = Time.time;
+        allScores.Add(s);
+    }
+    public static bool CreateLyrics(string lyrics, float lyricsTimeLast)
+    {
+        if (!ins) return false;
+        if (ins.lyricsState != LyricsState.None) return false;
+        ins.lyricsTexts = new Text[lyrics.Length];
+        float step = (ins.touchField.width - BlockSize.x / 2f) / lyrics.Length;
+        for (int i = 0; i < lyrics.Length; ++i)
+        {
+            var c = Instantiate(Resources.Load<GameObject>("LyricsChar"), ins.transform).GetComponent<Text>();
+            c.rectTransform.anchoredPosition = new Vector2(i * step, ins.touchField.height + BlockSize.y);
+            c.text = lyrics[i].ToString();
+            c.color = new Color(0.5f, 0.5f, 0.5f, 0);
+            ins.lyricsTexts[i] = c;
+        }
+        ins.lyricsTime = ins.lyricsTimeStep = lyricsTimeLast / lyrics.Length;
+        ins.lyricsAnimTexts = new Text[lyrics.Length];
+        ins.lyricsCharStartTimes = new float[lyrics.Length];
+        ins.lyricsStartPositions = new Vector2[lyrics.Length];
+        ins.lyricsAlpha = 0;
+        ins.curlc = 0;
+        ins.lyricsState = LyricsState.Parsing;
+        return true;
+    }
     protected override void CheckActivateCondition()
     {
         throw new System.NotImplementedException();

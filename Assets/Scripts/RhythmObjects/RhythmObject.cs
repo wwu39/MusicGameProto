@@ -33,6 +33,7 @@ public abstract class RhythmObject : MonoBehaviour
     public event Void_Int OnScored;
 
     protected float createTime;
+    protected Vector2? lastScorePos = null;
     protected virtual void Start()
     {
         Vector2 size = rt.sizeDelta;
@@ -133,7 +134,8 @@ public abstract class RhythmObject : MonoBehaviour
                 break;
         }
         RhythmGameManager.UpdateScore(_score);
-        FlyingText.Create(_text, _color, pos == null ? exits[exit].center : pos.Value, rt.parent);
+        lastScorePos = pos == null ? exits[exit].center : pos.Value;
+        FlyingText.Create(_text, _color, lastScorePos.Value, rt.parent);
         OnScored?.Invoke(s);
     }
 

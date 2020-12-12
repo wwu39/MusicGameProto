@@ -1,13 +1,11 @@
 [General]
 Exit=6
 Delay=3
-Music=none
+Music=Trust you
 
 [1]
-Type=Harp
+Type=FallingBlock
 Exit=0
-Width=4
-TimeLast=150
-Rouxian=yes
-Roufa=shallow
-Rousu=slow
+
+[2]
+HideExits=1,2,3,4

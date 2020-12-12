@@ -15,6 +15,7 @@ public class VocalText : RhythmObject
     public Color animColor;
     public int maxMiss;
     public int beatLifetime;
+    public bool noAnim;
 
     [SerializeField] Text textComp;
     [SerializeField] Text numComp;
@@ -71,7 +72,7 @@ public class VocalText : RhythmObject
                 animNum.rectTransform.anchoredPosition = animNumStartPos + new Vector2(Random.Range(0, 10), Random.Range(0, 10));
                 break;
             case 2: // 全部按键成功
-                animText.rectTransform.anchoredPosition = animTextStartPos + new Vector2(Random.Range(0, 10), Random.Range(0, 10));
+                if (!noAnim) animText.rectTransform.anchoredPosition = animTextStartPos + new Vector2(Random.Range(0, 10), Random.Range(0, 10));
                 FMOD.Studio.PLAYBACK_STATE pbs;
                 voIns.getPlaybackState(out pbs);
                 if (pbs == FMOD.Studio.PLAYBACK_STATE.STOPPED) Destroy(gameObject);
@@ -105,26 +106,38 @@ public class VocalText : RhythmObject
     }
     IEnumerator CreateBeats()
     {
-        beats = new Beat[length];
-        for (int i = 0; i < length; ++i)
+        if (length == 1)
         {
-            beats[i] = (Beat)Instantiate(Resources.Load<GameObject>("Beat"), rt).GetComponent<Beat>().Initialize(exit, textComp.color, perfectScore, goodScore, badScore);
-            beats[i].lifetime = beatLifetime;
-            beats[i].parent = this;
-            beats[i].rt.anchoredPosition = new Vector2(-Beat.radius * (length - 1) + Beat.radius * 2 * i, 0);
-            if (i == 0)
+            beats = new Beat[1];
+            beats[0] = (Beat)Instantiate(Resources.Load<GameObject>("Beat"), rt).GetComponent<Beat>().Initialize(exit, textComp.color, perfectScore, goodScore, badScore);
+            beats[0].lifetime = beatLifetime;
+            beats[0].parent = this;
+            beats[0].rt.anchoredPosition = Vector2.zero;
+            beats[0].OnScored += OnOnlyBeatScored;
+        }
+        else
+        {
+            beats = new Beat[length];
+            for (int i = 0; i < length; ++i)
             {
-                beats[i].OnScored += OnBeatFirstScored;
-                yield return new WaitForSeconds(beatInterval);
-            }
-            else if (i != length - 1)
-            {
-                beats[i].OnScored += OnBeatScored;
-                yield return new WaitForSeconds(beatInterval);
-            }
-            else
-            {
-                beats[i].OnScored += OnBeatLastScored;
+                beats[i] = (Beat)Instantiate(Resources.Load<GameObject>("Beat"), rt).GetComponent<Beat>().Initialize(exit, textComp.color, perfectScore, goodScore, badScore);
+                beats[i].lifetime = beatLifetime;
+                beats[i].parent = this;
+                beats[i].rt.anchoredPosition = new Vector2(-Beat.radius * (length - 1) + Beat.radius * 2 * i, 0);
+                if (i == 0)
+                {
+                    beats[i].OnScored += OnBeatFirstScored;
+                    yield return new WaitForSeconds(beatInterval);
+                }
+                else if (i != length - 1)
+                {
+                    beats[i].OnScored += OnBeatScored;
+                    yield return new WaitForSeconds(beatInterval);
+                }
+                else
+                {
+                    beats[i].OnScored += OnBeatLastScored;
+                }
             }
         }
     }
@@ -143,6 +156,31 @@ public class VocalText : RhythmObject
     void OnBeatLastScored(int s)
     {
         if (s == 0) --maxMiss;
+        if (maxMiss >= 0)
+        {
+            Destroy(numComp.gameObject);
+            Destroy(animNum.gameObject);
+            if (noAnim) Destroy(animText.gameObject);
+            animText.gameObject.SetActive(true);
+            voIns.start();
+            state = 2;
+        }
+        else
+        {
+            startFadingTime = Time.time;
+            Destroy(numComp.gameObject);
+            Destroy(animNum.gameObject);
+            Destroy(animText.gameObject);
+            state = 3;
+        }
+    }
+    void OnOnlyBeatScored(int s)
+    {
+        if (s == 0) --maxMiss;
+        if (!RhythmGameManager.exits[exit].currentRhythmObject)
+        {
+            RhythmGameManager.exits[exit].currentRhythmObject = this;
+        }
         if (maxMiss >= 0)
         {
             Destroy(numComp.gameObject);
