@@ -23580,7 +23580,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1651.8425, y: 0}
+  m_AnchoredPosition: {x: 1284.2114, y: 0}
   m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &885691413 stripped
@@ -26884,12 +26884,15 @@ MonoBehaviour:
   tilepages:
   - {fileID: 21300000, guid: 6d62e8251d7836043a6f40e27ee5d646, type: 3}
   - {fileID: 21300000, guid: 953160aad749d4445804d6221300168e, type: 3}
+  - {fileID: 21300000, guid: db342d0ae5e7bd04ea2acf64d70909ad, type: 3}
   titles:
   - The Bass Part
   - Jack Battle
+  - Trust You
   desc:
   - The Bass Part
   - Yu-Gi-Oh! 5D's
+  - Mobile Suit Gundam 00
   preselectedSongName: 
 --- !u!4 &1021469528
 Transform:
@@ -53596,7 +53599,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 28, y: 0}
+  m_AnchoredPosition: {x: 69.009995, y: 0}
   m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1749241028
@@ -54025,7 +54028,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1591.8425, y: 0}
+  m_AnchoredPosition: {x: 1137.2014, y: 0}
   m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1774977322
@@ -54353,7 +54356,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1711.8425, y: 0}
+  m_AnchoredPosition: {x: 1431.2214, y: 0}
   m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1782357210
@@ -63462,7 +63465,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 224357076414380102, guid: 34454bb273a5c294491cb70404c95a1f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1003.42126
+      value: 895.1157
       objectReference: {fileID: 0}
     - target: {fileID: 224357076414380102, guid: 34454bb273a5c294491cb70404c95a1f, type: 3}
       propertyPath: m_AnchoredPosition.y
