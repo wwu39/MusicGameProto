@@ -33,15 +33,7 @@ public class LongFallingBlock : RhythmObject
     int curScore;
     protected override void Update_Activated()
     {
-        bool getTouched = false;
-        for (int i = 0; i < Input.touchCount; ++i)
-        {
-            if (exits[exit].IsBeingTouchedBy(Input.GetTouch(i)))
-            {
-                getTouched = true;
-                break;
-            }
-        }
+        bool getTouched = exits[exit].IsBeingTouched();
 
         float diff = rt.anchoredPosition.y - RhythmGameManager.GetBottom();
 
@@ -82,12 +74,12 @@ public class LongFallingBlock : RhythmObject
                 if (getTouched)
                 {
                     curScore = Mathf.Clamp(curScore + 1, 0, 2);
-                    Score(curScore);
+                    Score(curScore, sndIdx: i);
                 }
                 else
                 {
                     curScore = Mathf.Clamp(curScore - 1, 0, 2);
-                    Score(curScore);
+                    Score(curScore, sndIdx: i);
                 }
                 checkpoints[i] = true;
             }

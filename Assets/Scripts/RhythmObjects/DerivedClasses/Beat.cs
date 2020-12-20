@@ -18,29 +18,36 @@ public class Beat : RhythmObject
     {
         base.Start();
         startTime = Time.time;
+        noAnim = true;
     }
 
     protected override void Update()
     {
-        if (Time.time - startTime >= lifetime)
+        if (Time.time - startTime >= lifetime + fallingTime)
         {
             spreading.rectTransform.sizeDelta = endSize;
             Score(0, (transform as RectTransform).anchoredPosition);
             Destroy(gameObject);
         }
+        else if (Time.time - startTime >= fallingTime)
+        {
+            float frac = (Time.time - startTime) / fallingTime;
+            outter.sprite = animSprites[Mathf.RoundToInt(frac * (animSprites.Length - 1)) % animSprites.Length];
+            if (GetTouched())
+            {
+                Score(2, rt.anchoredPosition);
+                Destroy(gameObject);
+            }
+        }
         else
         {
-            float frac = (Time.time - startTime) / lifetime;
+            float frac = (Time.time - startTime) / fallingTime;
             spreading.rectTransform.sizeDelta = Vector2.Lerp(startSize, endSize, frac);
             outter.sprite = animSprites[Mathf.RoundToInt(frac * (animSprites.Length - 1))];
-            for (int i = 0; i < Input.touchCount; ++i)
+            if (GetTouched())
             {
-                if (IsBeingTouchedBy(Input.GetTouch(i)))
-                {
-                    Score(2, (transform as RectTransform).anchoredPosition);
-                    Destroy(gameObject);
-                    break;
-                }
+                Score(1, rt.anchoredPosition);
+                Destroy(gameObject);
             }
         }
     }
@@ -52,6 +59,17 @@ public class Beat : RhythmObject
     protected override void Update_Activated()
     {
         
+    }
+    public bool GetTouched()
+    {
+        for (int i = 0; i < Input.touchCount; ++i)
+        {
+            if (IsBeingTouchedBy(Input.GetTouch(i)))
+            {
+                return true;
+            }
+        }
+        return false;
     }
     public bool IsBeingTouchedBy(Touch t)
     {

@@ -19,13 +19,9 @@ public class FallingBlock : RhythmObject
 
     protected override void Update_Activated()
     {
-        for (int i = 0; i < Input.touchCount; ++i)
+        if (exits[exit].IsBeingTouched())
         {
-            if (exits[exit].IsBeingTouchedBy(Input.GetTouch(i)))
-            {
-                OnClick();
-                break;
-            }
+            OnClick();
         }
 
         if (rt.anchoredPosition.y < RhythmGameManager.GetBottom() - 1.5f * BlockSize.y)

@@ -1,4 +1,4 @@
-﻿using FMOD;
+﻿
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -58,21 +58,55 @@ public class ExitData
     public int id;
     public GameObject obj, idctor;
     public float x1, x2;
-    public RhythmObject currentRhythmObject;
+    public RhythmObject current, last;
     public Vector2 center;
-    public bool IsBeingTouchedBy(Touch t)
+    bool needReleasing;
+    bool isBeingTouchedPending;
+    bool isBeingTouchedFinal;
+    bool IsBeingTouchedBy(Vector3 screenPos)
     {
-        var pos = Utils.ScreenToCanvasPos(t.position);
-        if (RhythmGameManager.bottomRect.Contains(pos) && pos.x > x1 && pos.x < x2)
-            return true;
-        return false;
+        var pos = Utils.ScreenToCanvasPos(screenPos);
+        return RhythmGameManager.bottomRect.Contains(pos) && pos.x > x1 && pos.x < x2;
     }
-    public bool IsBeingTouchedBy(Touch t, out Vector2 pos)
+    public bool IsBeingTouched()
     {
-        pos = Utils.ScreenToCanvasPos(t.position);
-        if (RhythmGameManager.bottomRect.Contains(pos) && pos.x > x1 && pos.x < x2)
-            return true;
-        return false;
+        return isBeingTouchedFinal;
+    }
+    public static void CheckInput()
+    {
+        if (RhythmGameManager.exits == null) return;
+        ExitData[] exits = RhythmGameManager.exits;
+        HashSet<ExitData> touched = new HashSet<ExitData>();
+        for (int i = 0; i < exits.Length; ++i)
+        {
+            exits[i].isBeingTouchedPending = false;
+            if (exits[i].last != exits[i].current) exits[i].needReleasing = true;
+            if (!touched.Contains(exits[i]))
+            {
+                for (int j = 0; j < Input.touchCount; ++j)
+                {
+                    if (exits[i].IsBeingTouchedBy(Input.GetTouch(j).position))
+                    {
+                        exits[i].isBeingTouchedPending = true;
+                        touched.Add(exits[i]);
+                        break;
+                    }
+                }
+            }
+
+            if (exits[i].needReleasing)
+            {
+                if (exits[i].isBeingTouchedPending) exits[i].isBeingTouchedPending = false;
+                else exits[i].needReleasing = false;
+            }
+            exits[i].isBeingTouchedFinal = exits[i].isBeingTouchedPending;
+            exits[i].last = exits[i].current;
+        }
+        /*
+        string str = "Exits: ";
+        foreach (ExitData ed in exits) str += ed.isBeingTouchedFinal ? "1" : "0";
+        Debug.Log(str);
+        */
     }
 }
 
@@ -166,6 +200,7 @@ public class RhythmGameManager : MonoBehaviour
     {
         timeShown.text = ((int)((Time.time - Timeline.ins.startTime) * 1000)).ToString();
         if (Input.GetKeyDown(KeyCode.Escape)) OnPauseButtonPressed();
+        ExitData.CheckInput();
     }
 
     private void FixedUpdate()
@@ -186,7 +221,7 @@ public class RhythmGameManager : MonoBehaviour
         bool shouldBeRemoved = true;
         foreach (ExitData ed in es)
         {
-            if (ed.currentRhythmObject)
+            if (ed.current)
             {
                 shouldBeRemoved = false;
                 break;
@@ -266,6 +301,8 @@ public class RhythmGameManager : MonoBehaviour
     public static Beat CreateBeat(int exit, Color? c = null, int perfectScore = 20, int goodScore = 10, int badScore = 0)
     {
         var ret = Instantiate(Resources.Load<GameObject>("Beat"), ins.parentNode).GetComponent<Beat>().Initialize(exit, c == null ? Color.white : c.GetValueOrDefault(), perfectScore, goodScore, badScore);
+        ret.fallingTime = 1f;
+        ((Beat)ret).lifetime = 1f;
         var pos = (ret.transform as RectTransform).anchoredPosition;
         pos.y = Harp.GetHeight();
         (ret.transform as RectTransform).anchoredPosition = pos;

@@ -19,6 +19,7 @@ public abstract class RhythmObject : MonoBehaviour
     [HideInInspector] public int goodScore = 10;
     [HideInInspector] public int badScore = 0;
     [HideInInspector] public int exit;
+    [HideInInspector] public string[] sound;
     [SerializeField] Graphic[] coloringParts;
     public RhythmObject parent = null;
     protected ExitData[] exits;
@@ -34,6 +35,8 @@ public abstract class RhythmObject : MonoBehaviour
 
     protected float createTime;
     protected Vector2? lastScorePos = null;
+    protected bool noAnim;
+
     protected virtual void Start()
     {
         Vector2 size = rt.sizeDelta;
@@ -67,10 +70,10 @@ public abstract class RhythmObject : MonoBehaviour
     }
     protected virtual void Activate()
     {
-        if (!exits[exit].currentRhythmObject && !activated)
+        if (!exits[exit].current && !activated)
         {
             activated = true;
-            exits[exit].currentRhythmObject = this;
+            exits[exit].current = this;
         }
     }
     public abstract RhythmType Type { get; }
@@ -107,7 +110,7 @@ public abstract class RhythmObject : MonoBehaviour
         OnFallingFracUpdated?.Invoke(frac);
     }
     protected abstract void Update_Activated();
-    protected virtual void Score(int s, Vector2? pos = null)
+    protected virtual void Score(int s, Vector2? pos = null, bool flashBottom = true, int sndIdx = 0)
     {
         int _score;
         string _text;
@@ -135,6 +138,13 @@ public abstract class RhythmObject : MonoBehaviour
         }
         RhythmGameManager.UpdateScore(_score);
         lastScorePos = pos == null ? exits[exit].center : pos.Value;
+        if (!noAnim & s == 2) BlockEnlarge.Create(coloringParts[0].color, lastScorePos.Value, rt.parent);
+        if (s >= 1) // play the note if exits
+        {
+            if (sndIdx < sound.Length) FMODUnity.RuntimeManager.PlayOneShot("event:/" + sound[sndIdx]);
+            if (flashBottom && coloringParts.Length > 0) Bottom.SetColor(coloringParts[0].color * 0.75f);
+        }
+        else FMODUnity.RuntimeManager.PlayOneShot("event:/WRONG");
         FlyingText.Create(_text, _color, lastScorePos.Value, rt.parent);
         OnScored?.Invoke(s);
     }
@@ -148,6 +158,6 @@ public abstract class RhythmObject : MonoBehaviour
     
     public bool IsBeingInteracted()
     {
-        return RhythmGameManager.exits[exit].currentRhythmObject == this;
+        return RhythmGameManager.exits[exit].current == this;
     }
 }

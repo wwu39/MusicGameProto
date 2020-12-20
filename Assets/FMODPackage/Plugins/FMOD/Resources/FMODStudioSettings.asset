@@ -77,6 +77,7 @@ MonoBehaviour:
   MasterBanks:
   - Master
   Banks:
+  - MidiNotes
   - Voices
   BanksToLoad: []
   LiveUpdatePort: 9264

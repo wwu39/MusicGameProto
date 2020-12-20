@@ -64,11 +64,11 @@ public class VocalText : RhythmObject
                 else rt.anchoredPosition = Utils.NLerp(startPos, endPos, frac, NlerpMode.OutSine);
                 break;
             case 1: // 等待按键
-                if (!RhythmGameManager.exits[exit].currentRhythmObject)
+                if (!RhythmGameManager.exits[exit].current)
                 {
-                    RhythmGameManager.exits[exit].currentRhythmObject = this;
+                    RhythmGameManager.exits[exit].current = this;
                 }
-                animNum.gameObject.SetActive(RhythmGameManager.exits[exit].currentRhythmObject == this);
+                animNum.gameObject.SetActive(RhythmGameManager.exits[exit].current == this);
                 animNum.rectTransform.anchoredPosition = animNumStartPos + new Vector2(Random.Range(0, 10), Random.Range(0, 10));
                 break;
             case 2: // 全部按键成功
@@ -110,7 +110,8 @@ public class VocalText : RhythmObject
         {
             beats = new Beat[1];
             beats[0] = (Beat)Instantiate(Resources.Load<GameObject>("Beat"), rt).GetComponent<Beat>().Initialize(exit, textComp.color, perfectScore, goodScore, badScore);
-            beats[0].lifetime = beatLifetime;
+            beats[0].fallingTime = 0.25f * beatLifetime;
+            beats[0].lifetime = 0.75f * beatLifetime;
             beats[0].parent = this;
             beats[0].rt.anchoredPosition = Vector2.zero;
             beats[0].OnScored += OnOnlyBeatScored;
@@ -121,7 +122,8 @@ public class VocalText : RhythmObject
             for (int i = 0; i < length; ++i)
             {
                 beats[i] = (Beat)Instantiate(Resources.Load<GameObject>("Beat"), rt).GetComponent<Beat>().Initialize(exit, textComp.color, perfectScore, goodScore, badScore);
-                beats[i].lifetime = beatLifetime;
+                beats[i].fallingTime = 0.25f * beatLifetime;
+                beats[i].lifetime = 0.75f * beatLifetime;
                 beats[i].parent = this;
                 beats[i].rt.anchoredPosition = new Vector2(-Beat.radius * (length - 1) + Beat.radius * 2 * i, 0);
                 if (i == 0)
@@ -144,9 +146,9 @@ public class VocalText : RhythmObject
     void OnBeatFirstScored(int s)
     {
         if (s == 0) --maxMiss;
-        if (!RhythmGameManager.exits[exit].currentRhythmObject)
+        if (!RhythmGameManager.exits[exit].current)
         {
-            RhythmGameManager.exits[exit].currentRhythmObject = this;
+            RhythmGameManager.exits[exit].current = this;
         }
     }
     void OnBeatScored(int s)
@@ -177,9 +179,9 @@ public class VocalText : RhythmObject
     void OnOnlyBeatScored(int s)
     {
         if (s == 0) --maxMiss;
-        if (!RhythmGameManager.exits[exit].currentRhythmObject)
+        if (!RhythmGameManager.exits[exit].current)
         {
-            RhythmGameManager.exits[exit].currentRhythmObject = this;
+            RhythmGameManager.exits[exit].current = this;
         }
         if (maxMiss >= 0)
         {

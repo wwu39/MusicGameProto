@@ -1,11 +1,20 @@
 [General]
 Exit=6
 Delay=3
-Music=Trust you
+Music=none
 
 [1]
-Type=FallingBlock
-Exit=0
+Type=LongFallingBlock
+Note=45,46,57
+Length=3
+Width=3
+Direction=Right
+Exit=1
 
 [2]
-HideExits=1,2,3,4
+Type=HorizontalMove
+Note=45,46,57
+Length=3
+Width=3
+Direction=Right
+Exit=2

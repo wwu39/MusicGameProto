@@ -221,8 +221,6 @@ GameObject:
   - component: {fileID: 91009761}
   - component: {fileID: 91009765}
   - component: {fileID: 91009764}
-  - component: {fileID: 91009763}
-  - component: {fileID: 91009762}
   m_Layer: 5
   m_Name: BG Glow
   m_TagString: Untagged
@@ -249,43 +247,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 2547, y: 142}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &91009762
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 91009760}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreLayout: 1
-  m_MinWidth: -1
-  m_MinHeight: -1
-  m_PreferredWidth: -1
-  m_PreferredHeight: -1
-  m_FlexibleWidth: -1
-  m_FlexibleHeight: -1
-  m_LayoutPriority: 1
---- !u!114 &91009763
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 91009760}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f12069492762c9048b6c2edda60be228, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UIManagerAsset: {fileID: 11400000, guid: ed935159a86a1be4cbc1c44848b24daf, type: 2}
-  imageObject: {fileID: 91009764}
-  keepAlphaValue: 1
-  useCustomColor: 0
-  colorType: 0
 --- !u!114 &91009764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1391,9 +1352,6 @@ GameObject:
   - component: {fileID: 651759066}
   - component: {fileID: 651759071}
   - component: {fileID: 651759070}
-  - component: {fileID: 651759069}
-  - component: {fileID: 651759068}
-  - component: {fileID: 651759067}
   m_Layer: 5
   m_Name: Shadow
   m_TagString: Untagged
@@ -1420,63 +1378,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 2547, y: 142}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &651759067
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 651759065}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa00bb936d5e14041a79277001ef5f71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  subject: {fileID: 651759070}
-  colorList:
-  - {r: 1, g: 0, b: 0, a: 1}
-  - {r: 1, g: 1, b: 0, a: 1}
-  - {r: 0, g: 1, b: 0, a: 1}
-  - {r: 0, g: 1, b: 1, a: 1}
-  - {r: 0, g: 0, b: 1, a: 1}
-  - {r: 1, g: 0, b: 1, a: 1}
---- !u!114 &651759068
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 651759065}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreLayout: 1
-  m_MinWidth: -1
-  m_MinHeight: -1
-  m_PreferredWidth: -1
-  m_PreferredHeight: -1
-  m_FlexibleWidth: -1
-  m_FlexibleHeight: -1
-  m_LayoutPriority: 1
---- !u!114 &651759069
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 651759065}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f12069492762c9048b6c2edda60be228, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UIManagerAsset: {fileID: 11400000, guid: ed935159a86a1be4cbc1c44848b24daf, type: 2}
-  imageObject: {fileID: 651759070}
-  keepAlphaValue: 1
-  useCustomColor: 1
-  colorType: 4
 --- !u!114 &651759070
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1490,7 +1391,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1755,6 +1656,7 @@ GameObject:
   - component: {fileID: 859556469}
   - component: {fileID: 859556471}
   - component: {fileID: 859556470}
+  - component: {fileID: 859556472}
   m_Layer: 5
   m_Name: bottom
   m_TagString: Untagged
@@ -1822,6 +1724,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 859556468}
   m_CullTransparentMesh: 0
+--- !u!114 &859556472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 859556468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a78c5061c6895f40aa4288c0dba5b33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coloringParts:
+  - {fileID: 651759070}
+  colorTime: 0.5
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -7648,7 +7565,6 @@ GameObject:
   - component: {fileID: 1493579781}
   - component: {fileID: 1493579784}
   - component: {fileID: 1493579783}
-  - component: {fileID: 1493579782}
   m_Layer: 5
   m_Name: Frame Glow
   m_TagString: Untagged
@@ -7675,23 +7591,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 2500, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1493579782
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1493579780}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f12069492762c9048b6c2edda60be228, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UIManagerAsset: {fileID: 11400000, guid: ed935159a86a1be4cbc1c44848b24daf, type: 2}
-  imageObject: {fileID: 1493579783}
-  keepAlphaValue: 1
-  useCustomColor: 1
-  colorType: 0
 --- !u!114 &1493579783
 MonoBehaviour:
   m_ObjectHideFlags: 0

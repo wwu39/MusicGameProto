@@ -212,7 +212,7 @@ public class Timeline : MonoBehaviour
                 if (!Harp.ins.rouxian)
                 {
                     Beat beat = RhythmGameManager.CreateBeat(exit, Utils.GetRandomColor());
-                    float waitTime = Mathf.Max(0, fallingTime - beat.lifetime);
+                    // float waitTime = Mathf.Max(0, fallingTime - beat.lifetime);
                     OnBlockCreated?.Invoke(beat);
                     // if (waitTime > 0) yield return new WaitForSeconds(waitTime);
                 }
@@ -232,6 +232,20 @@ public class Timeline : MonoBehaviour
                 // var block = RhythmGameManager.CreateBlock(exit, blockType, c, debugTime: kd.startTime);
                 var block = RhythmGameManager.CreateBlock(exit, blockType, c);
                 block.fallingTime = fallingTime;
+
+                if (kd.prop.TryGetValue("Note", out str))
+                {
+                    seg = str.Split(',');
+                    block.sound = new string[seg.Length];
+                    for (int i = 0; i < seg.Length; ++i)
+                    {
+                        if (Utils.noteToFile.TryGetValue(int.Parse(seg[i]), out str))
+                        {
+                            block.sound[i] = "MidiNotes/" + str;
+                        }
+                    }
+                }
+
                 float shieldingTime = -999;
                 switch (blockType)
                 {

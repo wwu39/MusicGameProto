@@ -360,9 +360,9 @@ public class Harp : RhythmObject
         return exit >= ins.exit && exit < ins.exit + ins.width;
     }
 
-    protected override void Score(int s, Vector2? pos = null)
+    protected override void Score(int s, Vector2? pos = null, bool flashBottom = true, int sndIdx = -1)
     {
-        base.Score(s, pos);
+        base.Score(s, pos, flashBottom, sndIdx);
         lastScoreTime = Time.time;
         allScores.Add(s);
     }

@@ -60,11 +60,11 @@ public class MidiTranslator : MonoBehaviour
     static int exitCount = 6;
     static int noteMax;
     static int noteMin;
-    static string[] noteNames = new string[12]
+    public static string[] noteNames = new string[12]
     {
         "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"
     };
-    static string[] noteOctave = new string[11]
+    public static string[] noteOctave = new string[11]
     {
         "-1", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"
     };
@@ -489,6 +489,7 @@ public class MidiTranslator : MonoBehaviour
 
     private void Start()
     {
-        TranslateTrustYou();
+        //TranslateTrustYou();
+        print("54".Split(',')[0]);
     }
 }

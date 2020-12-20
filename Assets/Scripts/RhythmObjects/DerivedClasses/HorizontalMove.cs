@@ -47,27 +47,25 @@ public class HorizontalMove : RhythmObject
     protected override void Update_Activated()
     {
         bool getTouched = false;
-        for (int i = 0; i < Input.touchCount; ++i)
+        for (int i = 0; i < width; ++i)
         {
-            if (exits[exit].IsBeingTouchedBy(Input.GetTouch(i)))
+            int curExit = direction == Direction.Right ? exit + i : exit - i;
+            if (exits[curExit].IsBeingTouched())
             {
                 getTouched = true;
                 break;
             }
         }
+
         int curScore = 2; // 0 = bad, 1 = good, 2 = perfect
         float diff = rt.anchoredPosition.y - RhythmGameManager.GetBottom();
 
-        if (!fallBelowBottom && !getTouched)
-        {
-            notTouchedTimeCount += Time.deltaTime;
-        }
-        else
-        {
-            notTouchedTimeCount = 0;
-        }
+        // 累计玩家不触碰的时间
+        if (!fallBelowBottom && !getTouched) notTouchedTimeCount += Time.deltaTime;
+        else notTouchedTimeCount = 0;
 
-        if (!fallBelowBottom && notTouchedTimeCount > 0.5f)
+        // 如果玩家不触碰的时间超过0.1秒就会把剩下的全判为miss
+        if (!fallBelowBottom && notTouchedTimeCount > 0.1f)
         {
             fallBelowBottom = true;
             for (int i = 1; i < checkpoints.Length; ++i)
@@ -113,21 +111,21 @@ public class HorizontalMove : RhythmObject
             {
                 if (!checkpoints[i])
                 {
-                    for (int j = 0; j < Input.touchCount; ++j)
+                    int curExit = direction == Direction.Right ? exit + i : exit - i;
+                    if (exits[curExit].IsBeingTouched())
                     {
-                        int curExit = direction == Direction.Right ? exit + i : exit - i;
-                        if (exits[curExit].IsBeingTouchedBy(Input.GetTouch(j)))
-                        {
-                            curScore = Mathf.Clamp(curScore + 1, 0, 2);
-                            Score(curScore, exits[curExit].center);
-                            checkpoints[i] = true;
-                            block.rectTransform.anchoredPosition = new Vector2(exits[curExit].center.x - rt.anchoredPosition.x, 0);
-                            break;
-                        }
+                        curScore = Mathf.Clamp(curScore + 1, 0, 2);
+                        Score(curScore, exits[curExit].center, false, i);
+                        checkpoints[i] = true;
+                        block.rectTransform.anchoredPosition = new Vector2(exits[curExit].center.x - rt.anchoredPosition.x, 0);
                     }
                 }
             }
         }
+
+        bool finished = true;
+        foreach (bool b in checkpoints) if (!b) { finished = false; break; }
+        if (finished) Destroy(gameObject);
 
         if (diff < -2f * BlockSize.y)
         {
