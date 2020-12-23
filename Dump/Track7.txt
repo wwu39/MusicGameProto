@@ -1,0 +1,526 @@
+[Track7]
+MidiEventsCount=133
+TextEventsCount=1
+
+[MidiEvent0]
+Time=0
+Type=ControlChange
+Channel=6
+Note=0
+Velocity=0
+ControlChangeType=BankSelect
+
+[MidiEvent1]
+Time=0
+Type=ControlChange
+Channel=6
+Note=32
+Velocity=0
+ControlChangeType=32
+
+[MidiEvent2]
+Time=0
+Type=ProgramChange
+Channel=6
+Note=33
+Velocity=0
+
+[MidiEvent3]
+Time=0
+Type=ControlChange
+Channel=6
+Note=7
+Velocity=127
+ControlChangeType=Volume
+
+[MidiEvent4]
+Time=0
+Type=ControlChange
+Channel=6
+Note=7
+Velocity=127
+ControlChangeType=Volume
+
+[MidiEvent5]
+Time=0
+Type=ControlChange
+Channel=6
+Note=0
+Velocity=0
+ControlChangeType=BankSelect
+
+[MidiEvent6]
+Time=3840
+Type=ControlChange
+Channel=6
+Note=7
+Velocity=127
+ControlChangeType=Volume
+
+[MidiEvent7]
+Time=3840
+Type=ControlChange
+Channel=6
+Note=0
+Velocity=0
+ControlChangeType=BankSelect
+
+[Note0]
+Note=F2 (41)
+StartTime=80640
+Length=6720
+InitialVelocity=80
+FinalVelocity=0
+
+[Note1]
+Note=G#2 (44)
+StartTime=87360
+Length=960
+InitialVelocity=80
+FinalVelocity=0
+
+[Note2]
+Note=E2 (40)
+StartTime=88320
+Length=7680
+InitialVelocity=80
+FinalVelocity=0
+
+[Note3]
+Note=D2 (38)
+StartTime=96000
+Length=3840
+InitialVelocity=80
+FinalVelocity=0
+
+[Note4]
+Note=C2 (36)
+StartTime=99840
+Length=3840
+InitialVelocity=80
+FinalVelocity=0
+
+[Note5]
+Note=G1 (31)
+StartTime=103680
+Length=960
+InitialVelocity=80
+FinalVelocity=0
+
+[Note6]
+Note=A#1 (34)
+StartTime=104640
+Length=6720
+InitialVelocity=80
+FinalVelocity=0
+
+[Note7]
+Note=G1 (31)
+StartTime=111360
+Length=7680
+InitialVelocity=80
+FinalVelocity=0
+
+[Note8]
+Note=D2 (38)
+StartTime=119040
+Length=7680
+InitialVelocity=80
+FinalVelocity=0
+
+[Note9]
+Note=G1 (31)
+StartTime=126720
+Length=7680
+InitialVelocity=80
+FinalVelocity=0
+
+[Note10]
+Note=C2 (36)
+StartTime=134400
+Length=3840
+InitialVelocity=80
+FinalVelocity=0
+
+[Note11]
+Note=C2 (36)
+StartTime=138240
+Length=3840
+InitialVelocity=80
+FinalVelocity=0
+
+[Note12]
+Note=C2 (36)
+StartTime=142080
+Length=1920
+InitialVelocity=80
+FinalVelocity=0
+
+[Note13]
+Note=C2 (36)
+StartTime=145920
+Length=1920
+InitialVelocity=80
+FinalVelocity=0
+
+[Note14]
+Note=C2 (36)
+StartTime=147840
+Length=1920
+InitialVelocity=80
+FinalVelocity=0
+
+[Note15]
+Note=F2 (41)
+StartTime=149760
+Length=1920
+InitialVelocity=80
+FinalVelocity=0
+
+[Note16]
+Note=F2 (41)
+StartTime=151680
+Length=1920
+InitialVelocity=80
+FinalVelocity=0
+
+[Note17]
+Note=F2 (41)
+StartTime=155520
+Length=1920
+InitialVelocity=80
+FinalVelocity=0
+
+[Note18]
+Note=E2 (40)
+StartTime=157440
+Length=1920
+InitialVelocity=80
+FinalVelocity=0
+
+[Note19]
+Note=E2 (40)
+StartTime=159360
+Length=1920
+InitialVelocity=80
+FinalVelocity=0
+
+[Note20]
+Note=E2 (40)
+StartTime=163200
+Length=1920
+InitialVelocity=80
+FinalVelocity=0
+
+[Note21]
+Note=D2 (38)
+StartTime=165120
+Length=1920
+InitialVelocity=80
+FinalVelocity=0
+
+[Note22]
+Note=D2 (38)
+StartTime=167040
+Length=1920
+InitialVelocity=80
+FinalVelocity=0
+
+[Note23]
+Note=C2 (36)
+StartTime=168960
+Length=1920
+InitialVelocity=80
+FinalVelocity=0
+
+[Note24]
+Note=C2 (36)
+StartTime=170880
+Length=1920
+InitialVelocity=80
+FinalVelocity=0
+
+[Note25]
+Note=A#1 (34)
+StartTime=172800
+Length=1920
+InitialVelocity=80
+FinalVelocity=0
+
+[Note26]
+Note=A#1 (34)
+StartTime=174720
+Length=1920
+InitialVelocity=80
+FinalVelocity=0
+
+[Note27]
+Note=C2 (36)
+StartTime=176640
+Length=1920
+InitialVelocity=80
+FinalVelocity=0
+
+[Note28]
+Note=C2 (36)
+StartTime=178560
+Length=1920
+InitialVelocity=80
+FinalVelocity=0
+
+[Note29]
+Note=F2 (41)
+StartTime=180480
+Length=1920
+InitialVelocity=80
+FinalVelocity=0
+
+[Note30]
+Note=F2 (41)
+StartTime=182400
+Length=1920
+InitialVelocity=80
+FinalVelocity=0
+
+[MidiEvent71]
+Time=188159
+Type=ControlChange
+Channel=6
+Note=127
+Velocity=0
+ControlChangeType=127
+
+[Note31]
+Note=F2 (41)
+StartTime=186240
+Length=1920
+InitialVelocity=80
+FinalVelocity=0
+
+[Note32]
+Note=E2 (40)
+StartTime=188160
+Length=1920
+InitialVelocity=80
+FinalVelocity=0
+
+[Note33]
+Note=E2 (40)
+StartTime=190080
+Length=1920
+InitialVelocity=80
+FinalVelocity=0
+
+[Note34]
+Note=E2 (40)
+StartTime=193920
+Length=1920
+InitialVelocity=80
+FinalVelocity=0
+
+[Note35]
+Note=D2 (38)
+StartTime=195840
+Length=1920
+InitialVelocity=80
+FinalVelocity=0
+
+[Note36]
+Note=D2 (38)
+StartTime=197760
+Length=1920
+InitialVelocity=80
+FinalVelocity=0
+
+[Note37]
+Note=C2 (36)
+StartTime=199680
+Length=1920
+InitialVelocity=80
+FinalVelocity=0
+
+[Note38]
+Note=C2 (36)
+StartTime=201600
+Length=1920
+InitialVelocity=80
+FinalVelocity=0
+
+[Note39]
+Note=A#1 (34)
+StartTime=203520
+Length=1920
+InitialVelocity=80
+FinalVelocity=0
+
+[Note40]
+Note=A#1 (34)
+StartTime=205440
+Length=1920
+InitialVelocity=80
+FinalVelocity=0
+
+[Note41]
+Note=C2 (36)
+StartTime=207360
+Length=1920
+InitialVelocity=80
+FinalVelocity=0
+
+[Note42]
+Note=C2 (36)
+StartTime=209280
+Length=1920
+InitialVelocity=80
+FinalVelocity=0
+
+[Note43]
+Note=F2 (41)
+StartTime=211200
+Length=960
+InitialVelocity=70
+FinalVelocity=0
+
+[Note44]
+Note=D2 (38)
+StartTime=212160
+Length=960
+InitialVelocity=70
+FinalVelocity=0
+
+[Note45]
+Note=F2 (41)
+StartTime=213120
+Length=960
+InitialVelocity=70
+FinalVelocity=0
+
+[Note46]
+Note=A2 (45)
+StartTime=214080
+Length=960
+InitialVelocity=70
+FinalVelocity=0
+
+[Note47]
+Note=C2 (36)
+StartTime=215040
+Length=1920
+InitialVelocity=70
+FinalVelocity=0
+
+[Note48]
+Note=C2 (36)
+StartTime=216960
+Length=1920
+InitialVelocity=70
+FinalVelocity=0
+
+[Note49]
+Note=F2 (41)
+StartTime=218880
+Length=960
+InitialVelocity=70
+FinalVelocity=0
+
+[Note50]
+Note=C2 (36)
+StartTime=219840
+Length=960
+InitialVelocity=70
+FinalVelocity=0
+
+[Note51]
+Note=F2 (41)
+StartTime=220800
+Length=960
+InitialVelocity=70
+FinalVelocity=0
+
+[Note52]
+Note=A2 (45)
+StartTime=221760
+Length=960
+InitialVelocity=70
+FinalVelocity=0
+
+[Note53]
+Note=A1 (33)
+StartTime=222720
+Length=1920
+InitialVelocity=70
+FinalVelocity=0
+
+[Note54]
+Note=A1 (33)
+StartTime=224640
+Length=1920
+InitialVelocity=70
+FinalVelocity=0
+
+[Note55]
+Note=F2 (41)
+StartTime=226560
+Length=960
+InitialVelocity=70
+FinalVelocity=0
+
+[Note56]
+Note=D2 (38)
+StartTime=227520
+Length=960
+InitialVelocity=70
+FinalVelocity=0
+
+[Note57]
+Note=F2 (41)
+StartTime=228480
+Length=960
+InitialVelocity=70
+FinalVelocity=0
+
+[Note58]
+Note=G2 (43)
+StartTime=229440
+Length=1920
+InitialVelocity=70
+FinalVelocity=0
+
+[Note59]
+Note=F2 (41)
+StartTime=231360
+Length=960
+InitialVelocity=70
+FinalVelocity=0
+
+[Note60]
+Note=A#2 (46)
+StartTime=232320
+Length=1920
+InitialVelocity=70
+FinalVelocity=0
+
+[MidiEvent131]
+Time=264959
+Type=ControlChange
+Channel=6
+Note=127
+Velocity=0
+ControlChangeType=127
+
+[MidiEvent132]
+Time=291839
+Type=ControlChange
+Channel=1
+Note=127
+Velocity=0
+ControlChangeType=127
+
+[TextEvent0]
+Time=0
+Type=TrackName
+Value=?????????
+
+
+
+

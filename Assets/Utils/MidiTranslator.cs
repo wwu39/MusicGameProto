@@ -54,7 +54,7 @@ public class MidiTranslator : MonoBehaviour
 {
     static int bpm;
     static float tickPerSecond;
-    static List<Note> notes;
+    static List<Note>[] tracks;
     static MidiFile file = null;
     static string filename = "The Bass Part.mid";
     static int exitCount = 6;
@@ -130,17 +130,25 @@ public class MidiTranslator : MonoBehaviour
             noteMax = max;
             noteMin = min;
         }
-        notes = new List<Note>();
         var file = new MidiFile("Midi/" + filename + ".mid");
         string text = "[General]" + System.Environment.NewLine
             + "Format=" + file.Format + System.Environment.NewLine
             + "TracksCount=" + file.TracksCount + System.Environment.NewLine
             + "TicksPerQuarterNote=" + file.TicksPerQuarterNote + System.Environment.NewLine
              + System.Environment.NewLine;
+        tracks = new List<Note>[file.Tracks.Length];
+        for (int i = 0; i < tracks.Length; ++i) tracks[i] = new List<Note>();
+        ParseTracks(file, min, max);
+        File.WriteAllText("Dump/General.txt", text);
+        Debug.Log("MaxNote: " + noteMax + " MinNote: " + noteMin);
+    }
+
+    static void ParseTracks(MidiFile file, int min, int max)
+    {
         for (int i = 0; i < file.Tracks.Length; ++i)
         {
             var t = file.Tracks[i];
-            text += "[Track" + t.Index + "]" + System.Environment.NewLine;
+            string text = "[Track" + t.Index + "]" + System.Environment.NewLine;
             text += "MidiEventsCount=" + t.MidiEvents.Count + System.Environment.NewLine;
             text += "TextEventsCount=" + t.TextEvents.Count + System.Environment.NewLine;
             text += System.Environment.NewLine;
@@ -185,7 +193,7 @@ public class MidiTranslator : MonoBehaviour
                         text += "Length=" + length + System.Environment.NewLine; n.length = length;
                         text += "InitialVelocity=" + on.Velocity + System.Environment.NewLine; n.InitialVelocity = on.Velocity;
                         text += "FinalVelocity=" + me.Velocity + System.Environment.NewLine + System.Environment.NewLine; n.FinalVelocity = me.Velocity;
-                        notes.Add(n);
+                        tracks[i].Add(n);
                         ++noteNum;
                     }
                     else
@@ -230,9 +238,8 @@ public class MidiTranslator : MonoBehaviour
             text += System.Environment.NewLine;
             text += System.Environment.NewLine;
             text += System.Environment.NewLine;
+            File.WriteAllText("Dump/Track" + i + ".txt", text);
         }
-        File.WriteAllText("nnn.txt", text);
-        Debug.Log("MaxNote: " + noteMax + " MinNote: " + noteMin);
     }
     public static void TranslateBassPart()
     {
@@ -240,7 +247,7 @@ public class MidiTranslator : MonoBehaviour
         exitCount = 6;
         MakeNotes();
         string text = "[General]\nExit=" + exitCount + "\nDelay=2.7\n\n";
-        int end = notes.Count;
+        int end = tracks[1].Count;
         text += StandardConversion(0, 134, exitCount, false);
         text += HarpConversion(141, 195, exitCount, 2, 4);
         text += HarpConversion(210, 264, exitCount, 0, 4);
@@ -254,7 +261,7 @@ public class MidiTranslator : MonoBehaviour
         exitCount = 4;
         MakeNotes(70, 79);
         string text = "[General]\nExit=" + exitCount + "\nDelay=2.7\n\n";
-        int end = notes.Count;
+        int end = tracks[1].Count;
         text += StandardConversion(0, 253, exitCount, false);
         text += StandardConversion(253, 1136, 6, false);
         text += StandardConversion(1136, end, 4, false);
@@ -266,21 +273,33 @@ public class MidiTranslator : MonoBehaviour
         filename = "Trust you";
         exitCount = 6;
         MakeNotes(int.MinValue, int.MaxValue);
-        notes.RemoveAll(n => n.track != 6);
-        string text = "[General]\nExit=" + exitCount + "\nDelay=3\n\n";
-        text += StandardConversion(0, notes.Count, exitCount, true);
-        /*
-        float noteRange = noteMax - noteMin;
-        for (int i = 0; i < notes.Count; ++i)
-        {
-            float startTimeInSec = notes[i].startTime * tickPerSecond;
-            text += "[" + startTimeInSec + "]\n";
-            text += "Exit=" + Mathf.RoundToInt((notes[i].note - noteMin) / noteRange * (exitCount - 1)) + "\n";
-            if (notes[i].length <= 1000) text += "Type=FallingBlock\n";
-            else text += "Type=LongFallingBlock\nLength=" + Mathf.Min(4, notes[i].length / 960) + "\n";
-        }
-        */
+        string text = "[General]\nExit=" + exitCount + "\nDelay=3\nTickPerSecond=" + tickPerSecond + "\n\n";
+        tracks[6].Sort((a, b) => a.startTime.CompareTo(b.startTime));
+        text += ";开头\n";
+        text += TrustYouConvertion1(0, 16);
+        text += "\n;结尾\n";
+        text += TrustYouConvertion1(208);
         File.WriteAllText("Assets/Music/Resources/" + filename + "/00.txt", text);
+        print(tickPerSecond);
+    }
+
+    static string TrustYouConvertion1(int start, int end = -1)
+    {
+        if (end < 0) end = tracks[6].Count - 1;
+        int exit = 0;
+        string text = "";
+        for (int i = start; i <= end; ++i)
+        {
+            Note n = tracks[6][i];
+            if (Utils.noteToFile.ContainsKey(n.note))
+            {
+                text += "[" + n.startTime * tickPerSecond + "]\n";
+                text += "Type=FallingBlock\nExit=" + exit + "\n";
+                ++exit; if (exit >= exitCount) exit = 0;
+                text += "Note=" + n.note + "\n\n";
+            }
+        }
+        return text;
     }
 
     static string StandardConversion(int start, int end, int exitCount, bool gameOver)
@@ -290,7 +309,7 @@ public class MidiTranslator : MonoBehaviour
         for (int i = 0; i < exitCount; ++i) groups[i] = new List<Note>();
         for (int i = start; i < end; ++i)
         {
-            Note n = notes[i];
+            Note n = tracks[1][i];
             int exit = Mathf.RoundToInt((n.note - noteMin) / noteRange * (exitCount - 1));
             groups[exit].Add(n);
         }
@@ -434,8 +453,8 @@ public class MidiTranslator : MonoBehaviour
 
     static string HarpConversion(int start, int end, int exitCount, int harpExit, int harpWidth)
     {
-        float harpStartTime = notes[start].startTime * tickPerSecond - 1.5f;
-        float harpTimeLast = (notes[end - 1].startTime  + notes[end - 1].length) * tickPerSecond - harpStartTime;
+        float harpStartTime = tracks[1][start].startTime * tickPerSecond - 1.5f;
+        float harpTimeLast = (tracks[1][end - 1].startTime  + tracks[1][end - 1].length) * tickPerSecond - harpStartTime;
         string text = "[" + harpStartTime + "]\n";
         text += "Type=Harp\n";
         text += "Exit=" + harpExit + "\n";
@@ -448,7 +467,7 @@ public class MidiTranslator : MonoBehaviour
         for (int i = 0; i < exitCount; ++i) groups[i] = new List<Note>();
         for (int i = start; i < end; ++i)
         {
-            Note n = notes[i];
+            Note n = tracks[1][i];
             int exit = Mathf.RoundToInt((n.note - noteMin) / noteRange * (exitCount - 1));
             groups[exit].Add(n);
         }
@@ -489,7 +508,6 @@ public class MidiTranslator : MonoBehaviour
 
     private void Start()
     {
-        //TranslateTrustYou();
-        print("54".Split(',')[0]);
+        TranslateTrustYou();
     }
 }

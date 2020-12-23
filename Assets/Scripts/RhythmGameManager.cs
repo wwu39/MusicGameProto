@@ -25,6 +25,7 @@ public struct GeneralSettings
     public static float bingguiSpeed = 2750;
     public static int specialMode = 0; // 0=正常, 1=把所有方块当作下落方块, 2=不下落任何方块
     public static float musicStartTime;
+    public static float tickPerSecond;
     
     // 难度: 0=困难, 1=中等, 2=简单
     public static int difficulty = 0;
@@ -37,6 +38,7 @@ public struct GeneralSettings
         specialMode = 0;
         difficulty = 0;
         musicStartTime = 0;
+        tickPerSecond = 0;
     }
 }
 

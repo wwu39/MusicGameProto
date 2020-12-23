@@ -140,6 +140,15 @@ public class HorizontalMove : RhythmObject
         }
     }
 
+    protected override void Activate()
+    {
+        if (!exits[exit].current && !activated)
+        {
+            activated = true;
+            for (int i = 0; i < width; ++i) exits[direction == Direction.Right ? exit + i : exit - i].current = this;
+        }
+    }
+
     void ApplyWidth()
     {
         switch (direction)

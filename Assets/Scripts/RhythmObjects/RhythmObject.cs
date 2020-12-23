@@ -138,13 +138,13 @@ public abstract class RhythmObject : MonoBehaviour
         }
         RhythmGameManager.UpdateScore(_score);
         lastScorePos = pos == null ? exits[exit].center : pos.Value;
-        if (!noAnim & s == 2) BlockEnlarge.Create(coloringParts[0].color, lastScorePos.Value, rt.parent);
+        if (coloringParts.Length > 0 && !noAnim && s == 2) BlockEnlarge.Create(coloringParts[0].color, lastScorePos.Value, rt.parent);
         if (s >= 1) // play the note if exits
         {
             if (sndIdx < sound.Length) FMODUnity.RuntimeManager.PlayOneShot("event:/" + sound[sndIdx]);
             if (flashBottom && coloringParts.Length > 0) Bottom.SetColor(coloringParts[0].color * 0.75f);
         }
-        else FMODUnity.RuntimeManager.PlayOneShot("event:/WRONG");
+        // else FMODUnity.RuntimeManager.PlayOneShot("event:/WRONG");
         FlyingText.Create(_text, _color, lastScorePos.Value, rt.parent);
         OnScored?.Invoke(s);
     }

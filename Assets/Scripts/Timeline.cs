@@ -58,6 +58,7 @@ public class Timeline : MonoBehaviour
         if (sections["General"].TryGetValue("Delay", out str)) GeneralSettings.delay = float.Parse(str); else GeneralSettings.delay = 3;
         if (sections["General"].TryGetValue("Difficulty", out str)) GeneralSettings.difficulty = int.Parse(str); else GeneralSettings.difficulty = 0;
         if (sections["General"].TryGetValue("MusicStartPosition", out str)) GeneralSettings.musicStartTime = float.Parse(str); else GeneralSettings.musicStartTime = 0;
+        if (sections["General"].TryGetValue("TickPerSecond", out str)) GeneralSettings.tickPerSecond = float.Parse(str); else GeneralSettings.tickPerSecond = 0;
         foreach (var k in ins.keyData) ins.StartCoroutine(ins.StartFalling(k));
         // ins.StartCoroutine(ins.GameOver(timeEnd + 10));
         if (musicName != "none")
@@ -130,6 +131,7 @@ public class Timeline : MonoBehaviour
 
     IEnumerator StartFalling(KeyData kd)
     {
+        if (kd.startTime > 1000) kd.startTime *= GeneralSettings.tickPerSecond;
         yield return new WaitForSeconds(kd.startTime - GeneralSettings.musicStartTime);
         //print(kd.prop["Type"] + " is falling from Exit " + kd.prop["Exit"] + " in " + kd.prop["FallingTime"]);
         string str; string[] seg;

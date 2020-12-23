@@ -111,8 +111,13 @@ public class Harp : RhythmObject
 
     protected override void Update()
     {
-        UpdateAnimation();
         if (rouxian) UpdateRouxian();
+        UpdateAnimation();
+        float val;
+        if (Timeline.ins.vEventIns.getParameterByName("Quality", out val) == FMOD.RESULT.OK)
+        {
+            print(val);
+        }
     }
     void UpdateAnimation()
     {
@@ -157,16 +162,14 @@ public class Harp : RhythmObject
         }
         if (harpImageOut)
         {
-            quality = Mathf.Clamp(quality + Time.deltaTime, 0, 1);
-            volume = Mathf.Clamp(volume + Time.deltaTime * 2, 0, 1);
-            Timeline.ins.vEventIns.setParameterByName("Quality", 1 - quality);
-            Timeline.ins.vEventIns.setParameterByName("SingerOn", volume);
             float frac = (Time.time - startTime) / animTime;
             if (frac >= 1)
             {
                 harpImageOut = false;
                 frac = 1;
                 harpImage2.enabled = harpImage.enabled = false;
+                Timeline.ins.vEventIns.setParameterByName("Quality", 0);
+                Timeline.ins.vEventIns.setParameterByName("SingerOn", 1);
                 Destroy(gameObject);
             }
             harpImage2.rectTransform.sizeDelta = harpImage.rectTransform.sizeDelta = new Vector2(touchField.width, harpImageEndHeight + frac * (harpImageStartHeight - harpImageEndHeight));
@@ -230,7 +233,7 @@ public class Harp : RhythmObject
             bool qualityIncreasing = true;
             if (allScores.Count > 1) qualityIncreasing = allScores[allScores.Count - 1] == 2;
             bool volumeIncreasing = Time.time >= lastScoreTime && Time.time - lastScoreTime < 2f;
-            quality = Mathf.Clamp(quality + (qualityIncreasing ? 1 : -1) * Time.deltaTime, 0, 1);
+            quality = Mathf.Clamp(quality + (qualityIncreasing ? 1 : -0.1f) * Time.deltaTime, 0, 1);
             volume = Mathf.Clamp(volume + (volumeIncreasing ? 1 : -1) * Time.deltaTime * 2, 0, 1);
             Timeline.ins.vEventIns.setParameterByName("Quality", 1 - quality);
             Timeline.ins.vEventIns.setParameterByName("SingerOn", volume);
@@ -360,7 +363,7 @@ public class Harp : RhythmObject
         return exit >= ins.exit && exit < ins.exit + ins.width;
     }
 
-    protected override void Score(int s, Vector2? pos = null, bool flashBottom = true, int sndIdx = -1)
+    protected override void Score(int s, Vector2? pos = null, bool flashBottom = true, int sndIdx = 0)
     {
         base.Score(s, pos, flashBottom, sndIdx);
         lastScoreTime = Time.time;

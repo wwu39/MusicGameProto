@@ -1,12 +1,12 @@
-[46]
-SpecialMode=2
+;[46]
+;SpecialMode=2
 
-[51]
-SpecialMode=0
+[52]
+;SpecialMode=0
 Type=Harp
 Exit=2
 Width=4
-TimeLast=26.5
+TimeLast=25.5
 Rouxian=yes
 Roufa=deep
 Rousu=slow
@@ -34,7 +34,7 @@ TimeLast=3
 [77.5]
 SpecialMode=0
 HideExits=false
-[87.5]
+[86.5]
 SpecialMode=2
 [89.5]
 Type=None
