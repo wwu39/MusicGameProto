@@ -88,7 +88,7 @@ public class LongFallingBlock : RhythmObject
         // 移除
         if (diff <= (-length + 0.5f) * BlockSize.y)
         {
-            Destroy(gameObject);
+            DestroyRhythmObject(this);
         }
     }
 

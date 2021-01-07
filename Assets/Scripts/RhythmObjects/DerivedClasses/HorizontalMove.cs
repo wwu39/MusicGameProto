@@ -125,7 +125,7 @@ public class HorizontalMove : RhythmObject
 
         bool finished = true;
         foreach (bool b in checkpoints) if (!b) { finished = false; break; }
-        if (finished) Destroy(gameObject);
+        if (finished) Deactivate();
 
         if (diff < -2f * BlockSize.y)
         {
@@ -136,7 +136,7 @@ public class HorizontalMove : RhythmObject
                     Score(0, exits[direction == Direction.Right ? exit + i : exit - i].center);
                 }
             }
-            Destroy(gameObject);
+            DestroyRhythmObject(this);
         }
     }
 

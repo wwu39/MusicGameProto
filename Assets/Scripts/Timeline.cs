@@ -238,13 +238,33 @@ public class Timeline : MonoBehaviour
                 if (kd.prop.TryGetValue("Note", out str))
                 {
                     seg = str.Split(',');
-                    block.sound = new string[seg.Length];
+                    block.sound = new SoundStruct[seg.Length];
                     for (int i = 0; i < seg.Length; ++i)
                     {
                         if (Utils.noteToFile.TryGetValue(int.Parse(seg[i]), out str))
                         {
-                            block.sound[i] = "MidiNotes/" + str;
+                            block.sound[i].id = "MidiNotes/" + str;
                         }
+                    }
+                }
+                if (kd.prop.TryGetValue("Delays", out str))
+                {
+                    seg = str.Split(',');
+                    if (seg.Length > 1 && seg.Length == block.sound.Length - 1)
+                    {
+                        float val = 0;
+                        for (int i = 0; i < seg.Length; ++i)
+                        {
+                            float cur = seg[i][0] == 'm' ? float.Parse(seg[i].Substring(1)) * GeneralSettings.tickPerSecond : float.Parse(seg[i]);
+                            val += cur;
+                            block.sound[i + 1].delay = val;
+                        }
+                    }
+                    else
+                    {
+                        float val = seg[0][0] == 'm' ? float.Parse(seg[0].Substring(1)) * GeneralSettings.tickPerSecond : float.Parse(seg[0]);
+                        if (val > 1000) val *= GeneralSettings.tickPerSecond;
+                        for (int i = 1; i < block.sound.Length; ++i) block.sound[i].delay = val * i;
                     }
                 }
 
@@ -258,8 +278,17 @@ public class Timeline : MonoBehaviour
                         break;
                     case "Beat":
                         Beat beat = (Beat)block;
-                        seg = kd.prop["Position"].Split(',');
-                        beat.rt.anchoredPosition = new Vector2(float.Parse(seg[0]) * DefRes.x, float.Parse(seg[1]) * DefRes.y);
+                        if (kd.prop.TryGetValue("Position", out str))
+                        {
+                            seg = str.Split(',');
+                            beat.rt.anchoredPosition = new Vector2(float.Parse(seg[0]) * DefRes.x, float.Parse(seg[1]) * DefRes.y);
+                        }
+                        else
+                        {
+                            var pos = beat.rt.anchoredPosition;
+                            pos.y = 0;
+                            beat.rt.anchoredPosition = pos;
+                        }
                         if (kd.prop.TryGetValue("Lifetime", out str)) beat.lifetime = int.Parse(str); else beat.lifetime = 2;
                         break;
                     case "LongFallingBlock":

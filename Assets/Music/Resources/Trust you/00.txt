@@ -2,6 +2,7 @@
 Exit=6
 Delay=3
 TickPerSecond=0.0003531073
+Music=none
 
 ;开头
 [1.355932]
@@ -28,6 +29,7 @@ Note=69
 Type=HorizontalMove
 Exit=4
 Note=76,48
+Delays=0.001
 Direction=Right
 Width=2
 

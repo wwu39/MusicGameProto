@@ -13,13 +13,29 @@ public enum RhythmType
     Rouxian,
     Misc,
 }
+
+public struct SoundStruct
+{
+    public string id;
+    public float delay;
+    public bool played { private set; get; }
+    public void Play()
+    {
+        FMODUnity.RuntimeManager.PlayOneShot("event:/" + id);
+        Debug.Log("Event " + id + " Played");
+        played = true;
+    }
+}
+
 public abstract class RhythmObject : MonoBehaviour
 {
     [HideInInspector] public int perfectScore = 20;
     [HideInInspector] public int goodScore = 10;
     [HideInInspector] public int badScore = 0;
     [HideInInspector] public int exit;
-    [HideInInspector] public string[] sound;
+
+    [HideInInspector] public SoundStruct[] sound = new SoundStruct[0];
+
     [SerializeField] Graphic[] coloringParts;
     public RhythmObject parent = null;
     protected ExitData[] exits;
@@ -37,6 +53,22 @@ public abstract class RhythmObject : MonoBehaviour
     protected Vector2? lastScorePos = null;
     protected bool noAnim;
 
+    int curNote = 1;
+
+    bool destroyPending;
+
+    protected class ScoreRecord
+    {
+        public float time;
+        public int score; // 2=Perfect, 1=good, 0=miss
+        public ScoreRecord(float scoringTime, int score)
+        {
+            time = scoringTime;
+            this.score = score;
+        }
+    }
+    protected List<ScoreRecord> allScores = new List<ScoreRecord>();
+
     protected virtual void Start()
     {
         Vector2 size = rt.sizeDelta;
@@ -53,6 +85,8 @@ public abstract class RhythmObject : MonoBehaviour
             CheckActivateCondition();
         else 
             Update_Activated();
+
+        Update_DestroyPending(); // 检查此对象是否准备被删除
     }
     public virtual RhythmObject Initialize(int _exit, Color? c = null, int _perfectScore = 20, int _goodScore = 10, int _badScore = 0)
     {
@@ -65,7 +99,7 @@ public abstract class RhythmObject : MonoBehaviour
         badScore = _badScore;
         transform.position = exits[exit].obj.transform.position;
         end = start = (transform as RectTransform).anchoredPosition;
-        end.y = RhythmGameManager.GetBottom();
+        end.y = RhythmGameManager.GetBottom() - BlockSize.y; // 延迟声效
         return this;
     }
     protected virtual void Activate()
@@ -76,6 +110,14 @@ public abstract class RhythmObject : MonoBehaviour
             exits[exit].current = this;
         }
     }
+    protected void Deactivate()
+    {
+        if (exits[exit].current == this)
+        {
+            foreach (Graphic g in GetComponentsInChildren<Graphic>()) g.enabled = false;
+            exits[exit].current = null;
+        }
+    }
     public abstract RhythmType Type { get; }
 
     protected abstract void CheckActivateCondition();
@@ -83,33 +125,57 @@ public abstract class RhythmObject : MonoBehaviour
     bool bottomReached;
     protected void Update_Falling()
     {
-        /*
-        time += Time.deltaTime;
-        if (time >= 0.0166666667f)
-        {
-            bool a = altime < fallingTime;
-            altime += time;
-            bool b = altime < fallingTime;
-            if (a != b) OnBottomReached?.Invoke();
-            if (!fallBelowBottom) if (altime > fallingTime) altime = fallingTime;
-            float frac = altime / fallingTime;
-            rt.anchoredPosition = Utils.LerpWithoutClamp(start, end, frac);
-            OnFallingFracUpdated?.Invoke(frac);
-            time = 0;
-        }
-        */
-
         float frac = (Time.time - createTime) / fallingTime;
         if (frac >= 1 && !bottomReached)
         {
+            // 到达底部
+            if (sound.Length > 0)
+            {
+                if (allScores.Count > 0 && allScores[0].score == 2)
+                {
+                    // 如果已经按过Perfect，则声音再正确的时间播放
+                    sound[0].Play();
+                }
+            }
             OnBottomReached?.Invoke();
             bottomReached = true;
         }
         if (!fallBelowBottom) if (frac > 1) frac = 1;
         rt.anchoredPosition = Utils.LerpWithoutClamp(start, end, frac);
         OnFallingFracUpdated?.Invoke(frac);
+
+        // 单键对应多音符处理
+        if (bottomReached && allScores.Count > 0 && curNote < sound.Length)
+        {
+            // print(Time.time - createTime - fallingTime);
+            if (!sound[curNote].played && Time.time - createTime - fallingTime >= sound[curNote].delay)
+            {
+                // 时间已到
+                if (allScores[allScores.Count - 1].score > 0)
+                {
+                    // 只要最近一次不是miss就按时播放
+                    sound[curNote].Play();
+                }
+                ++curNote;
+            }
+        }
     }
     protected abstract void Update_Activated();
+    protected void Update_DestroyPending()
+    {
+        if (destroyPending)
+        {
+            if (sound.Length > 0)
+            {
+                if (Time.time - createTime - fallingTime >= sound[sound.Length - 1].delay)
+                    Destroy(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
+    }
     protected virtual void Score(int s, Vector2? pos = null, bool flashBottom = true, int sndIdx = 0)
     {
         int _score;
@@ -139,13 +205,15 @@ public abstract class RhythmObject : MonoBehaviour
         RhythmGameManager.UpdateScore(_score);
         lastScorePos = pos == null ? exits[exit].center : pos.Value;
         if (coloringParts.Length > 0 && !noAnim && s == 2) BlockEnlarge.Create(coloringParts[0].color, lastScorePos.Value, rt.parent);
-        if (s >= 1) // play the note if exits
+        
+        if (s >= 1)
         {
-            if (sndIdx < sound.Length) FMODUnity.RuntimeManager.PlayOneShot("event:/" + sound[sndIdx]);
-            if (flashBottom && coloringParts.Length > 0) Bottom.SetColor(coloringParts[0].color * 0.75f);
+            if (sound.Length > 0 && allScores.Count == 0 && s == 1) sound[0].Play(); // 按到good时声效不会按时播放
+            if (flashBottom && coloringParts.Length > 0) Bottom.SetColor(coloringParts[0].color * 0.75f); // 底边变色
         }
-        // else FMODUnity.RuntimeManager.PlayOneShot("event:/WRONG");
+
         FlyingText.Create(_text, _color, lastScorePos.Value, rt.parent);
+        allScores.Add(new ScoreRecord(Time.time - createTime, s));
         OnScored?.Invoke(s);
     }
 
@@ -159,5 +227,10 @@ public abstract class RhythmObject : MonoBehaviour
     public bool IsBeingInteracted()
     {
         return RhythmGameManager.exits[exit].current == this;
+    }
+
+    public static void DestroyRhythmObject(RhythmObject ro)
+    {
+        ro.destroyPending = true;
     }
 }

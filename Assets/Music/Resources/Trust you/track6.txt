@@ -3,7 +3,8 @@
 Type=LongFallingBlock
 Exit=1
 Length=4
-Note=60,60,60,60
+Note=60,60,60,60,60,60,60,60,60,60,60
+Delays=m480
 
 [24960]
 Type=HorizontalMove
@@ -11,12 +12,14 @@ Exit=2
 Direction=Right
 Width=2
 Note=62,64
+Delays=m960
 
 [27360]
 Type=LongFallingBlock
 Exit=4
 Length=4
-Note=60,60,60,60
+Note=60,60,60,60,60,60,60,60,60,60,60
+Delays=m480
 
 [32640]
 Type=HorizontalMove
@@ -24,18 +27,21 @@ Exit=2
 Direction=Right
 Width=2
 Note=67,64
+Delays=m960
 
 [35520]
 Type=LongFallingBlock
 Exit=5
 Direction=Right
 Length=3
-Note=65,65,65
+Note=65,65,65,65,65,65
+Delays=m480
 
 [38400]
 Type=FallingBlock
 Exit=0
-Note=64
+Note=64,64
+Delays=m480
 
 [39360]
 Type=FallingBlock
@@ -58,12 +64,14 @@ Exit=4
 Direction=Right
 Width=2
 Note=62,62
+Delays=m960
 
 [43680]
 Type=LongFallingBlock
 Length=3
 Exit=5
 Note=60,60,60
+Delays=m1440,m960
 
 ;旋律2
 [48000]

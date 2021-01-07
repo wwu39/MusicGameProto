@@ -41,10 +41,7 @@ public class Harp : RhythmObject
     RectTransform hint;
     float trailDelayCount;
 
-
-    List<int> allScores;
     float quality, volume;
-    float lastScoreTime = float.MaxValue;
 
 
     public enum LyricsState { None, Parsing, FadingOut }
@@ -105,7 +102,6 @@ public class Harp : RhythmObject
             }
             hintAnimStart = new Vector2(hintAnim_x1, -rt.anchoredPosition.y);
             hintAnimEnd = new Vector2(hintAnim_x2, -rt.anchoredPosition.y);
-            allScores = new List<int>();
         }
     }
 
@@ -113,11 +109,6 @@ public class Harp : RhythmObject
     {
         if (rouxian) UpdateRouxian();
         UpdateAnimation();
-        float val;
-        if (Timeline.ins.vEventIns.getParameterByName("Quality", out val) == FMOD.RESULT.OK)
-        {
-            print(val);
-        }
     }
     void UpdateAnimation()
     {
@@ -231,8 +222,9 @@ public class Harp : RhythmObject
         if (Timeline.ins.hasMusic && !ins.harpImageOut)
         {
             bool qualityIncreasing = true;
-            if (allScores.Count > 1) qualityIncreasing = allScores[allScores.Count - 1] == 2;
-            bool volumeIncreasing = Time.time >= lastScoreTime && Time.time - lastScoreTime < 2f;
+            var lastScoreRecord = allScores[allScores.Count - 1];
+            if (allScores.Count > 1) qualityIncreasing = lastScoreRecord.score == 2;
+            bool volumeIncreasing = Time.time >= lastScoreRecord.time && Time.time - lastScoreRecord.time < 2f;
             quality = Mathf.Clamp(quality + (qualityIncreasing ? 1 : -0.1f) * Time.deltaTime, 0, 1);
             volume = Mathf.Clamp(volume + (volumeIncreasing ? 1 : -1) * Time.deltaTime * 2, 0, 1);
             Timeline.ins.vEventIns.setParameterByName("Quality", 1 - quality);
@@ -363,12 +355,6 @@ public class Harp : RhythmObject
         return exit >= ins.exit && exit < ins.exit + ins.width;
     }
 
-    protected override void Score(int s, Vector2? pos = null, bool flashBottom = true, int sndIdx = 0)
-    {
-        base.Score(s, pos, flashBottom, sndIdx);
-        lastScoreTime = Time.time;
-        allScores.Add(s);
-    }
     public static bool CreateLyrics(string lyrics, float lyricsTimeLast)
     {
         if (!ins) return false;

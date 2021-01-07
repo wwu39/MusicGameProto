@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class FallingBlock : RhythmObject
 {
-
+    bool isScored;
     public override RhythmType Type => RhythmType.FallingBlock;
 
     protected override void CheckActivateCondition()
@@ -26,8 +26,8 @@ public class FallingBlock : RhythmObject
 
         if (rt.anchoredPosition.y < RhythmGameManager.GetBottom() - 1.5f * BlockSize.y)
         {
-            Score(0);
-            Destroy(gameObject);
+            if (!isScored) Score(0);
+            DestroyRhythmObject(this);
         }
 
     }
@@ -37,17 +37,20 @@ public class FallingBlock : RhythmObject
         if (diff > 1.5f * BlockSize.y || diff < -1.5f * BlockSize.y)
         {
             Score(0);
-            Destroy(gameObject);
+            isScored = true;
+            Deactivate();
         }
         else if (diff > 0.5f * BlockSize.y || diff < -0.5f * BlockSize.y)
         {
             Score(1);
-            Destroy(gameObject);
+            isScored = true;
+            Deactivate();
         }
         else
         {
             Score(2);
-            Destroy(gameObject);
+            isScored = true;
+            Deactivate();
         }
     }
 }
