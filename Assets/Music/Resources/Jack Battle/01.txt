@@ -8,8 +8,8 @@ SpecialMode=0
 Type=None
 SpecialMode=2
 [13.139]
-Type=PlayAVideo
-ClipNum=2
+Type=None
+PlayVideoClip=2
 Ratio=16:9
 HideBottom=true
 HideExits=true
@@ -24,8 +24,8 @@ Type=None
 SpecialMode=2
 
 [t0=27.499]
-Type=PlayAVideo
-ClipNum=3
+Type=None
+PlayVideoClip=3
 Ratio=16:9
 HideBottom=true
 HideExits=true
@@ -190,8 +190,8 @@ SpecialMode=2
 Type=None
 MusicFadeOut=0.5
 [90.5]
-Type=PlayAVideo
-ClipNum=4
+Type=None
+PlayVideoClip=4
 Ratio=16:9
 HideBottom=true
 HideExits=true
@@ -210,8 +210,8 @@ HideExits=false
 Type=None
 SpecialMode=2
 [134.423]
-Type=PlayAVideo
-ClipNum=5
+Type=None
+PlayVideoClip=5
 Ratio=16:9
 HideBottom=true
 HideExits=true

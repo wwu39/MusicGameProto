@@ -205,9 +205,21 @@ public class Timeline : MonoBehaviour
         if (kd.prop.TryGetValue("VideoVolumeFadeOut", out str)) ins.StartCoroutine(FadeVideoVolume(float.Parse(str)));
         if (kd.prop.TryGetValue("MusicFadeIn", out str)) ins.StartCoroutine(MusicFadeIn(float.Parse(str)));
         if (kd.prop.TryGetValue("MusicFadeOut", out str)) ins.StartCoroutine(MusicFadeOut(float.Parse(str)));
+        if (kd.prop.TryGetValue("PlayVideoClip", out str))
+        {
+            int clipNum = int.Parse(str);
+            int mode = kd.prop["Ratio"] == "16:9" ? 1 : 0;
+            PlayVideo(clipNum, mode);
+        }
+
+        if (blockType == "GameOver")
+        {
+            RhythmGameManager.HideContent();
+            Instantiate(Resources.Load<GameObject>("结算画面"), GameObject.Find("Canvas").transform);
+        }
 
         // Generates block
-        if (blockType != "None" && (GeneralSettings.specialMode != 2 || IgnoresSpecialMode2(blockType)) && !ShieldedByDifficulty(blockType))
+        else if (blockType != "None" && (GeneralSettings.specialMode != 2 || IgnoresSpecialMode2(blockType)) && !ShieldedByDifficulty(blockType))
         {
             if (Harp.Contains(kd))
             {
@@ -320,11 +332,6 @@ public class Timeline : MonoBehaviour
                             if (kd.prop.TryGetValue("LimitTime", out str)) h.limitTime = float.Parse(str); else h.limitTime = 0.5f;
                             if (kd.prop.TryGetValue("Cooldown", out str)) h.cooldown = float.Parse(str); else h.cooldown = 0.6f;
                         }
-                        break;
-                    case "PlayAVideo":
-                        PlayAVideo pav = (PlayAVideo)block;
-                        pav.clipNum = int.Parse(kd.prop["ClipNum"]);
-                        pav.mode = kd.prop["Ratio"] == "16:9" ? 1 : 0;
                         break;
                     case "VocalText":
                         VocalText vt = (VocalText)block;

@@ -4,7 +4,4 @@ Delay=3
 TickPerSecond=0.0003531073
 Music=none
 [1]
-Type=FallingBlock
-Exit=3
-Note=64,65
-Delays=0
+Type=GameOver
