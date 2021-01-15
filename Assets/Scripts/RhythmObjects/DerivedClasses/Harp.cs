@@ -61,12 +61,12 @@ public class Harp : RhythmObject
         if (ins) Destroy(gameObject); else ins = this;
         base.Start();
         var pos = rt.anchoredPosition;
-        pos.y = RhythmGameManager.GetBottom();
+        pos.y = GetBottom();
         rt.anchoredPosition = pos;
 
         float x = rt.anchoredPosition.x - BlockSize.x / 2f;
         float y = rt.anchoredPosition.y + BlockSize.y / 2f;
-        float w = exits[exit + width - 1].x2 - exits[exit].x1;
+        float w = exits[exit + width - 1].y_bot - exits[exit].y_top;
         float h = harpImageEndHeight;
         touchField = new Rect(x, y, w, h);
         center_x = x + w / 2;

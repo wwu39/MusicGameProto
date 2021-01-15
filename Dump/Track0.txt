@@ -1,5 +1,5 @@
 [Track0]
-MidiEventsCount=3
+MidiEventsCount=9
 TextEventsCount=1
 
 [MidiEvent0]
@@ -15,20 +15,61 @@ Time=0
 Type=MetaEvent
 MetaEventType=Tempo
 Tempo=81
-BeatsMinute=177
+BeatsMinute=144
 
 [MidiEvent2]
-Time=0
+Time=84838
 Type=MetaEvent
-MetaEventType=KeySignature
-Channel=89
-Note=0
-Velocity=0
+MetaEventType=Tempo
+Tempo=81
+BeatsMinute=146
+
+[MidiEvent3]
+Time=216989
+Type=MetaEvent
+MetaEventType=Tempo
+Tempo=81
+BeatsMinute=140
+
+[MidiEvent4]
+Time=218429
+Type=MetaEvent
+MetaEventType=Tempo
+Tempo=81
+BeatsMinute=130
+
+[MidiEvent5]
+Time=223709
+Type=MetaEvent
+MetaEventType=Tempo
+Tempo=81
+BeatsMinute=131
+
+[MidiEvent6]
+Time=225149
+Type=MetaEvent
+MetaEventType=Tempo
+Tempo=81
+BeatsMinute=124
+
+[MidiEvent7]
+Time=226589
+Type=MetaEvent
+MetaEventType=Tempo
+Tempo=81
+BeatsMinute=105
+
+[MidiEvent8]
+Time=228029
+Type=MetaEvent
+MetaEventType=Tempo
+Tempo=81
+BeatsMinute=85
 
 [TextEvent0]
 Time=0
 Type=TrackName
-Value=df56h4h1b65fdsghb456dfc4h
+Value=Cheng's Secret Midi
 
 
 

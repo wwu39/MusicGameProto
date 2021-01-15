@@ -5,23 +5,13 @@ using UnityEngine.UI;
 
 public class Bottom : MonoBehaviour
 {
-    static Bottom ins;
     [SerializeField] Graphic[] coloringParts;
     [SerializeField] float colorTime = 0.5f;
     Color color;
     float time;
     bool animating;
-    private void Awake()
-    {
-        ins = this;
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
+    // 底边触碰变色
     void Update()
     {
         if (animating)
@@ -36,10 +26,12 @@ public class Bottom : MonoBehaviour
             else foreach (Graphic g in coloringParts) g.color = color;
         }
     }
-    public static void SetColor(Color c)
+    public static void SetColor(PanelType panel, Color c)
     {
-        ins.color = c;
-        ins.animating = true;
-        ins.time = 0;
+        // i=0 is left, i=1 is right
+        var bottom = panel == PanelType.Left ? Panel.Left.bottom : Panel.Right.bottom;
+        bottom.color = c;
+        bottom.animating = true;
+        bottom.time = 0;
     }
 }

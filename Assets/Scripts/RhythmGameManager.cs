@@ -13,7 +13,7 @@ public class DefRes // 开发用分辨率
 }
 public class BlockSize
 {
-    public static int x = 180;
+    public static int x = 45;
     public static int y = 90;
 }
 
@@ -25,7 +25,6 @@ public struct GeneralSettings
     public static float bingguiSpeed = 2750;
     public static int specialMode = 0; // 0=正常, 1=把所有方块当作下落方块, 2=不下落任何方块
     public static float musicStartTime;
-    public static float tickPerSecond;
     
     // 难度: 0=困难, 1=中等, 2=简单
     public static int difficulty = 0;
@@ -38,7 +37,6 @@ public struct GeneralSettings
         specialMode = 0;
         difficulty = 0;
         musicStartTime = 0;
-        tickPerSecond = 0;
     }
 }
 
@@ -58,8 +56,9 @@ public struct Scoring
 public class ExitData
 {
     public int id;
-    public GameObject obj, idctor;
-    public float x1, x2;
+    public PanelType panel;
+    public GameObject obj;
+    public float y_top, y_bot;
     public RhythmObject current, last;
     public Vector2 center;
     bool needReleasing;
@@ -68,11 +67,18 @@ public class ExitData
     bool IsBeingTouchedBy(Vector3 screenPos)
     {
         var pos = Utils.ScreenToCanvasPos(screenPos);
-        return RhythmGameManager.bottomRect.Contains(pos) && pos.x > x1 && pos.x < x2;
+        bool leftJudging = panel == PanelType.Left && RhythmGameManager.leftBottomRect.Contains(pos);
+        bool rightJudging = panel == PanelType.Right && RhythmGameManager.rightBottomRect.Contains(pos);
+        return (leftJudging || rightJudging) && pos.y < y_top && pos.y > y_bot;
     }
     public bool IsBeingTouched()
     {
         return isBeingTouchedFinal;
+    }
+    public void SetX(float x)
+    {
+        RectTransform rt = obj.GetComponent<RectTransform>();
+        rt.anchoredPosition = new Vector2(x, rt.anchoredPosition.y);
     }
     public static void CheckInput()
     {
@@ -104,11 +110,6 @@ public class ExitData
             exits[i].isBeingTouchedFinal = exits[i].isBeingTouchedPending;
             exits[i].last = exits[i].current;
         }
-        /*
-        string str = "Exits: ";
-        foreach (ExitData ed in exits) str += ed.isBeingTouchedFinal ? "1" : "0";
-        Debug.Log(str);
-        */
     }
 }
 
@@ -119,9 +120,7 @@ public class RhythmGameManager : MonoBehaviour
     [SerializeField] GameObject selectSong;
     public static ExitData[] exits;
     public static ExitData binggui;
-    [SerializeField] GameObject bottom;
     [SerializeField] Text UIScore;
-    [SerializeField] bool showIndicators;
     [SerializeField] Button reload;
     public Button pauseButton;
     [SerializeField] Sprite[] pauseButtonSprites;
@@ -131,7 +130,7 @@ public class RhythmGameManager : MonoBehaviour
     public Transform imageNode;
 
     int score;
-    public static Rect bottomRect;
+    public static Rect leftBottomRect, rightBottomRect;
     Vector2 buttonStart = new Vector2(-720, 388);
     Vector2 buttonSpaces = new Vector2(360, -90);
     List<ExitData[]> oldExits = new List<ExitData[]>();
@@ -139,6 +138,13 @@ public class RhythmGameManager : MonoBehaviour
     public static RhythmGameManager ins;
 
     public event Void_Float OnBinguiXFracUpdate;
+
+    public Panel leftPanel;
+    public Panel rightPanel;
+
+    [Header("Resources")]
+    public Sprite[] UpNotes;
+    public Sprite[] DownNotes;
 
     private void Awake()
     {
@@ -155,15 +161,25 @@ public class RhythmGameManager : MonoBehaviour
             }
             SceneManager.LoadScene(0);
         });
+        Panel.Left = leftPanel;
+        Panel.Left.panelType = PanelType.Left;
+        Panel.Right = rightPanel;
+        Panel.Right.panelType = PanelType.Right;
+        Panel.state = 0;
     }
     void Start()
     {
         score = 0;
         UIScore.text = "Score: 0";
 
-        RectTransform brt = bottom.GetComponent<RectTransform>();
-        brt.sizeDelta = new Vector2(DefRes.x, BlockSize.y);
-        bottomRect = new Rect(brt.anchoredPosition - brt.sizeDelta / 2 - new Vector2(0, BlockSize.y / 2f), brt.sizeDelta + new Vector2(0, BlockSize.y));
+        // 左边底部判定区
+        RectTransform brt = Panel.Left.bottom.GetComponent<RectTransform>();
+        brt.sizeDelta = new Vector2(BlockSize.x, PanelSize.y);
+        leftBottomRect = new Rect(brt.anchoredPosition - brt.sizeDelta / 2 - new Vector2(BlockSize.x / 2f, 0), brt.sizeDelta + new Vector2(BlockSize.x, 0));
+        // 右边底部判定区
+        brt = Panel.Right.bottom.GetComponent<RectTransform>();
+        brt.sizeDelta = new Vector2(BlockSize.x, PanelSize.y);
+        rightBottomRect = new Rect(brt.anchoredPosition - brt.sizeDelta / 2 - new Vector2(BlockSize.x / 2f, 0), brt.sizeDelta + new Vector2(BlockSize.x, 0));
 
         pauseButton.onClick.AddListener(OnPauseButtonPressed);
         pauseButton.gameObject.SetActive(false);
@@ -202,12 +218,33 @@ public class RhythmGameManager : MonoBehaviour
     {
         timeShown.text = ((int)((Time.time - Timeline.ins.startTime) * 1000)).ToString();
         if (Input.GetKeyDown(KeyCode.Escape)) OnPauseButtonPressed();
+
+        /*
+        if (Input.GetKeyDown(KeyCode.A)) Panel.ShowLeft();
+        if (Input.GetKeyDown(KeyCode.S)) Panel.ShowRight();
+        if (Input.GetKeyDown(KeyCode.D)) Panel.HideRight();
+        if (Input.GetKeyDown(KeyCode.F)) Panel.HideBoth();
+        if (Input.GetKeyDown(KeyCode.G)) Panel.HideLeft();
+        
+        if (Input.touchCount > 0)
+        {
+            var pos = Utils.ScreenToCanvasPos(Input.GetTouch(0).position);
+            print(pos + (rightBottomRect.Contains(pos) ? " touching Right" : ""));
+        }
+*/
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            foreach (ExitData ed in exits)
+            {
+                print(ed.panel + "," + ed.id + ": " + ed.center);
+            }
+        }
+
         ExitData.CheckInput();
     }
 
     private void FixedUpdate()
     {
-        BingguiUpdate();
         oldExits.RemoveAll(RemoveOldExits);
     }
 
@@ -237,7 +274,6 @@ public class RhythmGameManager : MonoBehaviour
             {
                 // Instantiate(Resources.Load<GameObject>("explosion"), ins.parentNode).transform.position = ed.obj.transform.position;
                 Destroy(ed.obj);
-                if (ed.idctor) Destroy(ed.idctor);
             }
         }
         return shouldBeRemoved;
@@ -248,9 +284,16 @@ public class RhythmGameManager : MonoBehaviour
         score = startScore;
         UIScore.text = "Score: " + score;
 
-        RectTransform brt = bottom.GetComponent<RectTransform>();
-        brt.sizeDelta = new Vector2(DefRes.x, BlockSize.y);
-        bottomRect = new Rect(brt.anchoredPosition - brt.sizeDelta / 2, brt.sizeDelta);
+        // 左边底部判定区
+        RectTransform brt = Panel.Left.bottom.GetComponent<RectTransform>();
+        brt.sizeDelta = new Vector2(BlockSize.x, PanelSize.y);
+        leftBottomRect = new Rect(brt.anchoredPosition - brt.sizeDelta / 2 - new Vector2(BlockSize.x / 2f, 0), brt.sizeDelta + new Vector2(BlockSize.x, 0));
+        // 右边底部判定区
+        brt = Panel.Right.bottom.GetComponent<RectTransform>();
+        brt.sizeDelta = new Vector2(BlockSize.x, PanelSize.y);
+        rightBottomRect = new Rect(brt.anchoredPosition - brt.sizeDelta / 2 - new Vector2(BlockSize.x / 2f, 0), brt.sizeDelta + new Vector2(BlockSize.x, 0));
+
+        Panel.state = 0;
 
         Timeline.Stop();
         Timeline.StartMusicScript(newSongName);
@@ -263,31 +306,34 @@ public class RhythmGameManager : MonoBehaviour
         Timeline.Stop();
     }
 
-    public static float GetBottom()
+    public static float GetBottom(PanelType panel)
     {
-        return (ins.bottom.transform as RectTransform).anchoredPosition.y;
+        // 判定区的x位置
+        // 0=left,1=right
+        return panel == PanelType.Left ? GetLeftBottom() : GetRightBottom();
     }
+
+    public static float GetLeftBottom()
+    {
+        return -Panel.bottomPos;
+    }
+
+    public static float GetRightBottom()
+    {
+        return Panel.bottomPos;
+    }
+
     public static void UpdateScore(int s)
     {
         ins.score += s;
         ins.UIScore.text = "Score: " + ins.score;
     }
 
-    public static bool IsMetaBlock(string blockName)
-    {
-        HashSet<string> metas = new HashSet<string>()
-        {
-            "ChangeGameMode",
-            "GameOver",
-            "PlayAVideo"
-        };
-        return metas.Contains(blockName);
-    }
-    public static RhythmObject CreateBlock(int exit, string blockName, Color? c = null, int perfectScore = 20, int goodScore = 10, int badScore = 0, float debugTime = -1)
+    public static RhythmObject CreateBlock(int exit, PanelType panel, string blockName, Color? c = null, int perfectScore = 20, int goodScore = 10, int badScore = 0, float debugTime = -1)
     {
         string prefabName = blockName;
-        if (GeneralSettings.mode > 0 && !IsMetaBlock(blockName)) prefabName += "_" + GeneralSettings.mode;
-        var ret = Instantiate(Resources.Load<GameObject>(prefabName), ins.parentNode).GetComponent<RhythmObject>().Initialize(exit, c == null ? Color.white : c.GetValueOrDefault(), perfectScore, goodScore, badScore);
+        if (GeneralSettings.mode > 0) prefabName += "_" + GeneralSettings.mode;
+        var ret = Instantiate(Resources.Load<GameObject>(prefabName), ins.parentNode).GetComponent<RhythmObject>().Initialize(exit, panel, c == null ? Color.white : c.GetValueOrDefault(), perfectScore, goodScore, badScore);
         if (debugTime > 0)
         {
             var text = ret.GetComponentInChildren<Text>();
@@ -300,9 +346,9 @@ public class RhythmGameManager : MonoBehaviour
         return ret;
     }
 
-    public static Beat CreateBeat(int exit, Color? c = null, int perfectScore = 20, int goodScore = 10, int badScore = 0)
+    public static Beat CreateBeat(int exit, PanelType panel, Color? c = null, int perfectScore = 20, int goodScore = 10, int badScore = 0)
     {
-        var ret = Instantiate(Resources.Load<GameObject>("Beat"), ins.parentNode).GetComponent<Beat>().Initialize(exit, c == null ? Color.white : c.GetValueOrDefault(), perfectScore, goodScore, badScore);
+        var ret = Instantiate(Resources.Load<GameObject>("Beat"), ins.parentNode).GetComponent<Beat>().Initialize(exit, panel, c == null ? Color.white : c.GetValueOrDefault(), perfectScore, goodScore, badScore);
         ret.fallingTime = 1f;
         ((Beat)ret).lifetime = 1f;
         var pos = (ret.transform as RectTransform).anchoredPosition;
@@ -320,87 +366,26 @@ public class RhythmGameManager : MonoBehaviour
             ins.oldExits.Add(exits);
         }
 
-        if (GeneralSettings.mode == 1) // 并轨
-        {
-            if (binggui != null) Destroy(binggui.obj);
-            binggui = new ExitData();
-            binggui.obj = Instantiate(Resources.Load<GameObject>("exit"), ins.parentNode);
-            binggui.obj.GetComponentInChildren<Graphic>().color = Color.green;
-            RectTransform rt = binggui.obj.transform as RectTransform;
-            rt.sizeDelta = new Vector2(BlockSize.x, BlockSize.y);
-            binggui.center = rt.anchoredPosition = new Vector2(0, GetBottom());
-            binggui.x1 = rt.anchoredPosition.x - rt.sizeDelta.x / 2;
-            binggui.x2 = rt.anchoredPosition.x + rt.sizeDelta.x / 2;
-            //var puff = Instantiate(Resources.Load<GameObject>("explosion"), ins.parentNode);
-            //(puff.transform as RectTransform).anchoredPosition = binggui.center;
-            ins.OnBinguiXFracUpdate?.Invoke((binggui.center.x + DefRes.x / 2f) / DefRes.x);
-        }
-        else if (binggui != null)
-        {
-            Destroy(binggui.obj);
-            binggui = null;
-        }
-
         int num = GeneralSettings.exitCount;
-        exits = new ExitData[num];
-        float step = DefRes.x / num;
-        float top = GeneralSettings.mode == 1 ? DefRes.y / 2 + BlockSize.y / 2 : DefRes.y / 2 - BlockSize.y * 1.5f;
-        for (int i = 0; i < num; ++i)
+        float step = PanelSize.y / num * 0.9f;
+        exits = new ExitData[num * 2];
+        for (int h = 0; h < 2; ++h)
         {
-            exits[i] = new ExitData();
-            exits[i].id = i;
-            exits[i].obj = Instantiate(Resources.Load<GameObject>("exit"), ins.parentNode);
-            RectTransform rt = exits[i].obj.transform as RectTransform;
-            rt.sizeDelta = new Vector2(BlockSize.x, BlockSize.y);
-            rt.anchoredPosition = new Vector2(step * (i + 0.5f) - DefRes.x / 2f, top);
-            exits[i].x1 = rt.anchoredPosition.x - rt.sizeDelta.x / 2;
-            exits[i].x2 = rt.anchoredPosition.x + rt.sizeDelta.x / 2;
-            exits[i].center = new Vector2(rt.anchoredPosition.x, GetBottom());
-
-            if (ins.showIndicators)
+            float top = h == 0 ? Panel.longExitPos : Panel.exitPos;
+            for (int i = 0; i < num; ++i)
             {
-                GameObject indicator = Instantiate(exits[i].obj, ins.parentNode);
-                indicator.GetComponentInChildren<Graphic>().color = Color.black;
-                rt = indicator.transform as RectTransform;
-                Vector2 pos = rt.anchoredPosition;
-                pos.y = GetBottom();
-                rt.anchoredPosition = pos;
-                exits[i].idctor = indicator;
-            }
-
-            // var puff = Instantiate(Resources.Load<GameObject>("explosion"), ins.parentNode);
-            // (puff.transform as RectTransform).anchoredPosition = new Vector2(rt.anchoredPosition.x, top);
-        }
-    }
-
-    void BingguiUpdate()
-    {
-        if (GeneralSettings.mode != 1) return;
-        for (int i = 0; i < Input.touchCount; ++i)
-        {
-            Touch t = Input.GetTouch(i);
-            var pos = Utils.ScreenToCanvasPos(t.position);
-            if (true || bottomRect.Contains(pos))
-            {
-                if (binggui.center.x < pos.x)
-                {
-                    binggui.center.x = Mathf.Min(binggui.center.x + GeneralSettings.bingguiSpeed * Time.fixedDeltaTime, pos.x);
-                    RectTransform rt = binggui.obj.GetComponent<RectTransform>();
-                    rt.anchoredPosition = binggui.center;
-                    binggui.x1 = rt.anchoredPosition.x - rt.sizeDelta.x / 2;
-                    binggui.x2 = rt.anchoredPosition.x + rt.sizeDelta.x / 2;
-                    OnBinguiXFracUpdate?.Invoke((binggui.center.x + DefRes.x / 2f) / DefRes.x);
-                }
-                if (binggui.center.x > pos.x)
-                {
-                    binggui.center.x = Mathf.Max(binggui.center.x - GeneralSettings.bingguiSpeed * Time.fixedDeltaTime, pos.x);
-                    RectTransform rt = binggui.obj.GetComponent<RectTransform>();
-                    rt.anchoredPosition = binggui.center;
-                    binggui.x1 = rt.anchoredPosition.x - rt.sizeDelta.x / 2;
-                    binggui.x2 = rt.anchoredPosition.x + rt.sizeDelta.x / 2;
-                    OnBinguiXFracUpdate?.Invoke((binggui.center.x + DefRes.x / 2f) / DefRes.x);
-                }
-                break;
+                var e = exits[i + h * num] = new ExitData();
+                e.id = i;
+                e.panel = (PanelType)h;
+                e.obj = Instantiate(Resources.Load<GameObject>(h == 0 ? "exit_LeftPanel" : "exit_RightPanel"), ins.parentNode);
+                RectTransform rt = e.obj.transform as RectTransform;
+                e.obj.GetComponentInChildren<Text>().text = h + "," + e.id;
+                e.obj.SetActive(false);
+                rt.sizeDelta = new Vector2(BlockSize.x, BlockSize.y);
+                rt.anchoredPosition = new Vector2(top, step * -(i + 0.5f) + PanelSize.y / 2f * 0.9f + PanelPos.y);
+                e.y_top = rt.anchoredPosition.y + rt.sizeDelta.y / 2;
+                e.y_bot = rt.anchoredPosition.y - rt.sizeDelta.y / 2;
+                e.center = new Vector2((h == 0 ? -1 : 1) * Panel.longExitPos, rt.anchoredPosition.y);
             }
         }
     }
@@ -444,6 +429,7 @@ public class RhythmGameManager : MonoBehaviour
 
     public static void HideBottomBar(bool hide = true)
     {
-        ins.bottom.SetActive(!hide);
+        Panel.Left.bottom.gameObject.SetActive(!hide);
+        Panel.Right.bottom.gameObject.SetActive(!hide);
     }
 }

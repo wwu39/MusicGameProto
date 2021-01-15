@@ -6,23 +6,13 @@ using UnityEngine.UI;
 public class LongFallingBlock : RhythmObject
 {
     public int length = 3;
-    [SerializeField] Image longImage;
-    [Header("UI 1")]
-    [SerializeField] bool enableUI1;
+    [Header("Temp Art")]
     [SerializeField] Image frame;
     [SerializeField] Image bg;
     [SerializeField] Image shadow;
 
     bool[] checkpoints;
     public override RhythmType Type => RhythmType.FallingBlock;
-
-    protected override void CheckActivateCondition()
-    {
-        if (rt.anchoredPosition.y < RhythmGameManager.GetBottom() + 1.5 * BlockSize.y)
-        {
-            Activate();
-        }
-    }
 
     protected override void Start()
     {
@@ -33,33 +23,36 @@ public class LongFallingBlock : RhythmObject
     int curScore;
     protected override void Update_Activated()
     {
-        bool getTouched = exits[exit].IsBeingTouched();
+        bool getTouched = GetExit().IsBeingTouched();
 
-        float diff = rt.anchoredPosition.y - RhythmGameManager.GetBottom();
+        float diff = (rt.anchoredPosition.x - GetBottom()) * (panel == PanelType.Left ? 1 : -1);
 
         // 判定第一次按键
         if (getTouched && !checkpoints[0])
         {
-            if (diff > 1.5f * BlockSize.y)
+            if (diff > 1.5f * BlockSize.x)
             {
+                print("First touched");
                 Score(0);
                 curScore = 0;
                 checkpoints[0] = true;
             }
-            else if (diff > 0.5f * BlockSize.y)
+            else if (diff > 0.5f * BlockSize.x)
             {
+                print("First touched");
                 Score(1);
                 curScore = 1;
                 checkpoints[0] = true;
             }
-            else if (diff > -0.5 * BlockSize.y)
+            else if (diff > -0.5 * BlockSize.x)
             {
+                print("First touched");
                 Score(2);
                 curScore = 2;
                 checkpoints[0] = true;
             }
         }
-        if (!checkpoints[0] && diff <= -0.6 * BlockSize.y)
+        if (!checkpoints[0] && diff <= -0.6 * BlockSize.x)
         {
             Score(0);
             curScore = 0;
@@ -69,7 +62,7 @@ public class LongFallingBlock : RhythmObject
         // 判定第2~N次按键
         for (int i = 1; i < length; ++i)
         {
-            if (!checkpoints[i] && diff > (-i - 0.5f) * BlockSize.y && diff <= (-i + 0.5f) * BlockSize.y)
+            if (!checkpoints[i] && diff > (-i - 0.5f) * BlockSize.x && diff <= (-i + 0.5f) * BlockSize.x)
             {
                 if (getTouched)
                 {
@@ -86,7 +79,7 @@ public class LongFallingBlock : RhythmObject
         }
 
         // 移除
-        if (diff <= (-length + 0.5f) * BlockSize.y)
+        if (diff <= (-length + 0.5f) * BlockSize.x)
         {
             DestroyRhythmObject(this);
         }
@@ -94,21 +87,13 @@ public class LongFallingBlock : RhythmObject
 
     public void ApplyLength()
     {
-        if (!longImage) return;
-        longImage.rectTransform.sizeDelta = new Vector2(BlockSize.x, length * BlockSize.y);
-        longImage.rectTransform.anchoredPosition = new Vector2(0, (length - 1) * BlockSize.y / 2);
-        if (enableUI1)
-        {
-            longImage.enabled = false;
-            frame.rectTransform.sizeDelta = longImage.rectTransform.sizeDelta + new Vector2(25, 25);
-            bg.rectTransform.sizeDelta = longImage.rectTransform.sizeDelta + new Vector2(67, 67);
-            shadow.rectTransform.sizeDelta = longImage.rectTransform.sizeDelta + new Vector2(67, 67);
-        }
-        else
-        {
-            Destroy(frame.gameObject);
-            Destroy(bg.gameObject);
-            Destroy(shadow.gameObject);
-        }
+        var sizeDelta = new Vector2(length * BlockSize.x, BlockSize.y);
+        var anchoredPosition = new Vector2((length - 1f) * BlockSize.x / 2, 0) * (panel == PanelType.Left ? 1 : -1);
+
+        // temp art
+        frame.rectTransform.sizeDelta = sizeDelta + new Vector2(9, 9);
+        bg.rectTransform.sizeDelta = sizeDelta + new Vector2(32, 32);
+        shadow.rectTransform.sizeDelta = sizeDelta + new Vector2(32, 32);
+        frame.rectTransform.anchoredPosition = bg.rectTransform.anchoredPosition = shadow.rectTransform.anchoredPosition = anchoredPosition;
     }
 }

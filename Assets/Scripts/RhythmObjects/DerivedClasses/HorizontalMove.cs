@@ -4,19 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 public enum Direction
 {
-    Left,
-    Right
+    Up,
+    Down
 }
 public class HorizontalMove : RhythmObject
 {
     [Header("Properties")]
     public int width;
-    public Direction direction = Direction.Right;
+    public Direction direction = Direction.Down;
     [Header("Graphics")]
     [SerializeField] Image block;
     [SerializeField] Image line;
-    [Header("UI 1")]
-    [SerializeField] bool enableUI1;
     [SerializeField] Image outterFrame;
     [SerializeField] Image outterBg;
     bool[] checkpoints;
@@ -29,18 +27,11 @@ public class HorizontalMove : RhythmObject
         ApplyWidth();
         checkpoints = new bool[width];
     }
-    public override RhythmObject Initialize(int _exit, Color? c = null, int _perfectScore = 20, int _goodScore = 10, int _badScore = 0)
+    public override RhythmObject Initialize(int _exit, PanelType _panel, Color? c = null, int _perfectScore = 20, int _goodScore = 10, int _badScore = 0)
     {
-        var ret = base.Initialize(_exit, c, _perfectScore, _goodScore, _badScore);
+        var ret = base.Initialize(_exit, _panel, c, _perfectScore, _goodScore, _badScore);
         line.color = c != null ? c.Value / 2 : Color.grey;
         return ret;
-    }
-    protected override void CheckActivateCondition()
-    {
-        if (rt.anchoredPosition.y < RhythmGameManager.GetBottom() + 1.5 * BlockSize.y)
-        {
-            Activate();
-        }
     }
 
     float notTouchedTimeCount;
@@ -49,8 +40,7 @@ public class HorizontalMove : RhythmObject
         bool getTouched = false;
         for (int i = 0; i < width; ++i)
         {
-            int curExit = direction == Direction.Right ? exit + i : exit - i;
-            if (exits[curExit].IsBeingTouched())
+            if (GetExit(direction == Direction.Down ? i : -i).IsBeingTouched())
             {
                 getTouched = true;
                 break;
@@ -58,7 +48,7 @@ public class HorizontalMove : RhythmObject
         }
 
         int curScore = 2; // 0 = bad, 1 = good, 2 = perfect
-        float diff = rt.anchoredPosition.y - RhythmGameManager.GetBottom();
+        float diff = (rt.anchoredPosition.x - GetBottom()) * (panel == PanelType.Left ? 1 : -1);
 
         // 累计玩家不触碰的时间
         if (!fallBelowBottom && !getTouched) notTouchedTimeCount += Time.deltaTime;
@@ -72,7 +62,7 @@ public class HorizontalMove : RhythmObject
             {
                 if (!checkpoints[i])
                 {
-                    Score(0, exits[direction == Direction.Right ? exit + i : exit - i].center);
+                    Score(0, GetExit(direction == Direction.Down ? i : -i).center);
                     checkpoints[i] = true;
                 }
             }
@@ -81,14 +71,14 @@ public class HorizontalMove : RhythmObject
         // 初次接触判定
         if (getTouched && !checkpoints[0])
         {
-            if (diff > 1.5f * BlockSize.y || diff < -1.5f * BlockSize.y)
+            if (diff > 1.5f * BlockSize.x || diff < -1.5f * BlockSize.x)
             {
                 Score(0);
                 curScore = 0;
                 checkpoints[0] = true;
                 fallBelowBottom = false;
             }
-            else if (diff > 0.5f * BlockSize.y || diff < -0.5f * BlockSize.y)
+            else if (diff > 0.5f * BlockSize.x || diff < -0.5f * BlockSize.x)
             {
                 Score(1);
                 curScore = 1;
@@ -111,13 +101,13 @@ public class HorizontalMove : RhythmObject
             {
                 if (!checkpoints[i])
                 {
-                    int curExit = direction == Direction.Right ? exit + i : exit - i;
-                    if (exits[curExit].IsBeingTouched())
+                    ExitData curExit = GetExit(direction == Direction.Down ? i : -i);
+                    if (curExit.IsBeingTouched())
                     {
                         curScore = Mathf.Clamp(curScore + 1, 0, 2);
-                        Score(curScore, exits[curExit].center, false, i);
+                        Score(curScore, curExit.center, false, i);
                         checkpoints[i] = true;
-                        block.rectTransform.anchoredPosition = new Vector2(exits[curExit].center.x - rt.anchoredPosition.x, 0);
+                        block.rectTransform.anchoredPosition = new Vector2(0, curExit.center.y - rt.anchoredPosition.y);
                     }
                 }
             }
@@ -127,13 +117,13 @@ public class HorizontalMove : RhythmObject
         foreach (bool b in checkpoints) if (!b) { finished = false; break; }
         if (finished) Deactivate();
 
-        if (diff < -2f * BlockSize.y)
+        if (diff < -2f * BlockSize.x)
         {
             for (int i = 0; i < checkpoints.Length; ++i)
             {
                 if (!checkpoints[i])
                 {
-                    Score(0, exits[direction == Direction.Right ? exit + i : exit - i].center);
+                    Score(0, GetExit(direction == Direction.Down ? i : -i).center);
                 }
             }
             DestroyRhythmObject(this);
@@ -142,36 +132,33 @@ public class HorizontalMove : RhythmObject
 
     protected override void Activate()
     {
-        if (!exits[exit].current && !activated)
+        if (!GetExit().current && !activated)
         {
             activated = true;
-            for (int i = 0; i < width; ++i) exits[direction == Direction.Right ? exit + i : exit - i].current = this;
+            for (int i = 0; i < width; ++i) GetExit(direction == Direction.Down ? i : -i).current = this;
         }
     }
 
     void ApplyWidth()
     {
+        float height;
         switch (direction)
         {
-            case Direction.Right:
-                line.rectTransform.anchoredPosition = new Vector2((exits[exit + width - 1].x2 - exits[exit].x1) / 2 - BlockSize.x / 2, 0);
-                line.rectTransform.sizeDelta = new Vector2(exits[exit + width - 1].x2 - exits[exit].x1, BlockSize.y);
+            case Direction.Down:
+                height = GetExit().y_top - GetExit(width - 1).y_bot;
+                line.rectTransform.anchoredPosition = new Vector2(0, (BlockSize.y - height) / 2);
+                line.rectTransform.sizeDelta = new Vector2(BlockSize.x, height);
                 break;
-            case Direction.Left:
-                line.rectTransform.anchoredPosition = new Vector2((exits[exit - width + 1].x1 - exits[exit].x2) / 2 + BlockSize.x / 2, 0);
-                line.rectTransform.sizeDelta = new Vector2(exits[exit].x2 - exits[exit - width + 1].x1, BlockSize.y);
+            case Direction.Up:
+                height = GetExit(1 - width).y_top - GetExit().y_bot;
+                line.rectTransform.anchoredPosition = new Vector2(0, (height - BlockSize.y) / 2);
+                line.rectTransform.sizeDelta = new Vector2(BlockSize.x, height);
                 break;
         }
-        if (enableUI1)
-        {
-            line.enabled = false;
-            outterFrame.rectTransform.sizeDelta = line.rectTransform.sizeDelta + new Vector2(25, 25);
-            outterBg.rectTransform.sizeDelta = line.rectTransform.sizeDelta + new Vector2(67, 67);
-        }
-        else
-        {
-            Destroy(outterFrame.gameObject);
-            Destroy(outterBg.gameObject);
-        }
+        line.enabled = false;
+        outterFrame.rectTransform.sizeDelta = line.rectTransform.sizeDelta + new Vector2(9, 9);
+        outterBg.rectTransform.sizeDelta = line.rectTransform.sizeDelta + new Vector2(32, 32);
     }
+
+
 }

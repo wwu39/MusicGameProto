@@ -14,50 +14,28 @@ public struct Note
     public int length;
     public int InitialVelocity;
     public int FinalVelocity;
+    public float tickPerSecond;
 }
 
-public abstract class BlockData
+public struct TempoChange
 {
-    public float startTime;
-    public int exit;
-    public int type;
-    public abstract float TimeLast();
-}
-
-public class BlockData1 : BlockData
-{
-    public float length;
-    public BlockData1(float startTime, int exit, float length)
+    public float tickPerSecond;
+    public int startTime;
+    public TempoChange(float f, int i)
     {
-        this.startTime = startTime;
-        this.exit = exit;
-        this.length = length;
-        type = 0;
+        tickPerSecond = f;
+        startTime = i;
     }
-    public override float TimeLast() => length * 0.6f;
-}
-public class BlockData2 : BlockData
-{
-    public float width;
-    public int dir = -1; // -1 for unassigned, 0 for left, 1 for right
-    public BlockData2(float startTime, int exit)
-    {
-        this.startTime = startTime;
-        this.exit = exit;
-        width = 1;
-        type = 1;
-    }
-    public override float TimeLast() => width * 0.6f;
 }
 
 public class MidiTranslator : MonoBehaviour
 {
     static int bpm;
-    static float tickPerSecond;
     static List<Note>[] tracks;
     static MidiFile file = null;
     static string filename = "The Bass Part.mid";
-    static int exitCount = 6;
+    static int exitCount = 3;
+    static List<TempoChange> tempoChanges;
     static int noteMax;
     static int noteMin;
     public static string[] noteNames = new string[12]
@@ -121,7 +99,7 @@ public class MidiTranslator : MonoBehaviour
         }
         File.WriteAllText("nnn.txt", text);
     }
-    public static void MakeNotes(int min = -1, int max = -1)
+    public static void MakeNotes(int min = int.MinValue, int max = int.MaxValue)
     {
         noteMax = int.MinValue;
         noteMin = int.MaxValue;
@@ -137,6 +115,7 @@ public class MidiTranslator : MonoBehaviour
             + "TicksPerQuarterNote=" + file.TicksPerQuarterNote + System.Environment.NewLine
              + System.Environment.NewLine;
         tracks = new List<Note>[file.Tracks.Length];
+        tempoChanges = new List<TempoChange>();
         for (int i = 0; i < tracks.Length; ++i) tracks[i] = new List<Note>();
         ParseTracks(file, min, max);
         File.WriteAllText("Dump/General.txt", text);
@@ -213,8 +192,9 @@ public class MidiTranslator : MonoBehaviour
                         text += "Tempo=" + me.Arg1 + System.Environment.NewLine;
                         text += "BeatsMinute=" + me.Arg2 + System.Environment.NewLine;
                         bpm = me.Arg2;
-                        tickPerSecond = 60f / (bpm * file.TicksPerQuarterNote);
-                        print("Set Ticks/Sec to " + tickPerSecond);
+                        float tickPerSecond = 60f / (bpm * file.TicksPerQuarterNote);
+                        tempoChanges.Add(new TempoChange(tickPerSecond, me.Time));
+                        print("Sets Ticks/Sec to " + tickPerSecond + " at time " + me.Time);
                     }
                     else
                     {
@@ -241,273 +221,114 @@ public class MidiTranslator : MonoBehaviour
             File.WriteAllText("Dump/Track" + i + ".txt", text);
         }
     }
-    public static void TranslateBassPart()
+
+    public static void PrepareTrack(int t)
     {
-        filename = "The Bass Part";
-        exitCount = 6;
+        tracks[t].Sort((a, b) => a.startTime.CompareTo(b.startTime));
+        for (int h = 0; h < tracks[t].Count; ++h)
+        {
+            Note n = tracks[t][h];
+            for (int i = 0; i < tempoChanges.Count; ++i)
+            {
+                if (n.startTime >= tempoChanges[i].startTime)
+                {
+                    n.tickPerSecond = tempoChanges[i].tickPerSecond;
+                    tracks[t][h] = n;
+                    break;
+                }
+            }
+        }
+    }
+
+    static int curExit = 0;
+    public static void TranslateCheng()
+    {
+        filename = "Cheng";
         MakeNotes();
-        string text = "[General]\nExit=" + exitCount + "\nDelay=2.7\n\n";
-        int end = tracks[1].Count;
-        text += StandardConversion(0, 134, exitCount, false);
-        text += HarpConversion(141, 195, exitCount, 2, 4);
-        text += HarpConversion(210, 264, exitCount, 0, 4);
-        text += StandardConversion(264, end, exitCount, true);
-        File.WriteAllText("Assets/Music/Resources/" + filename + ".b3ks", text);
-    }
-
-    public static void TranslateJackBattle()
-    {
-        filename = "Jack Battle";
-        exitCount = 4;
-        MakeNotes(70, 79);
-        string text = "[General]\nExit=" + exitCount + "\nDelay=2.7\n\n";
-        int end = tracks[1].Count;
-        text += StandardConversion(0, 253, exitCount, false);
-        text += StandardConversion(253, 1136, 6, false);
-        text += StandardConversion(1136, end, 4, false);
-        File.WriteAllText("Assets/Music/Resources/" + filename + ".b3ks", text);
-    }
-
-    public static void TranslateTrustYou()
-    {
-        filename = "Trust you";
-        exitCount = 6;
-        MakeNotes(int.MinValue, int.MaxValue);
-        string text = "[General]\nExit=" + exitCount + "\nDelay=3\nTickPerSecond=" + tickPerSecond + "\n\n";
-        tracks[6].Sort((a, b) => a.startTime.CompareTo(b.startTime));
+        string text = "[General]\nExit=3\nDelay=3\n\n[TempoChanges]\n";
+        tempoChanges.Sort((a, b) => a.startTime.CompareTo(b.startTime));
+        foreach (var tc in tempoChanges)
+            text += tc.startTime + "=" + tc.tickPerSecond + "\n";
+        text += "\n\n";
+        PrepareTrack(7);
         text += ";开头\n";
-        text += TrustYouConvertion1(0, 16);
+        text += InExitOrder(7, 17310, 19230, showLeft: true);
+        text += CombineIntoLongPress(7, 20190, 22590, 6);
+        text += InExitOrder(7, 23070, 27870);
+        text += CombineIntoLongPress(7, 28830, 30750, 4);
         text += "\n;结尾\n";
-        text += TrustYouConvertion1(208);
         File.WriteAllText("Assets/Music/Resources/" + filename + "/00.txt", text);
-        print(tickPerSecond);
     }
 
-    static string TrustYouConvertion1(int start, int end = -1)
+    public static string InExitOrder(int track, float startMidiTime, float endMidiTime, PanelType panel = PanelType.Left, bool showLeft = false)
     {
-        if (end < 0) end = tracks[6].Count - 1;
-        int exit = 0;
         string text = "";
-        for (int i = start; i <= end; ++i)
+        int i = GetIndex(track, startMidiTime);
+        if (showLeft)
         {
-            Note n = tracks[6][i];
-            if (Utils.noteToFile.ContainsKey(n.note))
-            {
-                text += "[" + n.startTime * tickPerSecond + "]\n";
-                text += "Type=FallingBlock\nExit=" + exit + "\n";
-                ++exit; if (exit >= exitCount) exit = 0;
-                text += "Note=" + n.note + "\n\n";
-            }
+            Note n = tracks[track][i];
+            text += "[" + (n.startTime * n.tickPerSecond - 1.5f) + "]\nType=ShowLeftPanel\n\n";
         }
-        return text;
+        for (; ; ++i)
+        {
+            Note n = tracks[track][i];
+            text += "[" + n.startTime + "]\n";
+            text += "TickPerSecond=" + n.tickPerSecond + "\n";
+            text += "Type=FallingBlock\n";
+            text += "Panel=" + panel + "\n";
+            text += "Exit=" + curExit + "\n";
+            ++curExit;
+            if (curExit >= exitCount) curExit = 0;
+            if (!Utils.noteToFile.ContainsKey(n.note)) Debug.Log("Note " + n.startTime + " has no sound!");
+            text += "Note=" + n.note + "\n";
+            if (n.startTime == endMidiTime) break;
+        }
+        return text + "\n";
     }
 
-    static string StandardConversion(int start, int end, int exitCount, bool gameOver)
+    public static string CombineIntoLongPress(int track, float startMidiTime, float endMidiTime, int length, PanelType panel = PanelType.Left)
     {
-        float noteRange = noteMax - noteMin;
-        List<Note>[] groups = new List<Note>[exitCount];
-        for (int i = 0; i < exitCount; ++i) groups[i] = new List<Note>();
-        for (int i = start; i < end; ++i)
-        {
-            Note n = tracks[1][i];
-            int exit = Mathf.RoundToInt((n.note - noteMin) / noteRange * (exitCount - 1));
-            groups[exit].Add(n);
-        }
-        List<BlockData1>[] combine = new List<BlockData1>[exitCount];
-        for (int i = 0; i < exitCount; ++i)
-        {
-            combine[i] = new List<BlockData1>();
-            if (groups[i].Count == 0) continue;
-            BlockData1 current = new BlockData1(groups[i][0].startTime * tickPerSecond, i, groups[i][0].length * tickPerSecond);
-            for (int j = 1; j < groups[i].Count; ++j)
-            {
-                float startTime = groups[i][j].startTime * tickPerSecond;
-                float length = groups[i][j].length * tickPerSecond;
-                if (startTime - (current.startTime + current.length) <= 0.6f)
-                {
-                    current.length += length;
-                }
-                else
-                {
-                    combine[i].Add(current);
-                    current = new BlockData1(startTime, i, length);
-                }
-            }
-            combine[i].Add(current);
-        }
-        List<BlockData1> pass1 = new List<BlockData1>();
-        for (int e = 0; e < exitCount; ++e) foreach (var b in combine[e]) pass1.Add(b);
-
-        // pass 1 sorted by time
-        pass1.Sort((x, y) => x.startTime.CompareTo(y.startTime));
-
-        List<BlockData> pass2 = new List<BlockData>();
-        BlockData2 bd2 = null;
-        BlockData1 obd1 = null;
-        foreach (var b in pass1)
-        {
-            int length = (int)Mathf.Max(b.length / 0.6f, 1f);
-            if (length == 1)
-            {
-                if (bd2 == null)
-                {
-                    bd2 = new BlockData2(b.startTime, b.exit);
-                    obd1 = b;
-                }
-                else
-                {
-                    if (b.startTime - bd2.startTime <= 1.2f * bd2.width)
-                    {
-                        if (bd2.dir == -1)
-                        {
-                            // 决定方向
-                            if (b.exit == bd2.exit + bd2.width)
-                            {
-                                bd2.dir = 1;
-                                bd2.width++;
-                            }
-                            else if (b.exit == bd2.exit - bd2.width)
-                            {
-                                bd2.dir = 0;
-                                bd2.width++;
-                            }
-                            else
-                            {
-                                if (bd2.width == 1) pass2.Add(obd1); else pass2.Add(bd2);
-                                bd2 = new BlockData2(b.startTime, b.exit);
-                                obd1 = b;
-                            }
-                        }
-                        else if (bd2.dir == 0)
-                        {
-                            if (b.exit == bd2.exit - bd2.width)
-                            {
-                                bd2.width++;
-                            }
-                            else
-                            {
-                                if (bd2.width == 1) pass2.Add(obd1); else pass2.Add(bd2);
-                                bd2 = new BlockData2(b.startTime, b.exit);
-                                obd1 = b;
-                            }
-                        }
-                        else if (bd2.dir == -1)
-                        {
-                            if (b.exit == bd2.exit + bd2.width)
-                            {
-                                bd2.width++;
-                            }
-                            else
-                            {
-                                if (bd2.width == 1) pass2.Add(obd1); else pass2.Add(bd2);
-                                bd2 = new BlockData2(b.startTime, b.exit);
-                                obd1 = b;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (bd2.width == 1) pass2.Add(obd1); else pass2.Add(bd2);
-                        bd2 = new BlockData2(b.startTime, b.exit);
-                        obd1 = b;
-                    }
-                }
-            }
-            else pass2.Add(b);
-        }
         string text = "";
-        pass2.Sort((x, y) => x.startTime.CompareTo(y.startTime));
-        foreach (var b in pass2)
+        int st = GetIndex(track, startMidiTime);
+        float tps = tracks[track][st].tickPerSecond;
+        List<int> noteVals = new List<int>() { tracks[track][st].note };
+        List<float> delays = new List<float>();
+        for (int i = st + 1; ; ++i)
         {
-            BlockData1 b1 = b as BlockData1;
-            BlockData2 b2 = b as BlockData2;
-            if (b1 != null)
-            {
-                int length = (int)Mathf.Max(b1.length / 0.6f, 1f);
-                text += "[" + b1.startTime + "]\n";
-                text += "Type=" + (length > 2 ? "LongFallingBlock" : "FallingBlock") + "\n";
-                text += "Exit=" + b1.exit + "\n";
-                if (length > 2) text += "Length=" + Mathf.Min(length, 4) + "\n";
-            }
-            if (b2 != null)
-            {
-                text += "[" + b2.startTime + "]\n";
-                text += "Type=HorizontalMove\n";
-                text += "Exit=" + b2.exit + "\n";
-                text += "Width=" + b2.width + "\n";
-                if (b2.dir == 0) text += "Direction=Left\n";
-                else if (b2.dir == 1) text += "Direction=Right\n";
-                else text += "Direction=Undefined\n";
-            }
+            Note n = tracks[track][i];
+            if (n.tickPerSecond != tps) Debug.LogError("TickPerSecond Mismatch!");
+            noteVals.Add(n.note);
+            if (!Utils.noteToFile.ContainsKey(n.note)) Debug.Log("Note " + n.startTime + " has no sound!");
+            delays.Add(n.startTime - tracks[track][i - 1].startTime);
+            if (n.startTime == endMidiTime) break;
         }
-        if (gameOver)
-        {
-            float gameOverTime = pass2[pass2.Count - 1].startTime + pass2[pass2.Count - 1].TimeLast() + 3;
-            text += "\n";
-            text += "[" + gameOverTime + "]\n";
-            text += "Type=GameOver\n";
-            text += "Exit=0\n";
-        }
+
+        text += "[" + startMidiTime + "]\n";
+        text += "TickPerSecond=" + tps + "\n";
+        text += "Type=LongFallingBlock\n";
+        text += "Panel=" + panel + "\n";
+        text += "Exit=" + curExit + "\n";
+        ++curExit;
+        if (curExit >= exitCount) curExit = 0;
+        text += "Length=" + length + "\n";
+        text += "Note=";
+        for (int i = 0; i < noteVals.Count; ++i) text += noteVals[i] + (i == noteVals.Count - 1 ? "\n" : ",");
+        text += "Delays=";
+        for (int i = 0; i < delays.Count; ++i) text += "m" + delays[i] + (i == delays.Count - 1 ? "\n" : ",");
         return text;
     }
 
-    static string HarpConversion(int start, int end, int exitCount, int harpExit, int harpWidth)
+    static int GetIndex(int track, float midiTime)
     {
-        float harpStartTime = tracks[1][start].startTime * tickPerSecond - 1.5f;
-        float harpTimeLast = (tracks[1][end - 1].startTime  + tracks[1][end - 1].length) * tickPerSecond - harpStartTime;
-        string text = "[" + harpStartTime + "]\n";
-        text += "Type=Harp\n";
-        text += "Exit=" + harpExit + "\n";
-        text += "Width=" + harpWidth + "\n";
-        text += "TimeLast=" + harpTimeLast + "\n";
-        text += "FallingTime=1\n";
-
-        float noteRange = noteMax - noteMin;
-        List<Note>[] groups = new List<Note>[exitCount];
-        for (int i = 0; i < exitCount; ++i) groups[i] = new List<Note>();
-        for (int i = start; i < end; ++i)
+        for (int i = 0; i < tracks[track].Count; ++i)
         {
-            Note n = tracks[1][i];
-            int exit = Mathf.RoundToInt((n.note - noteMin) / noteRange * (exitCount - 1));
-            groups[exit].Add(n);
+            if (tracks[track][i].startTime == midiTime) return i;
         }
-        List<BlockData1>[] combine = new List<BlockData1>[exitCount];
-        for (int i = 0; i < exitCount; ++i)
-        {
-            combine[i] = new List<BlockData1>();
-            if (groups[i].Count == 0) continue;
-            BlockData1 current = new BlockData1(groups[i][0].startTime * tickPerSecond, i, groups[i][0].length * tickPerSecond);
-            for (int j = 1; j < groups[i].Count; ++j)
-            {
-                float startTime = groups[i][j].startTime * tickPerSecond;
-                float length = groups[i][j].length * tickPerSecond;
-                if (startTime - (current.startTime + current.length) <= 0.6f)
-                {
-                    current.length += length;
-                }
-                else
-                {
-                    combine[i].Add(current);
-                    current = new BlockData1(startTime, i, length);
-                }
-            }
-            combine[i].Add(current);
-        }
-        List<BlockData1> pass1 = new List<BlockData1>();
-        for (int e = 0; e < exitCount; ++e) foreach (var b in combine[e]) pass1.Add(b);
-        foreach (var b1 in pass1)
-        {
-            int length = (int)Mathf.Max(b1.length / 0.6f, 1f);
-            text += "[" + b1.startTime + "]\n";
-            text += "Type=" + (length > 1 ? "LongFallingBlock" : "FallingBlock") + "\n";
-            text += "Exit=" + b1.exit + "\n";
-            if (length > 1) text += "Length=" + length + "\n";
-        }
-        return text;
+        return -1;
     }
 
     private void Start()
     {
-        TranslateTrustYou();
+        TranslateCheng();
     }
 }

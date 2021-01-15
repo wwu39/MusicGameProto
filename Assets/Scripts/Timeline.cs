@@ -58,7 +58,6 @@ public class Timeline : MonoBehaviour
         if (sections["General"].TryGetValue("Delay", out str)) GeneralSettings.delay = float.Parse(str); else GeneralSettings.delay = 3;
         if (sections["General"].TryGetValue("Difficulty", out str)) GeneralSettings.difficulty = int.Parse(str); else GeneralSettings.difficulty = 0;
         if (sections["General"].TryGetValue("MusicStartPosition", out str)) GeneralSettings.musicStartTime = float.Parse(str); else GeneralSettings.musicStartTime = 0;
-        if (sections["General"].TryGetValue("TickPerSecond", out str)) GeneralSettings.tickPerSecond = float.Parse(str); else GeneralSettings.tickPerSecond = 0;
         foreach (var k in ins.keyData) ins.StartCoroutine(ins.StartFalling(k));
         // ins.StartCoroutine(ins.GameOver(timeEnd + 10));
         if (musicName != "none")
@@ -131,12 +130,19 @@ public class Timeline : MonoBehaviour
 
     IEnumerator StartFalling(KeyData kd)
     {
-        if (kd.startTime > 1000) kd.startTime *= GeneralSettings.tickPerSecond;
+        string str; string[] seg;
+        float tickPerSecond = 0;
+        if (kd.prop.TryGetValue("TickPerSecond", out str))
+        {
+            tickPerSecond = float.Parse(str);
+            kd.startTime *= tickPerSecond;
+        }
         yield return new WaitForSeconds(kd.startTime - GeneralSettings.musicStartTime);
         //print(kd.prop["Type"] + " is falling from Exit " + kd.prop["Exit"] + " in " + kd.prop["FallingTime"]);
-        string str; string[] seg;
         int exit = 0;
+        PanelType panel = PanelType.Left;
         if (kd.prop.TryGetValue("Exit", out str)) exit = int.Parse(str);
+        if (kd.prop.TryGetValue("Panel", out str)) if (str == "Right") panel = PanelType.Right;
         float fallingTime;
         if (kd.prop.TryGetValue("FallingTime", out str)) fallingTime = float.Parse(str); else fallingTime = 3;
 
@@ -217,6 +223,11 @@ public class Timeline : MonoBehaviour
             RhythmGameManager.HideContent();
             Instantiate(Resources.Load<GameObject>("结算画面"), GameObject.Find("Canvas").transform);
         }
+        else if (blockType == "ShowLeftPanel") Panel.ShowLeft();
+        else if (blockType == "HideLeftPanel") Panel.HideLeft();
+        else if (blockType == "ShowRightPanel") Panel.ShowRight();
+        else if (blockType == "HideRightPanel") Panel.HideRight();
+        else if (blockType == "HideBothPanels") Panel.HideBoth();
 
         // Generates block
         else if (blockType != "None" && (GeneralSettings.specialMode != 2 || IgnoresSpecialMode2(blockType)) && !ShieldedByDifficulty(blockType))
@@ -225,7 +236,7 @@ public class Timeline : MonoBehaviour
             {
                 if (!Harp.ins.rouxian)
                 {
-                    Beat beat = RhythmGameManager.CreateBeat(exit, Utils.GetRandomColor());
+                    Beat beat = RhythmGameManager.CreateBeat(exit, panel, Utils.GetRandomColor());
                     // float waitTime = Mathf.Max(0, fallingTime - beat.lifetime);
                     OnBlockCreated?.Invoke(beat);
                     // if (waitTime > 0) yield return new WaitForSeconds(waitTime);
@@ -243,8 +254,7 @@ public class Timeline : MonoBehaviour
                     seg = str.Split(',');
                     c = new Color32(byte.Parse(seg[0]), byte.Parse(seg[1]), byte.Parse(seg[2]), 255);
                 }
-                // var block = RhythmGameManager.CreateBlock(exit, blockType, c, debugTime: kd.startTime);
-                var block = RhythmGameManager.CreateBlock(exit, blockType, c);
+                var block = RhythmGameManager.CreateBlock(exit, panel, blockType, c);
                 block.fallingTime = fallingTime;
 
                 if (kd.prop.TryGetValue("Note", out str))
@@ -267,15 +277,15 @@ public class Timeline : MonoBehaviour
                         float val = 0;
                         for (int i = 0; i < seg.Length; ++i)
                         {
-                            float cur = seg[i][0] == 'm' ? float.Parse(seg[i].Substring(1)) * GeneralSettings.tickPerSecond : float.Parse(seg[i]);
+                            float cur = seg[i][0] == 'm' ? float.Parse(seg[i].Substring(1)) * tickPerSecond : float.Parse(seg[i]);
                             val += cur;
                             block.sound[i + 1].delay = val;
                         }
                     }
                     else
                     {
-                        float val = seg[0][0] == 'm' ? float.Parse(seg[0].Substring(1)) * GeneralSettings.tickPerSecond : float.Parse(seg[0]);
-                        if (val > 1000) val *= GeneralSettings.tickPerSecond;
+                        float val = seg[0][0] == 'm' ? float.Parse(seg[0].Substring(1)) * tickPerSecond : float.Parse(seg[0]);
+                        if (val > 1000) val *= tickPerSecond;
                         for (int i = 1; i < block.sound.Length; ++i) block.sound[i].delay = val * i;
                     }
                 }
@@ -313,7 +323,7 @@ public class Timeline : MonoBehaviour
                     case "HorizontalMove":
                         HorizontalMove hrm = (HorizontalMove)block;
                         hrm.width = int.Parse(kd.prop["Width"]);
-                        hrm.direction = kd.prop["Direction"] == "Left" ? Direction.Left : Direction.Right;
+                        hrm.direction = kd.prop["Direction"] == "Up" ? Direction.Up : Direction.Down;
                         // 难度屏蔽
                         if (GeneralSettings.difficulty == 1) shieldingTime = 0.6f * hrm.width * 0.5f;
                         else if (GeneralSettings.difficulty == 2) shieldingTime = 0.6f * hrm.width * 1f;

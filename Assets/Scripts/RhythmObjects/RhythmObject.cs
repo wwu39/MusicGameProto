@@ -33,6 +33,7 @@ public abstract class RhythmObject : MonoBehaviour
     [HideInInspector] public int goodScore = 10;
     [HideInInspector] public int badScore = 0;
     [HideInInspector] public int exit;
+    [HideInInspector] public PanelType panel; // 0=left, 1=right
 
     [HideInInspector] public SoundStruct[] sound = new SoundStruct[0];
 
@@ -81,46 +82,66 @@ public abstract class RhythmObject : MonoBehaviour
     protected virtual void Update()
     {
         Update_Falling();
-        if (!activated)
-            CheckActivateCondition();
-        else 
-            Update_Activated();
-
-        Update_DestroyPending(); // 检查此对象是否准备被删除
+        if (destroyPending)
+            Update_DestroyPending(); // 检查此对象是否准备被删除
+        else
+        {
+            if (!activated)
+                CheckActivateCondition();
+            else
+                Update_Activated();
+        }
     }
-    public virtual RhythmObject Initialize(int _exit, Color? c = null, int _perfectScore = 20, int _goodScore = 10, int _badScore = 0)
+    public virtual RhythmObject Initialize(int _exit, PanelType _panel, Color? c = null, int _perfectScore = 20, int _goodScore = 10, int _badScore = 0)
     {
         if (c != null) foreach (Graphic g in coloringParts) g.color = c.Value;
         rt = transform as RectTransform;
         exit = _exit;
+        panel = _panel;
         exits = RhythmGameManager.exits;
         perfectScore = _perfectScore;
         goodScore = _goodScore;
         badScore = _badScore;
-        transform.position = exits[exit].obj.transform.position;
+        transform.position = GetExit().obj.transform.position;
         end = start = (transform as RectTransform).anchoredPosition;
-        end.y = RhythmGameManager.GetBottom() - BlockSize.y; // 延迟声效
+        end.x = GetBottom() + (panel == PanelType.Left ? -BlockSize.x : BlockSize.x); // 延迟声效
         return this;
     }
     protected virtual void Activate()
     {
-        if (!exits[exit].current && !activated)
+        if (!GetExit().current && !activated)
         {
             activated = true;
-            exits[exit].current = this;
+            GetExit().current = this;
         }
     }
     protected void Deactivate()
     {
-        if (exits[exit].current == this)
+        if (GetExit().current == this)
         {
             foreach (Graphic g in GetComponentsInChildren<Graphic>()) g.enabled = false;
-            exits[exit].current = null;
+            GetExit().current = null;
         }
     }
     public abstract RhythmType Type { get; }
 
-    protected abstract void CheckActivateCondition();
+    protected virtual void CheckActivateCondition()
+    {
+        if (panel == PanelType.Left)
+        {
+            if (rt.anchoredPosition.x < GetBottom() + 1.5 * BlockSize.x)
+            {
+                Activate();
+            }
+        }
+        else
+        {
+            if (rt.anchoredPosition.x > GetBottom() - 1.5 * BlockSize.x)
+            {
+                Activate();
+            }
+        }
+    }
 
     bool bottomReached;
     protected void Update_Falling()
@@ -141,6 +162,7 @@ public abstract class RhythmObject : MonoBehaviour
             bottomReached = true;
         }
         if (!fallBelowBottom) if (frac > 1) frac = 1;
+        start.x = GetExit().obj.GetComponent<RectTransform>().anchoredPosition.x;
         rt.anchoredPosition = Utils.LerpWithoutClamp(start, end, frac);
         OnFallingFracUpdated?.Invoke(frac);
 
@@ -163,17 +185,14 @@ public abstract class RhythmObject : MonoBehaviour
     protected abstract void Update_Activated();
     protected void Update_DestroyPending()
     {
-        if (destroyPending)
+        if (sound.Length > 0)
         {
-            if (sound.Length > 0)
-            {
-                if (Time.time - createTime - fallingTime >= sound[sound.Length - 1].delay)
-                    Destroy(gameObject);
-            }
-            else
-            {
+            if (Time.time - createTime - fallingTime >= sound[sound.Length - 1].delay)
                 Destroy(gameObject);
-            }
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
     protected virtual void Score(int s, Vector2? pos = null, bool flashBottom = true, int sndIdx = 0)
@@ -203,13 +222,13 @@ public abstract class RhythmObject : MonoBehaviour
                 break;
         }
         RhythmGameManager.UpdateScore(_score);
-        lastScorePos = pos == null ? exits[exit].center : pos.Value;
+        lastScorePos = pos == null ? GetExit().center : pos.Value;
         if (coloringParts.Length > 0 && !noAnim && s == 2) BlockEnlarge.Create(coloringParts[0].color, lastScorePos.Value, rt.parent);
         
         if (s >= 1)
         {
             if (sound.Length > 0 && allScores.Count == 0 && s == 1) sound[0].Play(); // 按到good时声效不会按时播放
-            if (flashBottom && coloringParts.Length > 0) Bottom.SetColor(coloringParts[0].color * 0.75f); // 底边变色
+            if (flashBottom && coloringParts.Length > 0) Bottom.SetColor(panel, coloringParts[0].color * 0.75f); // 底边变色
         }
 
         FlyingText.Create(_text, _color, lastScorePos.Value, rt.parent);
@@ -217,20 +236,24 @@ public abstract class RhythmObject : MonoBehaviour
         OnScored?.Invoke(s);
     }
 
-    protected bool TouchedByBinggui()
+    public bool TouchedByBinggui()
     {
-        if (RhythmGameManager.binggui == null) return false;
-        var pos = rt.anchoredPosition;
-        return pos.x > RhythmGameManager.binggui.x1 && pos.x < RhythmGameManager.binggui.x2 && Mathf.Abs(pos.y - RhythmGameManager.binggui.center.y) <= BlockSize.y;
-    }
-    
-    public bool IsBeingInteracted()
-    {
-        return RhythmGameManager.exits[exit].current == this;
+        Debug.LogError("Tuogui is Deprecated");
+        return false;
     }
 
     public static void DestroyRhythmObject(RhythmObject ro)
     {
         ro.destroyPending = true;
+    }
+
+    protected float GetBottom()
+    {
+        return RhythmGameManager.GetBottom(panel);
+    }
+
+    protected ExitData GetExit(int offset = 0)
+    {
+        return exits[exit + offset + (int)panel * GeneralSettings.exitCount];
     }
 }

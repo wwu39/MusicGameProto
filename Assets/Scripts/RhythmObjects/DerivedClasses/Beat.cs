@@ -52,11 +52,6 @@ public class Beat : RhythmObject
             }
         }
     }
-    protected override void CheckActivateCondition()
-    {
-
-    }
-
     protected override void Update_Activated()
     {
         

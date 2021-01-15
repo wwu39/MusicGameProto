@@ -109,7 +109,7 @@ public class VocalText : RhythmObject
         if (length == 1)
         {
             beats = new Beat[1];
-            beats[0] = (Beat)Instantiate(Resources.Load<GameObject>("Beat"), rt).GetComponent<Beat>().Initialize(exit, textComp.color, perfectScore, goodScore, badScore);
+            beats[0] = (Beat)Instantiate(Resources.Load<GameObject>("Beat"), rt).GetComponent<Beat>().Initialize(exit, PanelType.Right, textComp.color, perfectScore, goodScore, badScore);
             beats[0].fallingTime = 0.25f * beatLifetime;
             beats[0].lifetime = 0.75f * beatLifetime;
             beats[0].parent = this;
@@ -121,7 +121,7 @@ public class VocalText : RhythmObject
             beats = new Beat[length];
             for (int i = 0; i < length; ++i)
             {
-                beats[i] = (Beat)Instantiate(Resources.Load<GameObject>("Beat"), rt).GetComponent<Beat>().Initialize(exit, textComp.color, perfectScore, goodScore, badScore);
+                beats[i] = (Beat)Instantiate(Resources.Load<GameObject>("Beat"), rt).GetComponent<Beat>().Initialize(exit, PanelType.Right, textComp.color, perfectScore, goodScore, badScore);
                 beats[i].fallingTime = 0.25f * beatLifetime;
                 beats[i].lifetime = 0.75f * beatLifetime;
                 beats[i].parent = this;

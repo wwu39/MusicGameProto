@@ -9,22 +9,17 @@ public class FallingBlock : RhythmObject
     bool isScored;
     public override RhythmType Type => RhythmType.FallingBlock;
 
-    protected override void CheckActivateCondition()
-    {
-        if (rt.anchoredPosition.y < RhythmGameManager.GetBottom() + 1.5 * BlockSize.y)
-        {
-            Activate();
-        }
-    }
-
     protected override void Update_Activated()
     {
-        if (exits[exit].IsBeingTouched())
+        if (GetExit().IsBeingTouched())
         {
             OnClick();
         }
 
-        if (rt.anchoredPosition.y < RhythmGameManager.GetBottom() - 1.5f * BlockSize.y)
+        // 不按直接出界
+        bool leftJudging = panel == PanelType.Left && rt.anchoredPosition.x < GetBottom() - 1.5f * BlockSize.x;
+        bool rightJudging = panel == PanelType.Right && rt.anchoredPosition.x > GetBottom() + 1.5f * BlockSize.x;
+        if (leftJudging || rightJudging)
         {
             if (!isScored) Score(0);
             DestroyRhythmObject(this);
@@ -33,14 +28,14 @@ public class FallingBlock : RhythmObject
     }
     void OnClick()
     {
-        float diff = rt.anchoredPosition.y - RhythmGameManager.GetBottom();
-        if (diff > 1.5f * BlockSize.y || diff < -1.5f * BlockSize.y)
+        float diff = Mathf.Abs(rt.anchoredPosition.x - GetBottom());
+        if (diff > 1.5f * BlockSize.x)
         {
             Score(0);
             isScored = true;
             Deactivate();
         }
-        else if (diff > 0.5f * BlockSize.y || diff < -0.5f * BlockSize.y)
+        else if (diff > 0.5f * BlockSize.x)
         {
             Score(1);
             isScored = true;
