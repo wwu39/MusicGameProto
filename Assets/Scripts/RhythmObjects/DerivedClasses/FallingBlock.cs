@@ -41,18 +41,21 @@ public class FallingBlock : RhythmObject
             Score(0);
             isScored = true;
             Deactivate();
+            DestroyRhythmObject(this);
         }
         else if (diff > 0.5f * BlockSize.x)
         {
             Score(1);
             isScored = true;
             Deactivate();
+            DestroyRhythmObject(this);
         }
         else
         {
             Score(2);
             isScored = true;
             Deactivate();
+            DestroyRhythmObject(this);
         }
     }
 }

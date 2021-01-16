@@ -9,9 +9,7 @@ Type=ShowLeftPanel
 [1.1]
 Type=ShowRightPanel
 [2]
-Type=HorizontalMove
-Direction=Down
-Width=2
+Type=FallingBlock
 Exit=1
 Panel=Left
 Note=65,65,65,65
