@@ -6,9 +6,16 @@ using UnityEngine.UI;
 
 public class FallingBlock : RhythmObject
 {
+    [SerializeField] Image noteImage;
     bool isScored;
     public override RhythmType Type => RhythmType.FallingBlock;
 
+    protected override void Start()
+    {
+        base.Start();
+        Sprite[] s = Random.Range(0, 2) == 1 ? RhythmGameManager.ins.UpNotes : RhythmGameManager.ins.DownNotes;
+        noteImage.sprite = s[Random.Range(0, s.Length)];
+    }
     protected override void Update_Activated()
     {
         if (GetExit().IsBeingTouched())

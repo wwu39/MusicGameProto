@@ -13,7 +13,7 @@ public class DefRes // 开发用分辨率
 }
 public class BlockSize
 {
-    public static int x = 45;
+    public static int x = 90; // 原来是45，改为90增大判定区域，但是图像没有改
     public static int y = 90;
 }
 
@@ -64,9 +64,8 @@ public class ExitData
     bool needReleasing;
     bool isBeingTouchedPending;
     bool isBeingTouchedFinal;
-    bool IsBeingTouchedBy(Vector3 screenPos)
+    bool IsBeingTouchedBy(Vector3 pos)
     {
-        var pos = Utils.ScreenToCanvasPos(screenPos);
         bool leftJudging = panel == PanelType.Left && RhythmGameManager.leftBottomRect.Contains(pos);
         bool rightJudging = panel == PanelType.Right && RhythmGameManager.rightBottomRect.Contains(pos);
         return (leftJudging || rightJudging) && pos.y < y_top && pos.y > y_bot;
@@ -85,15 +84,16 @@ public class ExitData
         if (RhythmGameManager.exits == null) return;
         ExitData[] exits = RhythmGameManager.exits;
         HashSet<ExitData> touched = new HashSet<ExitData>();
+        B3Input.GatherAllInputs();
         for (int i = 0; i < exits.Length; ++i)
         {
             exits[i].isBeingTouchedPending = false;
             if (exits[i].last != exits[i].current) exits[i].needReleasing = true;
             if (!touched.Contains(exits[i]))
             {
-                for (int j = 0; j < Input.touchCount; ++j)
+                for (int j = 0; j < B3Input.count; ++j)
                 {
-                    if (exits[i].IsBeingTouchedBy(Input.GetTouch(j).position))
+                    if (exits[i].IsBeingTouchedBy(B3Input.GetInput(j)))
                     {
                         exits[i].isBeingTouchedPending = true;
                         touched.Add(exits[i]);
@@ -218,27 +218,6 @@ public class RhythmGameManager : MonoBehaviour
     {
         timeShown.text = ((int)((Time.time - Timeline.ins.startTime) * 1000)).ToString();
         if (Input.GetKeyDown(KeyCode.Escape)) OnPauseButtonPressed();
-
-        /*
-        if (Input.GetKeyDown(KeyCode.A)) Panel.ShowLeft();
-        if (Input.GetKeyDown(KeyCode.S)) Panel.ShowRight();
-        if (Input.GetKeyDown(KeyCode.D)) Panel.HideRight();
-        if (Input.GetKeyDown(KeyCode.F)) Panel.HideBoth();
-        if (Input.GetKeyDown(KeyCode.G)) Panel.HideLeft();
-        
-        if (Input.touchCount > 0)
-        {
-            var pos = Utils.ScreenToCanvasPos(Input.GetTouch(0).position);
-            print(pos + (rightBottomRect.Contains(pos) ? " touching Right" : ""));
-        }
-*/
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            foreach (ExitData ed in exits)
-            {
-                print(ed.panel + "," + ed.id + ": " + ed.center);
-            }
-        }
 
         ExitData.CheckInput();
     }
@@ -379,7 +358,6 @@ public class RhythmGameManager : MonoBehaviour
                 e.panel = (PanelType)h;
                 e.obj = Instantiate(Resources.Load<GameObject>(h == 0 ? "exit_LeftPanel" : "exit_RightPanel"), ins.parentNode);
                 RectTransform rt = e.obj.transform as RectTransform;
-                e.obj.GetComponentInChildren<Text>().text = h + "," + e.id;
                 e.obj.SetActive(false);
                 rt.sizeDelta = new Vector2(BlockSize.x, BlockSize.y);
                 rt.anchoredPosition = new Vector2(top, step * -(i + 0.5f) + PanelSize.y / 2f * 0.9f + PanelPos.y);

@@ -147,12 +147,12 @@ public class HorizontalMove : RhythmObject
             case Direction.Down:
                 height = GetExit().y_top - GetExit(width - 1).y_bot;
                 line.rectTransform.anchoredPosition = new Vector2(0, (BlockSize.y - height) / 2);
-                line.rectTransform.sizeDelta = new Vector2(BlockSize.x, height);
+                line.rectTransform.sizeDelta = new Vector2(block.rectTransform.sizeDelta.x, height);
                 break;
             case Direction.Up:
                 height = GetExit(1 - width).y_top - GetExit().y_bot;
                 line.rectTransform.anchoredPosition = new Vector2(0, (height - BlockSize.y) / 2);
-                line.rectTransform.sizeDelta = new Vector2(BlockSize.x, height);
+                line.rectTransform.sizeDelta = new Vector2(block.rectTransform.sizeDelta.x, height);
                 break;
         }
         line.enabled = false;

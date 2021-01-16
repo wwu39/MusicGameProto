@@ -13,6 +13,7 @@ public class SelectLevel : MonoBehaviour
     [SerializeField] Sprite[] tilepages;
     [SerializeField] string[] titles;
     [SerializeField] string[] desc;
+    [SerializeField] string[] songNames;
     [HideInInspector] public string preselectedSongName;
 
     public static SelectLevel ins;
@@ -28,9 +29,10 @@ public class SelectLevel : MonoBehaviour
             btn.statusItem = ChapterButton.StatusItem.NONE;
             btn.backgroundImage = tilepages[i];
             btn.buttonDescription = desc[i];
+            int j = i;
             btn.GetComponent<Button>().onClick.AddListener(delegate
             {
-                preselectedSongName = btn.buttonTitle;
+                preselectedSongName = songNames[j];
                 SceneManager.LoadScene(1);
             });
             ++i;

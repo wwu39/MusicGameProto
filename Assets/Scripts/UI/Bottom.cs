@@ -7,9 +7,17 @@ public class Bottom : MonoBehaviour
 {
     [SerializeField] Graphic[] coloringParts;
     [SerializeField] float colorTime = 0.5f;
+    [SerializeField] GameObject[] keyboardHints;
     Color color;
     float time;
     bool animating;
+
+    private void Awake()
+    {
+#if !UNITY_EDITOR && !UNITY_STANDALONE_OSX && !UNITY_STANDALONE_WIN && !UNITY_STANDALONE_LINUX
+        foreach (GameObject k in keyboardHints) Destroy(k);
+#endif
+    }
 
     // 底边触碰变色
     void Update()

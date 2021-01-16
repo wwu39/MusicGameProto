@@ -225,6 +225,7 @@ public class MidiTranslator : MonoBehaviour
     public static void PrepareTrack(int t)
     {
         tracks[t].Sort((a, b) => a.startTime.CompareTo(b.startTime));
+        tracks[t].RemoveAll(n => !Utils.noteToFile.ContainsKey(n.note));
         for (int h = 0; h < tracks[t].Count; ++h)
         {
             Note n = tracks[t][h];
@@ -238,9 +239,12 @@ public class MidiTranslator : MonoBehaviour
                 }
             }
         }
+        curTrack = t;
     }
 
     static int curExit = 0;
+    static int curTrack;
+    static PanelType curPanel;
     public static void TranslateCheng()
     {
         filename = "Cheng";
@@ -250,32 +254,101 @@ public class MidiTranslator : MonoBehaviour
         foreach (var tc in tempoChanges)
             text += tc.startTime + "=" + tc.tickPerSecond + "\n";
         text += "\n\n";
+
+        // curTrack=7
+        curPanel = PanelType.Left;
         PrepareTrack(7);
-        text += ";开头\n";
-        text += InExitOrder(7, 17310, 19230, showLeft: true);
-        text += CombineIntoLongPress(7, 20190, 22590, 6);
-        text += InExitOrder(7, 23070, 27870);
-        text += CombineIntoLongPress(7, 28830, 30750, 4);
-        text += "\n;结尾\n";
+        text += ";Track 7: Melody 开头\n";
+
+        Note n = tracks[7][GetIndex(17310)];
+        text += "[" + (n.startTime * n.tickPerSecond - 1.5f) + "]\nType=ShowLeftPanel\n\n";
+
+        text += InExitOrder(17310, 19230);
+        text += CombineIntoVerticalMove(20190, 20670, 2);
+        text += CombineIntoLongPress(21150, 22590, 6);
+        text += InExitOrder(23070, 27870);
+        text += CombineIntoVerticalMove(28830, 29309, 3);
+        text += CombineIntoVerticalMove(29789, 30269, 3);
+        text += InExitOrder(30750, 34589);
+        text += CombineIntoLongPress(35549, 37470, 8);
+        text += InExitOrder(37949, 43230);
+        text += CombineIntoLongPress(44190, 45869, 6);
+        text += CombineIntoLongPress(46110, 47070, 6);
+        text += InExitOrder(48030, 52829);
+        text += CombineIntoVerticalMove(53789, 55229, 3);
+        text += InExitOrder(55709, 63390);
+        text += CombineIntoVerticalMove(65310, 65789, 2);
+        text += CombineIntoLongPress(67230, 68669, 6);
+        text += Single(69150);
+        text += CombineIntoLongPress(71069, 72509, 6);
+        text += Single(72990);
+        text += CombineIntoVerticalMove(74910, 76350, 2);
+        text += InExitOrder(76830, 78271);
+
+        text += "\n;告一段落\n\n";
+
+        text += InExitOrder(124829, 126750);
+        text += CombineIntoVerticalMove(127710, 128190, 2);
+        text += InExitOrder(128670, 135389);
+        text += CombineIntoLongPress(136349, 137789, 6);
+        text += InExitOrder(138270, 142109);
+        text += CombineIntoVerticalMove(143069, 143549, 2);
+        text += CombineIntoLongPress(144029, 145469, 6);
+        text += CombineIntoLongPress(145949, 147389, 6);
+        text += InExitOrder(147869, 150749);
+        text += CombineIntoLongPress(151709, 153149, 6);
+        text += CombineIntoLongPress(153629, 154589, 4);
+        text += InExitOrder(155549, 160349);
+        text += CombineIntoLongPress(161309, 162749, 6);
+        text += InExitOrder(163229, 173309);
+        text += CombineIntoLongPress(174749, 176189, 6);
+        text += Single(176669);
+        text += CombineIntoLongPress(178591, 180031, 6);
+        text += Single(180509);
+        text += CombineIntoLongPress(182429, 183869, 6);
+        text += InExitOrder(184349, 194909);
+        text += CombineIntoLongPress(195869, 197309, 6);
+        text += InExitOrder(197790, 207869);
+        text += CombineIntoLongPress(209310, 210749, 6);
+        text += Single(210749);
+        text += CombineIntoLongPress(213153, 214589, 6);
+        text += Single(215071);
+        text += CombineIntoVerticalMove(216990, 217469, 2);
+        text += CombineIntoLongPress(217957, 218905, 4);
+        text += InExitOrder(219398, 228259);
+
+        text += "\n;Track 7: Melody 结尾\n\n\n";
+        n = tracks[7][GetIndex(228259)];
+        text += "[" + (n.startTime * n.tickPerSecond + 6) + "]\nType=GameOver\n\n";
         File.WriteAllText("Assets/Music/Resources/" + filename + "/00.txt", text);
+
+        // curTrack=8
+        text = "";
+        curPanel = PanelType.Right;
+        PrepareTrack(8);
+        text += ";Track 8: Piano 开头\n";
+
+        n = tracks[8][GetIndex(86444)];
+        text += "[" + (n.startTime * n.tickPerSecond - 1.5f) + "]\nType=ShowRightPanel\n\n";
+        text += InExitOrder(86444, 123890, 240);
+
+        n = tracks[8][GetIndex(123890)];
+        text += "[" + (n.startTime * n.tickPerSecond + 4f) + "]\nType=HideRightPanel\n\n";
+        text += ";Track 8: Piano 结尾\n\n";
+        File.WriteAllText("Assets/Music/Resources/" + filename + "/Track 8.txt", text);
     }
 
-    public static string InExitOrder(int track, float startMidiTime, float endMidiTime, PanelType panel = PanelType.Left, bool showLeft = false)
+    public static string InExitOrder(float startMidiTime, float endMidiTime)
     {
         string text = "";
-        int i = GetIndex(track, startMidiTime);
-        if (showLeft)
-        {
-            Note n = tracks[track][i];
-            text += "[" + (n.startTime * n.tickPerSecond - 1.5f) + "]\nType=ShowLeftPanel\n\n";
-        }
+        int i = GetIndex(startMidiTime);
         for (; ; ++i)
         {
-            Note n = tracks[track][i];
+            Note n = tracks[curTrack][i];
             text += "[" + n.startTime + "]\n";
             text += "TickPerSecond=" + n.tickPerSecond + "\n";
             text += "Type=FallingBlock\n";
-            text += "Panel=" + panel + "\n";
+            text += "Panel=" + curPanel + "\n";
             text += "Exit=" + curExit + "\n";
             ++curExit;
             if (curExit >= exitCount) curExit = 0;
@@ -286,27 +359,165 @@ public class MidiTranslator : MonoBehaviour
         return text + "\n";
     }
 
-    public static string CombineIntoLongPress(int track, float startMidiTime, float endMidiTime, int length, PanelType panel = PanelType.Left)
+    public static string InExitOrder(float startMidiTime, float endMidiTime, float combineTime, bool combineIntoVertical = false)
     {
         string text = "";
-        int st = GetIndex(track, startMidiTime);
-        float tps = tracks[track][st].tickPerSecond;
-        List<int> noteVals = new List<int>() { tracks[track][st].note };
+        int st = GetIndex(startMidiTime);
+        List<List<Note>> tmp = new List<List<Note>>();
+
+        for (; ; ++st)
+        {
+            Note n = tracks[curTrack][st];
+            tmp.Add(new List<Note>() { n });
+            if (n.startTime >= endMidiTime) break;
+        }
+        for (int a = 0; a < tmp.Count; ++a)
+        {
+            if (tmp[a].Count > 0)
+            {
+                for (int b = a + 1; b < tmp.Count; ++b)
+                {
+                    if (tmp[b].Count > 0 && tmp[b][0].startTime - tmp[a][0].startTime <= combineTime && tmp[b][0].tickPerSecond == tmp[a][0].tickPerSecond)
+                    {
+                        tmp[a].Add(tmp[b][0]);
+                        tmp[b].Clear();
+                    }
+                    else break;
+                }
+            }
+        }
+        foreach(var v in tmp)
+        {
+            if (v.Count == 1)
+            {
+                Note n = v[0];
+                text += "[" + n.startTime + "]\n";
+                text += "TickPerSecond=" + n.tickPerSecond + "\n";
+                text += "Type=FallingBlock\n";
+                text += "Panel=" + curPanel + "\n";
+                text += "Exit=" + curExit + "\n";
+                ++curExit;
+                if (curExit >= exitCount) curExit = 0;
+                if (!Utils.noteToFile.ContainsKey(n.note)) Debug.Log("Note " + n.startTime + " has no sound!");
+                text += "Note=" + n.note + "\n";
+            }
+            else if (v.Count > 1)
+            {
+                v.Sort((a, b) => a.startTime.CompareTo(b.startTime));
+                Note n = v[0];
+                List<float> delays = new List<float>();
+                for (int i = 1; i < v.Count; ++i)
+                {
+                    delays.Add(v[i].startTime - v[i - 1].startTime);
+                }
+                if (combineIntoVertical)
+                {
+                    int width = Mathf.Min(3, v.Count);
+                    text += "[" + n.startTime + "]\n";
+                    text += "TickPerSecond=" + n.tickPerSecond + "\n";
+                    text += "Type=HorizontalMove\n";
+                    text += "Panel=" + curPanel + "\n";
+                    text += "Exit=" + (width == 3 ? 0 : curExit) + "\n";
+                    text += "Direction=";
+                    if (width == 2) text += curExit < 2 ? "Down\n" : "Up\n";
+                    if (width == 3) text += "Down\n";
+                    else
+                    {
+                        ++curExit;
+                        if (curExit >= exitCount) curExit = 0;
+                    }
+                    text += "Width=" + width + "\n";
+                    text += "Note=";
+                    for (int i = 0; i < v.Count; ++i) text += v[i].note + (i == v.Count - 1 ? "\n" : ",");
+                    text += "Delays=";
+                    for (int i = 0; i < delays.Count; ++i) text += "m" + delays[i] + (i == delays.Count - 1 ? "\n" : ",");
+                }
+                else
+                {
+                    text += "[" + n.startTime + "]\n";
+                    text += "TickPerSecond=" + n.tickPerSecond + "\n";
+                    text += "Type=FallingBlock\n";
+                    text += "Panel=" + curPanel + "\n";
+                    text += "Exit=" + curExit + "\n";
+                    ++curExit;
+                    if (curExit >= exitCount) curExit = 0;
+                    text += "Note=";
+                    for (int i = 0; i < v.Count; ++i) text += v[i].note + (i == v.Count - 1 ? "\n" : ",");
+                    text += "Delays=";
+                    for (int i = 0; i < delays.Count; ++i) text += "m" + delays[i] + (i == delays.Count - 1 ? "\n" : ",");
+                }
+            }
+        }
+        return text;
+    }
+    public static string Single(float startMidiTime)
+    {
+        string text = "";
+        int i = GetIndex(startMidiTime);
+        Note n = tracks[curTrack][i];
+        text += "[" + startMidiTime + "]\n";
+        text += "TickPerSecond=" + n.tickPerSecond + "\n";
+        text += "Type=FallingBlock\n";
+        text += "Panel=" + curPanel + "\n";
+        text += "Exit=" + curExit + "\n";
+        ++curExit;
+        if (curExit >= exitCount) curExit = 0;
+        text += "Note=" + n.note + "\n";
+        return text;
+    }
+
+    public static string CombineIntoSingle(float startMidiTime, float endMidiTime)
+    {
+        string text = "";
+        int st = GetIndex(startMidiTime);
+        float tps = tracks[curTrack][st].tickPerSecond;
+        List<int> noteVals = new List<int>() { tracks[curTrack][st].note };
         List<float> delays = new List<float>();
         for (int i = st + 1; ; ++i)
         {
-            Note n = tracks[track][i];
+            Note n = tracks[curTrack][i];
             if (n.tickPerSecond != tps) Debug.LogError("TickPerSecond Mismatch!");
             noteVals.Add(n.note);
             if (!Utils.noteToFile.ContainsKey(n.note)) Debug.Log("Note " + n.startTime + " has no sound!");
-            delays.Add(n.startTime - tracks[track][i - 1].startTime);
+            delays.Add(n.startTime - tracks[curTrack][i - 1].startTime);
+            if (n.startTime == endMidiTime) break;
+        }
+
+        text += "[" + startMidiTime + "]\n";
+        text += "TickPerSecond=" + tps + "\n";
+        text += "Type=FallingBlock\n";
+        text += "Panel=" + curPanel + "\n";
+        text += "Exit=" + curExit + "\n";
+        ++curExit;
+        if (curExit >= exitCount) curExit = 0;
+        text += "Note=";
+        for (int i = 0; i < noteVals.Count; ++i) text += noteVals[i] + (i == noteVals.Count - 1 ? "\n" : ",");
+        text += "Delays=";
+        for (int i = 0; i < delays.Count; ++i) text += "m" + delays[i] + (i == delays.Count - 1 ? "\n" : ",");
+        return text;
+    }
+
+    public static string CombineIntoLongPress(float startMidiTime, float endMidiTime, int length)
+    {
+        string text = "";
+        int st = GetIndex(startMidiTime);
+        float tps = tracks[curTrack][st].tickPerSecond;
+        List<int> noteVals = new List<int>() { tracks[curTrack][st].note };
+        List<float> delays = new List<float>();
+        for (int i = st + 1; ; ++i)
+        {
+            Note n = tracks[curTrack][i];
+            if (n.tickPerSecond != tps) Debug.LogError("TickPerSecond Mismatch!");
+            noteVals.Add(n.note);
+            if (!Utils.noteToFile.ContainsKey(n.note)) Debug.Log("Note " + n.startTime + " has no sound!");
+            delays.Add(n.startTime - tracks[curTrack][i - 1].startTime);
             if (n.startTime == endMidiTime) break;
         }
 
         text += "[" + startMidiTime + "]\n";
         text += "TickPerSecond=" + tps + "\n";
         text += "Type=LongFallingBlock\n";
-        text += "Panel=" + panel + "\n";
+        text += "Panel=" + curPanel + "\n";
         text += "Exit=" + curExit + "\n";
         ++curExit;
         if (curExit >= exitCount) curExit = 0;
@@ -318,11 +529,48 @@ public class MidiTranslator : MonoBehaviour
         return text;
     }
 
-    static int GetIndex(int track, float midiTime)
+    public static string CombineIntoVerticalMove(float startMidiTime, float endMidiTime, int width)
     {
-        for (int i = 0; i < tracks[track].Count; ++i)
+        string text = "";
+        int st = GetIndex(startMidiTime);
+        float tps = tracks[curTrack][st].tickPerSecond;
+        List<int> noteVals = new List<int>() { tracks[curTrack][st].note };
+        List<float> delays = new List<float>();
+        for (int i = st + 1; ; ++i)
         {
-            if (tracks[track][i].startTime == midiTime) return i;
+            Note n = tracks[curTrack][i];
+            if (n.tickPerSecond != tps) Debug.LogError("TickPerSecond Mismatch!");
+            noteVals.Add(n.note);
+            if (!Utils.noteToFile.ContainsKey(n.note)) Debug.Log("Note " + n.startTime + " has no sound!");
+            delays.Add(n.startTime - tracks[curTrack][i - 1].startTime);
+            if (n.startTime == endMidiTime) break;
+        }
+        text += "[" + startMidiTime + "]\n";
+        text += "TickPerSecond=" + tps + "\n";
+        text += "Type=HorizontalMove\n";
+        text += "Panel=" + curPanel + "\n";
+        text += "Exit=" + (width == 3 ? 0 : curExit) + "\n";
+        text += "Direction=";
+        if (width == 2) text += curExit < 2 ? "Down\n" : "Up\n";
+        if (width == 3) text += "Down\n";
+        else
+        {
+            ++curExit;
+            if (curExit >= exitCount) curExit = 0;
+        }
+        text += "Width=" + width + "\n";
+        text += "Note=";
+        for (int i = 0; i < noteVals.Count; ++i) text += noteVals[i] + (i == noteVals.Count - 1 ? "\n" : ",");
+        text += "Delays=";
+        for (int i = 0; i < delays.Count; ++i) text += "m" + delays[i] + (i == delays.Count - 1 ? "\n" : ",");
+        return text;
+    }
+
+    static int GetIndex(float midiTime)
+    {
+        for (int i = 0; i < tracks[curTrack].Count; ++i)
+        {
+            if (tracks[curTrack][i].startTime >= midiTime) return i;
         }
         return -1;
     }

@@ -32,21 +32,18 @@ public class LongFallingBlock : RhythmObject
         {
             if (diff > 1.5f * BlockSize.x)
             {
-                print("First touched");
                 Score(0);
                 curScore = 0;
                 checkpoints[0] = true;
             }
             else if (diff > 0.5f * BlockSize.x)
             {
-                print("First touched");
                 Score(1);
                 curScore = 1;
                 checkpoints[0] = true;
             }
             else if (diff > -0.5 * BlockSize.x)
             {
-                print("First touched");
                 Score(2);
                 curScore = 2;
                 checkpoints[0] = true;

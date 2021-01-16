@@ -252,6 +252,7 @@ MonoBehaviour:
   parent: {fileID: 0}
   fallingTime: 3
   rt: {fileID: 0}
+  noteImage: {fileID: 8302681846993474331}
 --- !u!1 &2121722959254526411
 GameObject:
   m_ObjectHideFlags: 0
