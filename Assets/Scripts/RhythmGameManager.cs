@@ -142,6 +142,8 @@ public class RhythmGameManager : MonoBehaviour
     public Panel leftPanel;
     public Panel rightPanel;
 
+    public bool autoMode;
+
     [Header("Resources")]
     public Sprite[] UpNotes;
     public Sprite[] DownNotes;

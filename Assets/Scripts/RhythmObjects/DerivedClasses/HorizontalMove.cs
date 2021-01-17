@@ -47,6 +47,9 @@ public class HorizontalMove : RhythmObject
             }
         }
 
+        if (autoMode && Mathf.Abs(rt.anchoredPosition.x - GetBottom()) < 0.1f * BlockSize.x)
+            getTouched = true;
+
         int curScore = 2; // 0 = bad, 1 = good, 2 = perfect
         float diff = (rt.anchoredPosition.x - GetBottom()) * (panel == PanelType.Left ? 1 : -1);
 
@@ -102,7 +105,8 @@ public class HorizontalMove : RhythmObject
                 if (!checkpoints[i])
                 {
                     ExitData curExit = GetExit(direction == Direction.Down ? i : -i);
-                    if (curExit.IsBeingTouched())
+                    print(ams.time);
+                    if (curExit.IsBeingTouched() || autoMode)
                     {
                         curScore = Mathf.Clamp(curScore + 1, 0, 2);
                         Score(curScore, curExit.center, false, i);

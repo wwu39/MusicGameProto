@@ -1,7 +1,6 @@
 [General]
 Exit=3
 Delay=3
-TickPerSecond=0.0003531073
 Music=none
 
 [0.5]
@@ -9,8 +8,10 @@ Type=ShowLeftPanel
 [1.1]
 Type=ShowRightPanel
 [2]
-Type=FallingBlock
+Type=LongFallingBlock
+TickPerSecond=0.0003531073
 Exit=1
 Panel=Left
-Note=65,65,65,65
+Note=65,65,65,65,65
 Delays=m480
+Length=6

@@ -18,6 +18,12 @@ public class FallingBlock : RhythmObject
     }
     protected override void Update_Activated()
     {
+        if (autoMode)
+        {
+            if (Mathf.Abs(rt.anchoredPosition.x - GetBottom()) < 0.1f * BlockSize.x) OnClick();
+            return;
+        }
+
         if (GetExit().IsBeingTouched())
         {
             OnClick();

@@ -19,10 +19,11 @@ public struct SoundStruct
     public string id;
     public float delay;
     public bool played { private set; get; }
+    public float createTime;
     public void Play()
     {
         FMODUnity.RuntimeManager.PlayOneShot("event:/" + id);
-        Debug.Log("Event " + id + " Played");
+        Debug.Log("Event " + id + " Played at " + (Time.time - Timeline.ins.startTime));
         played = true;
     }
 }
@@ -58,6 +59,8 @@ public abstract class RhythmObject : MonoBehaviour
 
     bool destroyPending;
 
+    protected bool autoMode => RhythmGameManager.ins.autoMode;
+
     protected class ScoreRecord
     {
         public float time;
@@ -78,6 +81,7 @@ public abstract class RhythmObject : MonoBehaviour
         rt.sizeDelta = size;
 
         createTime = Time.time;
+        for(int i = 0; i < sound.Length; ++i) sound[i].createTime = createTime;
     }
     protected virtual void Update()
     {
@@ -104,7 +108,7 @@ public abstract class RhythmObject : MonoBehaviour
         badScore = _badScore;
         transform.position = GetExit().obj.transform.position;
         end = start = (transform as RectTransform).anchoredPosition;
-        end.x = GetBottom() + (panel == PanelType.Left ? -BlockSize.x : BlockSize.x); // 延迟声效
+        end.x = GetBottom() + (panel == PanelType.Left ? -BlockSize.x : BlockSize.x) / 2f; // 延迟声效
         return this;
     }
     protected virtual void Activate()
@@ -256,4 +260,10 @@ public abstract class RhythmObject : MonoBehaviour
     {
         return exits[exit + offset + (int)panel * GeneralSettings.exitCount];
     }
+
+    protected struct AutoModeStruct
+    {
+        public float time;
+    }
+    protected AutoModeStruct ams;
 }

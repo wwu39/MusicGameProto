@@ -58,14 +58,14 @@ public class Timeline : MonoBehaviour
         if (sections["General"].TryGetValue("Delay", out str)) GeneralSettings.delay = float.Parse(str); else GeneralSettings.delay = 3;
         if (sections["General"].TryGetValue("Difficulty", out str)) GeneralSettings.difficulty = int.Parse(str); else GeneralSettings.difficulty = 0;
         if (sections["General"].TryGetValue("MusicStartPosition", out str)) GeneralSettings.musicStartTime = float.Parse(str); else GeneralSettings.musicStartTime = 0;
-        foreach (var k in ins.keyData) ins.StartCoroutine(ins.StartFalling(k));
-        // ins.StartCoroutine(ins.GameOver(timeEnd + 10));
+
         if (musicName != "none")
         {
             ins.hasMusic = true;
             ins.vEventIns = FMODUnity.RuntimeManager.CreateInstance("event:/" + musicName);
             ins.StartCoroutine(ins.StartMusic(GeneralSettings.delay));
         }
+        foreach (var k in ins.keyData) ins.StartCoroutine(ins.StartFalling(k));
         Scoring.Reset();
     }
 

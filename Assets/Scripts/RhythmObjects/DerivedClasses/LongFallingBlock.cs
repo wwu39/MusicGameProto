@@ -23,9 +23,8 @@ public class LongFallingBlock : RhythmObject
     int curScore;
     protected override void Update_Activated()
     {
-        bool getTouched = GetExit().IsBeingTouched();
-
         float diff = (rt.anchoredPosition.x - GetBottom()) * (panel == PanelType.Left ? 1 : -1);
+        bool getTouched = autoMode ? diff < 0 : GetExit().IsBeingTouched();
 
         // 判定第一次按键
         if (getTouched && !checkpoints[0])
