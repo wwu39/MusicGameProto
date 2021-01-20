@@ -4,9 +4,6 @@
 		<property name="assetPath">
 			<value>程家秘歌/伴奏 Dec 22.mp3</value>
 		</property>
-		<property name="isStreaming">
-			<value>true</value>
-		</property>
 		<property name="frequencyInKHz">
 			<value>48</value>
 		</property>

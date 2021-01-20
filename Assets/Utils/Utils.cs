@@ -20,7 +20,6 @@ public class Utils
         {74,"d5"},{75,"d-5"},{52,"e3"},{64,"e4"},{76,"e5"},{53,"f3"},{54,"f-3"},{65,"f4"},{66,"f-4"},{77,"f5"},
         {78,"f-5"},{55,"g3"},{56,"g-3"},{67,"g4"},{68,"g-4"},{79,"g5"},{80,"g-5"}
     };
-    static Vector2 defRes = new Vector2(1920, 1080);
     public static Color[] colorList = new Color[6]
     {
         new Color(1,0,0),
@@ -44,8 +43,8 @@ public class Utils
     {
         float frac_x = pos.x / Screen.width;
         float frac_y = pos.y / Screen.height;
-        float x = defRes.x * frac_x - defRes.x / 2;
-        float y = defRes.y * frac_y - defRes.y / 2;
+        float x = ScreenAdjust.canvasRes.x * (frac_x - 0.5f);
+        float y = ScreenAdjust.canvasRes.y * (frac_y - 0.5f);
         return new Vector2(x, y);
     }
 

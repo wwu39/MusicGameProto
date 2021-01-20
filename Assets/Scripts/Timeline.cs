@@ -47,6 +47,7 @@ public class Timeline : MonoBehaviour
     }
     public static void StartMusicScript(string scriptName)
     {
+        Time.timeScale = 0;
         GeneralSettings.Reset();
         Dictionary<string, Dictionary<string, string>> sections;
         Interpreter.Open(scriptName, out ins.keyData, out sections);
@@ -67,6 +68,7 @@ public class Timeline : MonoBehaviour
         }
         foreach (var k in ins.keyData) ins.StartCoroutine(ins.StartFalling(k));
         Scoring.Reset();
+        Time.timeScale = 1;
     }
 
     public static void Stop()

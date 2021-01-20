@@ -23,7 +23,11 @@ public struct SoundStruct
     public void Play()
     {
         FMODUnity.RuntimeManager.PlayOneShot("event:/" + id);
-        Debug.Log("Event " + id + " Played at " + (Time.time - Timeline.ins.startTime));
+        int tlpos;
+        Timeline.ins.vEventIns.getTimelinePosition(out tlpos);
+        float bgmPos = tlpos / 1000f;
+        float notePos = Time.time - Timeline.ins.startTime;
+        Debug.Log("Event " + id + " Played at " + notePos + "; BGMPos=" + bgmPos + "; diff=" + (notePos - bgmPos));
         played = true;
     }
 }
