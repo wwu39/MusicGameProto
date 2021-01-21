@@ -139,14 +139,14 @@ public class Timeline : MonoBehaviour
             tickPerSecond = float.Parse(str);
             kd.startTime *= tickPerSecond;
         }
-        yield return new WaitForSeconds(kd.startTime - GeneralSettings.musicStartTime);
+        yield return new WaitForSeconds(kd.startTime - GeneralSettings.musicStartTime + GeneralSettings.delay - 3);
         //print(kd.prop["Type"] + " is falling from Exit " + kd.prop["Exit"] + " in " + kd.prop["FallingTime"]);
         int exit = 0;
         PanelType panel = PanelType.Left;
         if (kd.prop.TryGetValue("Exit", out str)) exit = int.Parse(str);
         if (kd.prop.TryGetValue("Panel", out str)) if (str == "Right") panel = PanelType.Right;
-        float fallingTime;
-        if (kd.prop.TryGetValue("FallingTime", out str)) fallingTime = float.Parse(str); else fallingTime = 3;
+        float fallingTime = 3;
+        //if (kd.prop.TryGetValue("FallingTime", out str)) fallingTime = float.Parse(str); else fallingTime = 3;
 
         string blockType = "None";
         if (kd.prop.TryGetValue("Type", out str)) blockType = str;

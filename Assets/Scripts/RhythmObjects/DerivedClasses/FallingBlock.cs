@@ -15,6 +15,7 @@ public class FallingBlock : RhythmObject
         base.Start();
         Sprite[] s = Random.Range(0, 2) == 1 ? RhythmGameManager.ins.UpNotes : RhythmGameManager.ins.DownNotes;
         noteImage.sprite = s[Random.Range(0, s.Length)];
+        noteImages = new Sprite[] { noteImage.sprite };
     }
     protected override void Update_Activated()
     {
@@ -22,8 +23,8 @@ public class FallingBlock : RhythmObject
         {
             if (!isScored)
             {
-                bool left = panel == PanelType.Left && rt.anchoredPosition.x < GetBottom() + 0.1f * BlockSize.x;
-                bool right = panel == PanelType.Right && rt.anchoredPosition.x > GetBottom() - 0.1f * BlockSize.x;
+                bool left = panel == PanelType.Left && rt.anchoredPosition.x < GetBottom() + 0.2f * BlockSize.x;
+                bool right = panel == PanelType.Right && rt.anchoredPosition.x > GetBottom() - 0.2f * BlockSize.x;
                 if (left || right) OnClick();
             }
             return;

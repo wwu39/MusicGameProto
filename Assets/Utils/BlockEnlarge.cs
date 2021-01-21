@@ -41,10 +41,11 @@ public class BlockEnlarge : MonoBehaviour
         }
     }
 
-    public static void Create(Color c, Vector2 pos, Transform parent)
+    public static void Create(Sprite sprite, Color c, Vector2 pos, Transform parent)
     {
         BlockEnlarge be = Instantiate(Resources.Load<GameObject>("BlockEnlarge"), parent).GetComponent<BlockEnlarge>();
         be.startColor = c;
+        be.GetComponent<Image>().sprite = sprite;
         (be.transform as RectTransform).anchoredPosition = pos;
     }
 }

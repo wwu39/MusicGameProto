@@ -162,6 +162,15 @@ public class HorizontalMove : RhythmObject
         line.enabled = false;
         outterFrame.rectTransform.sizeDelta = line.rectTransform.sizeDelta + new Vector2(9, 9);
         outterBg.rectTransform.sizeDelta = line.rectTransform.sizeDelta + new Vector2(32, 32);
+
+        Sprite[] s = Random.Range(0, 2) == 1 ? RhythmGameManager.ins.UpNotes : RhythmGameManager.ins.DownNotes;
+        noteImages = new Sprite[width];
+        for (int i = 0; i < width; ++i)
+        {
+            var n = Instantiate(Resources.Load<GameObject>("Note"), rt).GetComponent<Image>();
+            noteImages[i] = n.sprite = s[Random.Range(0, s.Length)];
+            n.rectTransform.anchoredPosition = new Vector2(0, GetExit(direction == Direction.Down ? i : -i).center.y - rt.anchoredPosition.y);
+        }
     }
 
 

@@ -42,6 +42,8 @@ public abstract class RhythmObject : MonoBehaviour
 
     [HideInInspector] public SoundStruct[] sound = new SoundStruct[0];
 
+    protected Sprite[] noteImages;
+
     [SerializeField] Graphic[] coloringParts;
     public RhythmObject parent = null;
     protected ExitData[] exits;
@@ -219,7 +221,7 @@ public abstract class RhythmObject : MonoBehaviour
             case 1:
                 _score = goodScore;
                 _text = "Good";
-                _color = Color.green;
+                _color = Color.red;//green
                 ++Scoring.goodCount;
                 break;
             case 2:
@@ -231,7 +233,7 @@ public abstract class RhythmObject : MonoBehaviour
         }
         RhythmGameManager.UpdateScore(_score);
         lastScorePos = pos == null ? GetExit().center : pos.Value;
-        if (coloringParts.Length > 0 && !noAnim && s == 2) BlockEnlarge.Create(coloringParts[0].color, lastScorePos.Value, rt.parent);
+        if (coloringParts.Length > 0 && !noAnim && s >= 1) BlockEnlarge.Create(noteImages[sndIdx], _color, lastScorePos.Value, rt.parent);
         
         if (s >= 1)
         {
@@ -239,7 +241,7 @@ public abstract class RhythmObject : MonoBehaviour
             if (flashBottom && coloringParts.Length > 0) Bottom.SetColor(panel, coloringParts[0].color * 0.75f); // 底边变色
         }
 
-        FlyingText.Create(_text, _color, lastScorePos.Value, rt.parent);
+        if (s == 0) FlyingText.Create(_text, _color, lastScorePos.Value, rt.parent);
         allScores.Add(new ScoreRecord(Time.time - createTime, s));
         OnScored?.Invoke(s);
     }
