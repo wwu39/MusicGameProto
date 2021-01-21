@@ -20,7 +20,12 @@ public class FallingBlock : RhythmObject
     {
         if (autoMode)
         {
-            if (Mathf.Abs(rt.anchoredPosition.x - GetBottom()) < 0.1f * BlockSize.x) OnClick();
+            if (!isScored)
+            {
+                bool left = panel == PanelType.Left && rt.anchoredPosition.x < GetBottom() + 0.1f * BlockSize.x;
+                bool right = panel == PanelType.Right && rt.anchoredPosition.x > GetBottom() - 0.1f * BlockSize.x;
+                if (left || right) OnClick();
+            }
             return;
         }
 

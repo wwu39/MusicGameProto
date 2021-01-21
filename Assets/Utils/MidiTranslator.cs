@@ -264,11 +264,11 @@ public class MidiTranslator : MonoBehaviour
         text += "[" + (n.startTime * n.tickPerSecond - 1.5f) + "]\nType=ShowLeftPanel\n\n";
 
         text += InExitOrder(17310, 19230);
-        text += CombineIntoVerticalMove(20190, 20670, 2);
+        text += SingleExit(20190, 20670);
         text += CombineIntoLongPress(21150, 22590, 6);
         text += InExitOrder(23070, 27870);
-        text += CombineIntoVerticalMove(28830, 29309, 3);
-        text += CombineIntoVerticalMove(29789, 30269, 3);
+        text += SingleExit(28830, 29309, 3);
+        text += SingleExit(29789, 30269, 3);
         text += InExitOrder(30750, 34589);
         text += CombineIntoLongPress(35549, 37470, 8);
         text += InExitOrder(37949, 43230);
@@ -282,17 +282,17 @@ public class MidiTranslator : MonoBehaviour
         text += Single(69150);
         text += CombineIntoLongPress(71069, 72509, 6);
         text += Single(72990);
-        text += CombineIntoVerticalMove(74910, 76350, 2);
+        text += SingleExit(74910, 76350, 2);
         text += InExitOrder(76830, 78271);
 
         text += "\n;告一段落\n\n";
 
         text += InExitOrder(124829, 126750);
-        text += CombineIntoVerticalMove(127710, 128190, 2);
+        text += SingleExit(127710, 128190);
         text += InExitOrder(128670, 135389);
         text += CombineIntoLongPress(136349, 137789, 6);
         text += InExitOrder(138270, 142109);
-        text += CombineIntoVerticalMove(143069, 143549, 2);
+        text += SingleExit(143069, 143549, 2);
         text += CombineIntoLongPress(144029, 145469, 6);
         text += CombineIntoLongPress(145949, 147389, 6);
         text += InExitOrder(147869, 150749);
@@ -352,6 +352,25 @@ public class MidiTranslator : MonoBehaviour
             text += "Exit=" + curExit + "\n";
             ++curExit;
             if (curExit >= exitCount) curExit = 0;
+            if (!Utils.noteToFile.ContainsKey(n.note)) Debug.Log("Note " + n.startTime + " has no sound!");
+            text += "Note=" + n.note + "\n";
+            if (n.startTime == endMidiTime) break;
+        }
+        return text + "\n";
+    }
+
+    public static string SingleExit(float startMidiTime, float endMidiTime, int width = 0)
+    {
+        string text = "";
+        int i = GetIndex(startMidiTime);
+        for (; ; ++i)
+        {
+            Note n = tracks[curTrack][i];
+            text += "[" + n.startTime + "]\n";
+            text += "TickPerSecond=" + n.tickPerSecond + "\n";
+            text += "Type=FallingBlock\n";
+            text += "Panel=" + curPanel + "\n";
+            text += "Exit=" + curExit + "\n";
             if (!Utils.noteToFile.ContainsKey(n.note)) Debug.Log("Note " + n.startTime + " has no sound!");
             text += "Note=" + n.note + "\n";
             if (n.startTime == endMidiTime) break;
