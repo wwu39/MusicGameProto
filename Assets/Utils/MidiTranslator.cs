@@ -189,7 +189,6 @@ public class MidiTranslator : MonoBehaviour
                         text += "MetaEventType=" + me.MetaEventType + System.Environment.NewLine;
                     if (me.MetaEventType == MetaEventType.Tempo)
                     {
-                        text += "Tempo=" + me.Arg1 + System.Environment.NewLine;
                         text += "BeatsMinute=" + me.Arg2 + System.Environment.NewLine;
                         bpm = me.Arg2;
                         float tickPerSecond = 60f / (bpm * file.TicksPerQuarterNote);
@@ -229,7 +228,7 @@ public class MidiTranslator : MonoBehaviour
         for (int h = 0; h < tracks[t].Count; ++h)
         {
             Note n = tracks[t][h];
-            for (int i = 0; i < tempoChanges.Count; ++i)
+            for (int i = tempoChanges.Count - 1; i >= 0; --i)
             {
                 if (n.startTime >= tempoChanges[i].startTime)
                 {
@@ -314,7 +313,7 @@ public class MidiTranslator : MonoBehaviour
         text += CombineIntoLongPress(213153, 214589, 6);
         text += Single(215071);
         text += CombineIntoVerticalMove(216990, 217469, 2);
-        text += CombineIntoLongPress(217957, 218905, 4);
+        text += SingleExit(217957, 218905, 4);
         text += InExitOrder(219398, 228259);
 
         text += "\n;Track 7: Melody 结尾\n\n\n";
