@@ -132,17 +132,11 @@ public class Timeline : MonoBehaviour
 
     IEnumerator StartFalling(KeyData kd)
     {
-        string str; string[] seg;
-        float tickPerSecond = 0;
-        if (kd.prop.TryGetValue("TickPerSecond", out str))
-        {
-            tickPerSecond = float.Parse(str);
-            kd.startTime *= tickPerSecond;
-        }
         yield return new WaitForSeconds(kd.startTime - GeneralSettings.musicStartTime + GeneralSettings.delay - 3);
         //print(kd.prop["Type"] + " is falling from Exit " + kd.prop["Exit"] + " in " + kd.prop["FallingTime"]);
         int exit = 0;
         PanelType panel = PanelType.Left;
+        string str; string[] seg;
         if (kd.prop.TryGetValue("Exit", out str)) exit = int.Parse(str);
         if (kd.prop.TryGetValue("Panel", out str)) if (str == "Right") panel = PanelType.Right;
         float fallingTime = 3;
@@ -279,15 +273,14 @@ public class Timeline : MonoBehaviour
                         float val = 0;
                         for (int i = 0; i < seg.Length; ++i)
                         {
-                            float cur = seg[i][0] == 'm' ? float.Parse(seg[i].Substring(1)) * tickPerSecond : float.Parse(seg[i]);
+                            float cur = float.Parse(seg[i]);
                             val += cur;
                             block.sound[i + 1].delay = val;
                         }
                     }
                     else
                     {
-                        float val = seg[0][0] == 'm' ? float.Parse(seg[0].Substring(1)) * tickPerSecond : float.Parse(seg[0]);
-                        if (val > 1000) val *= tickPerSecond;
+                        float val = float.Parse(seg[0]);
                         for (int i = 1; i < block.sound.Length; ++i) block.sound[i].delay = val * i;
                     }
                 }

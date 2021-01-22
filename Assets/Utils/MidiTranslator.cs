@@ -14,17 +14,19 @@ public struct Note
     public int length;
     public int InitialVelocity;
     public int FinalVelocity;
-    public float tickPerSecond;
+    public float startTimeInSec;
 }
 
 public struct TempoChange
 {
-    public float tickPerSecond;
     public int startTime;
-    public TempoChange(float f, int i)
+    public int tempo;
+    public float timeLast;
+    public TempoChange(int t, int i)
     {
-        tickPerSecond = f;
+        tempo = t;
         startTime = i;
+        timeLast = 0;
     }
 }
 
@@ -32,12 +34,14 @@ public class MidiTranslator : MonoBehaviour
 {
     static int bpm;
     static List<Note>[] tracks;
-    static MidiFile file = null;
     static string filename = "The Bass Part.mid";
     static int exitCount = 3;
     static List<TempoChange> tempoChanges;
     static int noteMax;
     static int noteMin;
+    static int ticksPerQuarterNote;
+    static float TickPerSecond(int bpm) => 60f / (bpm * ticksPerQuarterNote);
+
     public static string[] noteNames = new string[12]
     {
         "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"
@@ -109,6 +113,7 @@ public class MidiTranslator : MonoBehaviour
             noteMin = min;
         }
         var file = new MidiFile("Midi/" + filename + ".mid");
+        ticksPerQuarterNote = file.TicksPerQuarterNote;
         string text = "[General]" + System.Environment.NewLine
             + "Format=" + file.Format + System.Environment.NewLine
             + "TracksCount=" + file.TracksCount + System.Environment.NewLine
@@ -191,9 +196,8 @@ public class MidiTranslator : MonoBehaviour
                     {
                         text += "BeatsMinute=" + me.Arg2 + System.Environment.NewLine;
                         bpm = me.Arg2;
-                        float tickPerSecond = 60f / (bpm * file.TicksPerQuarterNote);
-                        tempoChanges.Add(new TempoChange(tickPerSecond, me.Time));
-                        print("Sets Ticks/Sec to " + tickPerSecond + " at time " + me.Time);
+                        tempoChanges.Add(new TempoChange(bpm, me.Time));
+                        print("Sets Ticks/Sec to " + TickPerSecond(bpm) + " at time " + me.Time);
                     }
                     else
                     {
@@ -228,15 +232,20 @@ public class MidiTranslator : MonoBehaviour
         for (int h = 0; h < tracks[t].Count; ++h)
         {
             Note n = tracks[t][h];
+            int tempoIdx = 0;
             for (int i = tempoChanges.Count - 1; i >= 0; --i)
             {
                 if (n.startTime >= tempoChanges[i].startTime)
                 {
-                    n.tickPerSecond = tempoChanges[i].tickPerSecond;
-                    tracks[t][h] = n;
+                    tempoIdx = i;
                     break;
                 }
             }
+            float timeSum = 0;
+            for (int i = 0; i < tempoIdx; ++i)
+                timeSum += tempoChanges[i].timeLast;
+            n.startTimeInSec = (n.startTime - tempoChanges[tempoIdx].startTime) * TickPerSecond(tempoChanges[tempoIdx].tempo) + timeSum;
+            tracks[t][h] = n;
         }
         curTrack = t;
     }
@@ -250,8 +259,14 @@ public class MidiTranslator : MonoBehaviour
         MakeNotes();
         string text = "[General]\nExit=3\nDelay=3\n\n[TempoChanges]\n";
         tempoChanges.Sort((a, b) => a.startTime.CompareTo(b.startTime));
-        foreach (var tc in tempoChanges)
-            text += tc.startTime + "=" + tc.tickPerSecond + "\n";
+
+        for (int i = 0; i < tempoChanges.Count; ++i)
+        {
+            var tc = tempoChanges[i];
+            tc.timeLast = i == tempoChanges.Count - 1 ? -1 : (tempoChanges[i + 1].startTime - tempoChanges[i].startTime) * TickPerSecond(tempoChanges[i].tempo);
+            tempoChanges[i] = tc;
+            text += tc.startTime + "=" + tc.tempo + "," + tc.timeLast + "\n";
+        }
         text += "\n\n";
 
         // curTrack=7
@@ -260,7 +275,7 @@ public class MidiTranslator : MonoBehaviour
         text += ";Track 7: Melody 开头\n";
 
         Note n = tracks[7][GetIndex(17310)];
-        text += "[" + (n.startTime * n.tickPerSecond - 1.5f) + "]\nType=ShowLeftPanel\n\n";
+        text += "[" + (n.startTimeInSec - 1.5f) + "]\nType=ShowLeftPanel\n\n";
 
         text += InExitOrder(17310, 19230);
         text += SingleExit(20190, 20670);
@@ -318,7 +333,7 @@ public class MidiTranslator : MonoBehaviour
 
         text += "\n;Track 7: Melody 结尾\n\n\n";
         n = tracks[7][GetIndex(228259)];
-        text += "[" + (n.startTime * n.tickPerSecond + 6) + "]\nType=GameOver\n\n";
+        text += "[" + (n.startTimeInSec + 6) + "]\nType=GameOver\n\n";
         File.WriteAllText("Assets/Music/Resources/" + filename + "/00.txt", text);
 
         // curTrack=8
@@ -328,11 +343,11 @@ public class MidiTranslator : MonoBehaviour
         text += ";Track 8: Piano 开头\n";
 
         n = tracks[8][GetIndex(86444)];
-        text += "[" + (n.startTime * n.tickPerSecond - 1.5f) + "]\nType=ShowRightPanel\n\n";
+        text += "[" + (n.startTimeInSec - 1.5f) + "]\nType=ShowRightPanel\n\n";
         text += InExitOrder(86444, 123890, 240);
 
         n = tracks[8][GetIndex(123890)];
-        text += "[" + (n.startTime * n.tickPerSecond + 4f) + "]\nType=HideRightPanel\n\n";
+        text += "[" + (n.startTimeInSec + 4f) + "]\nType=HideRightPanel\n\n";
         text += ";Track 8: Piano 结尾\n\n";
         File.WriteAllText("Assets/Music/Resources/" + filename + "/Track 8.txt", text);
     }
@@ -344,14 +359,14 @@ public class MidiTranslator : MonoBehaviour
         for (; ; ++i)
         {
             Note n = tracks[curTrack][i];
-            text += "[" + n.startTime + "]\n";
-            text += "TickPerSecond=" + n.tickPerSecond + "\n";
+            text += "[" + n.startTimeInSec + "]\n";
+            text += "StartTick=" + n.startTime + "\n";
             text += "Type=FallingBlock\n";
             text += "Panel=" + curPanel + "\n";
             text += "Exit=" + curExit + "\n";
             ++curExit;
             if (curExit >= exitCount) curExit = 0;
-            if (!Utils.noteToFile.ContainsKey(n.note)) Debug.Log("Note " + n.startTime + " has no sound!");
+            if (!Utils.noteToFile.ContainsKey(n.note)) Debug.Log("Note " + n.startTimeInSec + " has no sound!");
             text += "Note=" + n.note + "\n";
             if (n.startTime == endMidiTime) break;
         }
@@ -365,8 +380,7 @@ public class MidiTranslator : MonoBehaviour
         for (; ; ++i)
         {
             Note n = tracks[curTrack][i];
-            text += "[" + n.startTime + "]\n";
-            text += "TickPerSecond=" + n.tickPerSecond + "\n";
+            text += "[" + n.startTimeInSec + "]\n";
             text += "Type=FallingBlock\n";
             text += "Panel=" + curPanel + "\n";
             text += "Exit=" + curExit + "\n";
@@ -377,7 +391,7 @@ public class MidiTranslator : MonoBehaviour
         return text + "\n";
     }
 
-    public static string InExitOrder(float startMidiTime, float endMidiTime, float combineTime, bool combineIntoVertical = false)
+    public static string InExitOrder(float startMidiTime, float endMidiTime, float combineTimeInTick, bool combineIntoVertical = false)
     {
         string text = "";
         int st = GetIndex(startMidiTime);
@@ -395,7 +409,7 @@ public class MidiTranslator : MonoBehaviour
             {
                 for (int b = a + 1; b < tmp.Count; ++b)
                 {
-                    if (tmp[b].Count > 0 && tmp[b][0].startTime - tmp[a][0].startTime <= combineTime && tmp[b][0].tickPerSecond == tmp[a][0].tickPerSecond)
+                    if (tmp[b].Count > 0 && tmp[b][0].startTime - tmp[a][0].startTime <= combineTimeInTick)
                     {
                         tmp[a].Add(tmp[b][0]);
                         tmp[b].Clear();
@@ -409,8 +423,7 @@ public class MidiTranslator : MonoBehaviour
             if (v.Count == 1)
             {
                 Note n = v[0];
-                text += "[" + n.startTime + "]\n";
-                text += "TickPerSecond=" + n.tickPerSecond + "\n";
+                text += "[" + n.startTimeInSec + "]\n";
                 text += "Type=FallingBlock\n";
                 text += "Panel=" + curPanel + "\n";
                 text += "Exit=" + curExit + "\n";
@@ -421,18 +434,17 @@ public class MidiTranslator : MonoBehaviour
             }
             else if (v.Count > 1)
             {
-                v.Sort((a, b) => a.startTime.CompareTo(b.startTime));
+                v.Sort((a, b) => a.startTimeInSec.CompareTo(b.startTimeInSec));
                 Note n = v[0];
                 List<float> delays = new List<float>();
                 for (int i = 1; i < v.Count; ++i)
                 {
-                    delays.Add(v[i].startTime - v[i - 1].startTime);
+                    delays.Add(v[i].startTimeInSec - v[i - 1].startTimeInSec);
                 }
                 if (combineIntoVertical)
                 {
                     int width = Mathf.Min(3, v.Count);
-                    text += "[" + n.startTime + "]\n";
-                    text += "TickPerSecond=" + n.tickPerSecond + "\n";
+                    text += "[" + n.startTimeInSec + "]\n";
                     text += "Type=HorizontalMove\n";
                     text += "Panel=" + curPanel + "\n";
                     text += "Exit=" + (width == 3 ? 0 : curExit) + "\n";
@@ -448,12 +460,11 @@ public class MidiTranslator : MonoBehaviour
                     text += "Note=";
                     for (int i = 0; i < v.Count; ++i) text += v[i].note + (i == v.Count - 1 ? "\n" : ",");
                     text += "Delays=";
-                    for (int i = 0; i < delays.Count; ++i) text += "m" + delays[i] + (i == delays.Count - 1 ? "\n" : ",");
+                    for (int i = 0; i < delays.Count; ++i) text += delays[i] + (i == delays.Count - 1 ? "\n" : ",");
                 }
                 else
                 {
-                    text += "[" + n.startTime + "]\n";
-                    text += "TickPerSecond=" + n.tickPerSecond + "\n";
+                    text += "[" + n.startTimeInSec + "]\n";
                     text += "Type=FallingBlock\n";
                     text += "Panel=" + curPanel + "\n";
                     text += "Exit=" + curExit + "\n";
@@ -462,7 +473,7 @@ public class MidiTranslator : MonoBehaviour
                     text += "Note=";
                     for (int i = 0; i < v.Count; ++i) text += v[i].note + (i == v.Count - 1 ? "\n" : ",");
                     text += "Delays=";
-                    for (int i = 0; i < delays.Count; ++i) text += "m" + delays[i] + (i == delays.Count - 1 ? "\n" : ",");
+                    for (int i = 0; i < delays.Count; ++i) text += delays[i] + (i == delays.Count - 1 ? "\n" : ",");
                 }
             }
         }
@@ -473,8 +484,7 @@ public class MidiTranslator : MonoBehaviour
         string text = "";
         int i = GetIndex(startMidiTime);
         Note n = tracks[curTrack][i];
-        text += "[" + startMidiTime + "]\n";
-        text += "TickPerSecond=" + n.tickPerSecond + "\n";
+        text += "[" + n.startTimeInSec + "]\n";
         text += "Type=FallingBlock\n";
         text += "Panel=" + curPanel + "\n";
         text += "Exit=" + curExit + "\n";
@@ -488,21 +498,18 @@ public class MidiTranslator : MonoBehaviour
     {
         string text = "";
         int st = GetIndex(startMidiTime);
-        float tps = tracks[curTrack][st].tickPerSecond;
         List<int> noteVals = new List<int>() { tracks[curTrack][st].note };
         List<float> delays = new List<float>();
         for (int i = st + 1; ; ++i)
         {
             Note n = tracks[curTrack][i];
-            if (n.tickPerSecond != tps) Debug.LogError("TickPerSecond Mismatch!");
             noteVals.Add(n.note);
-            if (!Utils.noteToFile.ContainsKey(n.note)) Debug.Log("Note " + n.startTime + " has no sound!");
-            delays.Add(n.startTime - tracks[curTrack][i - 1].startTime);
+            if (!Utils.noteToFile.ContainsKey(n.note)) Debug.Log("Note " + n.startTimeInSec + " has no sound!");
+            delays.Add(n.startTimeInSec - tracks[curTrack][i - 1].startTimeInSec);
             if (n.startTime == endMidiTime) break;
         }
 
-        text += "[" + startMidiTime + "]\n";
-        text += "TickPerSecond=" + tps + "\n";
+        text += "[" + tracks[curTrack][st].startTimeInSec + "]\n";
         text += "Type=FallingBlock\n";
         text += "Panel=" + curPanel + "\n";
         text += "Exit=" + curExit + "\n";
@@ -511,7 +518,7 @@ public class MidiTranslator : MonoBehaviour
         text += "Note=";
         for (int i = 0; i < noteVals.Count; ++i) text += noteVals[i] + (i == noteVals.Count - 1 ? "\n" : ",");
         text += "Delays=";
-        for (int i = 0; i < delays.Count; ++i) text += "m" + delays[i] + (i == delays.Count - 1 ? "\n" : ",");
+        for (int i = 0; i < delays.Count; ++i) text += delays[i] + (i == delays.Count - 1 ? "\n" : ",");
         return text;
     }
 
@@ -519,21 +526,18 @@ public class MidiTranslator : MonoBehaviour
     {
         string text = "";
         int st = GetIndex(startMidiTime);
-        float tps = tracks[curTrack][st].tickPerSecond;
         List<int> noteVals = new List<int>() { tracks[curTrack][st].note };
         List<float> delays = new List<float>();
         for (int i = st + 1; ; ++i)
         {
             Note n = tracks[curTrack][i];
-            if (n.tickPerSecond != tps) Debug.LogError("TickPerSecond Mismatch!");
             noteVals.Add(n.note);
-            if (!Utils.noteToFile.ContainsKey(n.note)) Debug.Log("Note " + n.startTime + " has no sound!");
-            delays.Add(n.startTime - tracks[curTrack][i - 1].startTime);
+            if (!Utils.noteToFile.ContainsKey(n.note)) Debug.Log("Note " + n.startTimeInSec + " has no sound!");
+            delays.Add(n.startTimeInSec - tracks[curTrack][i - 1].startTimeInSec);
             if (n.startTime == endMidiTime) break;
         }
 
-        text += "[" + startMidiTime + "]\n";
-        text += "TickPerSecond=" + tps + "\n";
+        text += "[" + tracks[curTrack][st].startTimeInSec + "]\n";
         text += "Type=LongFallingBlock\n";
         text += "Panel=" + curPanel + "\n";
         text += "Exit=" + curExit + "\n";
@@ -543,7 +547,7 @@ public class MidiTranslator : MonoBehaviour
         text += "Note=";
         for (int i = 0; i < noteVals.Count; ++i) text += noteVals[i] + (i == noteVals.Count - 1 ? "\n" : ",");
         text += "Delays=";
-        for (int i = 0; i < delays.Count; ++i) text += "m" + delays[i] + (i == delays.Count - 1 ? "\n" : ",");
+        for (int i = 0; i < delays.Count; ++i) text += delays[i] + (i == delays.Count - 1 ? "\n" : ",");
         return text;
     }
 
@@ -551,20 +555,17 @@ public class MidiTranslator : MonoBehaviour
     {
         string text = "";
         int st = GetIndex(startMidiTime);
-        float tps = tracks[curTrack][st].tickPerSecond;
         List<int> noteVals = new List<int>() { tracks[curTrack][st].note };
         List<float> delays = new List<float>();
         for (int i = st + 1; ; ++i)
         {
             Note n = tracks[curTrack][i];
-            if (n.tickPerSecond != tps) Debug.LogError("TickPerSecond Mismatch!");
             noteVals.Add(n.note);
-            if (!Utils.noteToFile.ContainsKey(n.note)) Debug.Log("Note " + n.startTime + " has no sound!");
-            delays.Add(n.startTime - tracks[curTrack][i - 1].startTime);
+            if (!Utils.noteToFile.ContainsKey(n.note)) Debug.Log("Note " + n.startTimeInSec + " has no sound!");
+            delays.Add(n.startTimeInSec - tracks[curTrack][i - 1].startTimeInSec);
             if (n.startTime == endMidiTime) break;
         }
-        text += "[" + startMidiTime + "]\n";
-        text += "TickPerSecond=" + tps + "\n";
+        text += "[" + tracks[curTrack][st].startTimeInSec + "]\n";
         text += "Type=HorizontalMove\n";
         text += "Panel=" + curPanel + "\n";
         text += "Exit=" + (width == 3 ? 0 : curExit) + "\n";
@@ -580,7 +581,7 @@ public class MidiTranslator : MonoBehaviour
         text += "Note=";
         for (int i = 0; i < noteVals.Count; ++i) text += noteVals[i] + (i == noteVals.Count - 1 ? "\n" : ",");
         text += "Delays=";
-        for (int i = 0; i < delays.Count; ++i) text += "m" + delays[i] + (i == delays.Count - 1 ? "\n" : ",");
+        for (int i = 0; i < delays.Count; ++i) text += delays[i] + (i == delays.Count - 1 ? "\n" : ",");
         return text;
     }
 
