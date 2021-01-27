@@ -233,7 +233,7 @@ public abstract class RhythmObject : MonoBehaviour
         }
         RhythmGameManager.UpdateScore(_score);
         lastScorePos = pos == null ? GetExit().center : pos.Value;
-        if (coloringParts.Length > 0 && !noAnim && s >= 1) BlockEnlarge.Create(noteImages[sndIdx], _color, lastScorePos.Value, rt.parent);
+        if (coloringParts.Length > 0 && !noAnim && s >= 1) BlockEnlarge.Create(noteImages[sndIdx], _color, lastScorePos.Value, lastScorePos.Value + new Vector2(panel == PanelType.Left ? BlockSize.x : -BlockSize.x, BlockSize.y), rt.parent);
         
         if (s >= 1)
         {

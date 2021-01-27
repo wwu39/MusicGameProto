@@ -257,7 +257,8 @@ public class MidiTranslator : MonoBehaviour
     {
         filename = "Cheng";
         MakeNotes();
-        string text = "[General]\nExit=3\nDelay=3\n\n[TempoChanges]\n";
+        exitCount = 3;
+        string text = "[General]\nExit=3\nDelay=0\n\n[TempoChanges]\n";
         tempoChanges.Sort((a, b) => a.startTime.CompareTo(b.startTime));
 
         for (int i = 0; i < tempoChanges.Count; ++i)
@@ -334,7 +335,7 @@ public class MidiTranslator : MonoBehaviour
         text += "\n;Track 7: Melody 结尾\n\n\n";
         n = tracks[7][GetIndex(228259)];
         text += "[" + (n.startTimeInSec + 6) + "]\nType=GameOver\n\n";
-        File.WriteAllText("Assets/Music/Resources/" + filename + "/00.txt", text);
+        File.WriteAllText("Assets/Music/Resources/Default/" + filename + "/00.txt", text);
 
         // curTrack=8
         text = "";
@@ -349,7 +350,107 @@ public class MidiTranslator : MonoBehaviour
         n = tracks[8][GetIndex(123890)];
         text += "[" + (n.startTimeInSec + 4f) + "]\nType=HideRightPanel\n\n";
         text += ";Track 8: Piano 结尾\n\n";
-        File.WriteAllText("Assets/Music/Resources/" + filename + "/Track 8.txt", text);
+        File.WriteAllText("Assets/Music/Resources/Default/" + filename + "/Track 8.txt", text);
+    }
+
+    public static void TranslateCheng_Mobile()
+    {
+        filename = "Cheng";
+        MakeNotes();
+        exitCount = 4;
+        string text = "[General]\nExit=4\nDelay=0\n\n[TempoChanges]\n";
+        tempoChanges.Sort((a, b) => a.startTime.CompareTo(b.startTime));
+
+        for (int i = 0; i < tempoChanges.Count; ++i)
+        {
+            var tc = tempoChanges[i];
+            tc.timeLast = i == tempoChanges.Count - 1 ? -1 : (tempoChanges[i + 1].startTime - tempoChanges[i].startTime) * TickPerSecond(tempoChanges[i].tempo);
+            tempoChanges[i] = tc;
+            text += tc.startTime + "=" + tc.tempo + "," + tc.timeLast + "\n";
+        }
+        text += "\n\n";
+
+        // curTrack=7
+        curPanel = PanelType.Left;
+        PrepareTrack(7);
+        text += ";Track 7: Melody 开头\n";
+
+        Note n = tracks[7][GetIndex(17310)];
+        text += "[" + (n.startTimeInSec - 1.5f) + "]\nType=ShowLeftPanel\n\n";
+
+        text += InExitOrder(17310, 19230);
+        text += SingleExit(20190, 20670);
+        text += CombineIntoLongPress(21150, 22590, 6);
+        text += InExitOrder(23070, 27870);
+        text += SingleExit(28830, 29309, 3);
+        text += SingleExit(29789, 30269, 3);
+        text += InExitOrder(30750, 34589);
+        text += CombineIntoLongPress(35549, 37470, 8);
+        text += InExitOrder(37949, 43230);
+        text += CombineIntoLongPress(44190, 45869, 6);
+        text += CombineIntoLongPress(46110, 47070, 6);
+        text += InExitOrder(48030, 52829);
+        text += SingleExit(53789, 55229, 3);
+        text += InExitOrder(55709, 63390);
+        text += SingleExit(65310, 65789, 2);
+        text += CombineIntoLongPress(67230, 68669, 6);
+        text += Single(69150);
+        text += CombineIntoLongPress(71069, 72509, 6);
+        text += Single(72990);
+        text += SingleExit(74910, 76350, 2);
+        text += InExitOrder(76830, 78271);
+
+        text += "\n;告一段落\n\n";
+
+        text += InExitOrder(124829, 126750);
+        text += SingleExit(127710, 128190);
+        text += InExitOrder(128670, 135389);
+        text += CombineIntoLongPress(136349, 137789, 6);
+        text += InExitOrder(138270, 142109);
+        text += SingleExit(143069, 143549, 2);
+        text += CombineIntoLongPress(144029, 145469, 6);
+        text += CombineIntoLongPress(145949, 147389, 6);
+        text += InExitOrder(147869, 150749);
+        text += CombineIntoLongPress(151709, 153149, 6);
+        text += CombineIntoLongPress(153629, 154589, 4);
+        text += InExitOrder(155549, 160349);
+        text += CombineIntoLongPress(161309, 162749, 6);
+        text += InExitOrder(163229, 173309);
+        text += CombineIntoLongPress(174749, 176189, 6);
+        text += Single(176669);
+        text += CombineIntoLongPress(178591, 180031, 6);
+        text += Single(180509);
+        text += CombineIntoLongPress(182429, 183869, 6);
+        text += InExitOrder(184349, 194909);
+        text += CombineIntoLongPress(195869, 197309, 6);
+        text += InExitOrder(197790, 207869);
+        text += CombineIntoLongPress(209310, 210749, 6);
+        text += Single(210749);
+        text += CombineIntoLongPress(213153, 214589, 6);
+        text += Single(215071);
+        text += SingleExit(216990, 217469, 2);
+        text += SingleExit(217957, 218905, 4);
+        text += InExitOrder(219398, 228259);
+
+        text += "\n;Track 7: Melody 结尾\n\n\n";
+        n = tracks[7][GetIndex(228259)];
+        text += "[" + (n.startTimeInSec + 6) + "]\nType=GameOver\n\n";
+        File.WriteAllText("Assets/Music/Resources/Mobile/" + filename + "/00.txt", text);
+
+        // curTrack=8
+        text = "";
+        curPanel = PanelType.Right;
+        PrepareTrack(8);
+        text += ";Track 8: Piano 开头\n";
+
+        n = tracks[8][GetIndex(86444)];
+        text += "[" + (n.startTimeInSec - 1.5f) + "]\nType=ShowRightPanel\n\n";
+        text += InExitOrder(86444, 123890, 240);
+
+        n = tracks[8][GetIndex(123890)];
+        text += "[" + (n.startTimeInSec + 4f) + "]\nType=HideRightPanel\n\n";
+        text += ";Track 8: Piano 结尾\n\n";
+        File.WriteAllText("Assets/Music/Resources/Mobile/" + filename + "/Track 8.txt", text);
     }
 
     public static string InExitOrder(float startMidiTime, float endMidiTime)
@@ -596,6 +697,6 @@ public class MidiTranslator : MonoBehaviour
 
     private void Start()
     {
-        TranslateCheng();
+        TranslateCheng_Mobile();
     }
 }

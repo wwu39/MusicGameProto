@@ -87,9 +87,8 @@ public class LongFallingBlock : RhythmObject
         var anchoredPosition = new Vector2((length - 1f) * BlockSize.x / 2, 0) * (panel == PanelType.Left ? 1 : -1);
 
         // temp art
-        frame.rectTransform.sizeDelta = sizeDelta + new Vector2(9, 9);
-        bg.rectTransform.sizeDelta = sizeDelta + new Vector2(32, 32);
-        shadow.rectTransform.sizeDelta = sizeDelta + new Vector2(32, 32);
+        frame.rectTransform.sizeDelta = sizeDelta + new Vector2(-10, -10);
+        bg.rectTransform.sizeDelta = shadow.rectTransform.sizeDelta = sizeDelta + new Vector2(15, 15);
         frame.rectTransform.anchoredPosition = bg.rectTransform.anchoredPosition = shadow.rectTransform.anchoredPosition = anchoredPosition;
 
         Sprite[] s = Random.Range(0, 2) == 1 ? RhythmGameManager.ins.UpNotes : RhythmGameManager.ins.DownNotes;

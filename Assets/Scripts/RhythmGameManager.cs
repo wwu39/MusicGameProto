@@ -57,7 +57,7 @@ public class ExitData
 {
     public int id;
     public PanelType panel;
-    public GameObject obj;
+    public GameObject obj, idctor;
     public float y_top, y_bot;
     public RhythmObject current, last;
     public Vector2 center;
@@ -143,6 +143,7 @@ public class RhythmGameManager : MonoBehaviour
     public Panel rightPanel;
 
     public bool autoMode;
+    public Platform platform;
 
     [Header("Resources")]
     public Sprite[] UpNotes;
@@ -188,7 +189,7 @@ public class RhythmGameManager : MonoBehaviour
 
         if (!SelectLevel.ins)
         {
-            var info = new DirectoryInfo("Assets/Music/Resources");
+            var info = new DirectoryInfo("Assets/Music/Resources/" + platform);
             var dirs = info.GetDirectories();
             int i = 0;
             foreach (var d in dirs)
@@ -255,6 +256,7 @@ public class RhythmGameManager : MonoBehaviour
             {
                 // Instantiate(Resources.Load<GameObject>("explosion"), ins.parentNode).transform.position = ed.obj.transform.position;
                 Destroy(ed.obj);
+                Destroy(ed.idctor);
             }
         }
         return shouldBeRemoved;
@@ -358,14 +360,18 @@ public class RhythmGameManager : MonoBehaviour
                 var e = exits[i + h * num] = new ExitData();
                 e.id = i;
                 e.panel = (PanelType)h;
-                e.obj = Instantiate(Resources.Load<GameObject>(h == 0 ? "exit_LeftPanel" : "exit_RightPanel"), ins.parentNode);
+                e.obj = Instantiate(Resources.Load<GameObject>("exit"), ins.parentNode);
+                e.idctor = Instantiate(Resources.Load<GameObject>("Indicator"), ins.parentNode);
                 RectTransform rt = e.obj.transform as RectTransform;
                 e.obj.SetActive(false);
+                e.idctor.SetActive(false);
                 rt.sizeDelta = new Vector2(BlockSize.x, BlockSize.y);
-                rt.anchoredPosition = new Vector2(top, step * -(i + 0.5f) + PanelSize.y / 2f * 0.9f + PanelPos.y);
+                float y = step * -(i + 0.5f) + PanelSize.y / 2f * 0.9f + PanelPos.y;
+                rt.anchoredPosition = new Vector2(top, y);
+                (e.idctor.transform as RectTransform).anchoredPosition = new Vector2(GetBottom((PanelType)h), y);
                 e.y_top = rt.anchoredPosition.y + rt.sizeDelta.y / 2;
                 e.y_bot = rt.anchoredPosition.y - rt.sizeDelta.y / 2;
-                e.center = new Vector2((h == 0 ? -1 : 1) * Panel.longExitPos, rt.anchoredPosition.y);
+                e.center = new Vector2(GetBottom((PanelType)h), rt.anchoredPosition.y);
             }
         }
     }

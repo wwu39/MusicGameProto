@@ -13,12 +13,17 @@ public class BlockEnlarge : MonoBehaviour
     Color startColor;
     float startTime;
     Color endColor;
-    // Start is called before the first frame update
+    RectTransform rt;
+    Vector2 startPos;
+    [HideInInspector] public Vector2 endPos;
+
     void Start()
     {
+        rt = GetComponent<RectTransform>();
         foreach (Graphic g in coloringParts) g.color = startColor;
         startTime = Time.time;
-        transform.localScale = startScale;
+        rt.localScale = startScale;
+        startPos = rt.anchoredPosition;
         if (fades)
         {
             endColor = startColor;
@@ -29,23 +34,28 @@ public class BlockEnlarge : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float frac = (Time.time - startTime) / lifetime;
-        if (frac >= 1)
+        float frac = (Time.time - startTime) / lifetime / 2;
+        if (frac >= 2)
         {
             Destroy(gameObject);
         }
+        else if (frac >= 1)
+        {
+            rt.localScale = Vector3.Lerp(startScale, endScale, frac - 1);
+            if (fades) foreach (Graphic g in coloringParts) g.color = Color.Lerp(startColor, endColor, frac - 1);
+        }
         else
         {
-            transform.localScale = Vector3.Lerp(startScale, endScale, frac);
-            if (fades) foreach (Graphic g in coloringParts) g.color = Color.Lerp(startColor, endColor, frac);
+            rt.anchoredPosition = Utils.NLerp(startPos, endPos, frac, NlerpMode.OutSine);
         }
     }
 
-    public static void Create(Sprite sprite, Color c, Vector2 pos, Transform parent)
+    public static void Create(Sprite sprite, Color c, Vector2 startPos, Vector2 endPos, Transform parent)
     {
         BlockEnlarge be = Instantiate(Resources.Load<GameObject>("BlockEnlarge"), parent).GetComponent<BlockEnlarge>();
         be.startColor = c;
         be.GetComponent<Image>().sprite = sprite;
-        (be.transform as RectTransform).anchoredPosition = pos;
+        (be.transform as RectTransform).anchoredPosition = startPos;
+        be.endPos = endPos + new Vector2(Random.Range(-5f, 5f), Random.Range(-5f, 5f));
     }
 }

@@ -11,7 +11,7 @@ public class Interpreter
     {
         keyData = new List<KeyData>();
         sections = new Dictionary<string, Dictionary<string, string>>();
-        TextAsset[] tas = Resources.LoadAll<TextAsset>(filename);
+        TextAsset[] tas = Resources.LoadAll<TextAsset>(RhythmGameManager.ins.platform + "/" + filename);
         for (int i = 0; i < tas.Length; ++i)
         {
             bool isSection = true;

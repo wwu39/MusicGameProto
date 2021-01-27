@@ -26,7 +26,7 @@ public class Panel : MonoBehaviour
     public static Panel Right;
     public static float exitPos = 64;
     public static float longExitPos = PanelSize.x - exitPos;
-    public static float bottomPos = 845;
+    public static float bottomPos = 815;
 
     // Panel State
     // 0=No Panel
@@ -190,6 +190,7 @@ public class Panel : MonoBehaviour
     private void Awake()
     {
         Visible = false;
+        bottom.GetComponent<RectTransform>().anchoredPosition = new Vector2(panelType == PanelType.Left ? -bottomPos : bottomPos, PanelPos.y);
         ShowBottom(false);
     }
 
@@ -240,6 +241,7 @@ public class Panel : MonoBehaviour
             if (exit.panel == panelType)
             {
                 exit.obj.SetActive(show);
+                exit.idctor.SetActive(show);
             }
         }
     }

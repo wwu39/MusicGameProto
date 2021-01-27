@@ -1,0 +1,15 @@
+[General]
+Exit=3
+Delay=3
+Music=none
+
+[0.3]
+Type=ShowLeftPanel
+[1]
+Type=HorizontalMove
+Panel=Left
+Exit=0
+Direction=Down
+Width=3
+Note=60,61,63,65
+Delays=0.4175339,0.4166679,0.4157982

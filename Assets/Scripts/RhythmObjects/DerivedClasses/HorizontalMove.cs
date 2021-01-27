@@ -151,17 +151,17 @@ public class HorizontalMove : RhythmObject
             case Direction.Down:
                 height = GetExit().y_top - GetExit(width - 1).y_bot;
                 line.rectTransform.anchoredPosition = new Vector2(0, (BlockSize.y - height) / 2);
-                line.rectTransform.sizeDelta = new Vector2(block.rectTransform.sizeDelta.x, height);
+                line.rectTransform.sizeDelta = new Vector2(BlockSize.x, height);
                 break;
             case Direction.Up:
                 height = GetExit(1 - width).y_top - GetExit().y_bot;
                 line.rectTransform.anchoredPosition = new Vector2(0, (height - BlockSize.y) / 2);
-                line.rectTransform.sizeDelta = new Vector2(block.rectTransform.sizeDelta.x, height);
+                line.rectTransform.sizeDelta = new Vector2(BlockSize.x, height);
                 break;
         }
         line.enabled = false;
-        outterFrame.rectTransform.sizeDelta = line.rectTransform.sizeDelta + new Vector2(9, 9);
-        outterBg.rectTransform.sizeDelta = line.rectTransform.sizeDelta + new Vector2(32, 32);
+        outterFrame.rectTransform.sizeDelta = line.rectTransform.sizeDelta + new Vector2(-10, -10);
+        outterBg.rectTransform.sizeDelta = line.rectTransform.sizeDelta + new Vector2(15, 15);
 
         Sprite[] s = Random.Range(0, 2) == 1 ? RhythmGameManager.ins.UpNotes : RhythmGameManager.ins.DownNotes;
         noteImages = new Sprite[width];

@@ -11,6 +11,13 @@ public enum NlerpMode
     InSine,
     OutSine
 }
+
+public enum Platform
+{
+    Default,
+    Mobile
+}
+
 public class Utils
 {
     public static Dictionary<int, string> noteToFile = new Dictionary<int, string>()
@@ -20,12 +27,12 @@ public class Utils
         {74,"d5"},{75,"d-5"},{52,"e3"},{64,"e4"},{76,"e5"},{53,"f3"},{54,"f-3"},{65,"f4"},{66,"f-4"},{77,"f5"},
         {78,"f-5"},{55,"g3"},{56,"g-3"},{67,"g4"},{68,"g-4"},{79,"g5"},{80,"g-5"}
     };
-    public static Color[] colorList = new Color[6]
+    public static Color[] colorList = new Color[]
     {
         new Color(1,0,0),
         new Color(1,1,0),
         new Color(0,1,0),
-        new Color(0,1,1),
+        //new Color(0,1,1),
         new Color(0,0,1),
         new Color(1,0,1),
     };
