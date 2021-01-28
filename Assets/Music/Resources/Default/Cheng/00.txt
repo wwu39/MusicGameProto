@@ -1,6 +1,6 @@
 [General]
 Exit=3
-Delay=3
+Delay=0
 
 [TempoChanges]
 0=144,73.6441

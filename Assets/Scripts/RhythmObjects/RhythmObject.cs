@@ -47,6 +47,7 @@ public abstract class RhythmObject : MonoBehaviour
     [SerializeField] Graphic[] coloringParts;
     public RhythmObject parent = null;
     protected ExitData[] exits;
+    protected int exitCount;
     protected bool activated;
     protected bool fallBelowBottom = true;
     public float fallingTime = 3;
@@ -109,6 +110,7 @@ public abstract class RhythmObject : MonoBehaviour
         exit = _exit;
         panel = _panel;
         exits = RhythmGameManager.exits;
+        exitCount = GeneralSettings.exitCount;
         perfectScore = _perfectScore;
         goodScore = _goodScore;
         badScore = _badScore;
@@ -264,7 +266,7 @@ public abstract class RhythmObject : MonoBehaviour
 
     protected ExitData GetExit(int offset = 0)
     {
-        return exits[exit + offset + (int)panel * GeneralSettings.exitCount];
+        return exits[exit + offset + (int)panel * exitCount];
     }
 
     protected struct AutoModeStruct

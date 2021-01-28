@@ -29,14 +29,6 @@ public class Timeline : MonoBehaviour
     public delegate void Void_RhythmObject(RhythmObject o);
     public event Void_RhythmObject OnBlockCreated;
     public float startTime;
-
-    // 难度屏蔽
-    // 0=困难难度下无屏蔽
-    // 1=中等难度下方块屏蔽自身处理时间50%的其他方块
-    // 2=简单难度下方块屏蔽自身处理时间100%的其他方块
-    // 只有FallingBlock, LongFallingBlock, HorizontalMove受难度屏蔽影响
-    bool difficultyShielding = false;
-    static HashSet<string> difficultyShieldingTypes = new HashSet<string>() { "FallingBlock", "LongFallingBlock", "HorizontalMove" };
     private void OnValidate()
     {
         vp = GetComponent<VideoPlayer>();
@@ -45,10 +37,11 @@ public class Timeline : MonoBehaviour
     {
         ins = this;
     }
-    public static void StartMusicScript(string scriptName)
+    public static void StartMusicScript(string scriptName, float fallingTime = 3)
     {
         Time.timeScale = 0;
         GeneralSettings.Reset();
+        GeneralSettings.fallingTime = fallingTime;
         Dictionary<string, Dictionary<string, string>> sections;
         Interpreter.Open(scriptName, out ins.keyData, out sections);
         GeneralSettings.exitCount = int.Parse(sections["General"]["Exit"]);
@@ -132,15 +125,13 @@ public class Timeline : MonoBehaviour
 
     IEnumerator StartFalling(KeyData kd)
     {
-        yield return new WaitForSeconds(kd.startTime - GeneralSettings.musicStartTime + GeneralSettings.delay - 3);
+        yield return new WaitForSeconds(kd.startTime - GeneralSettings.musicStartTime + GeneralSettings.delay - GeneralSettings.fallingTime);
         //print(kd.prop["Type"] + " is falling from Exit " + kd.prop["Exit"] + " in " + kd.prop["FallingTime"]);
         int exit = 0;
         PanelType panel = PanelType.Left;
         string str; string[] seg;
         if (kd.prop.TryGetValue("Exit", out str)) exit = int.Parse(str);
         if (kd.prop.TryGetValue("Panel", out str)) if (str == "Right") panel = PanelType.Right;
-        float fallingTime = 3;
-        //if (kd.prop.TryGetValue("FallingTime", out str)) fallingTime = float.Parse(str); else fallingTime = 3;
 
         string blockType = "None";
         if (kd.prop.TryGetValue("Type", out str)) blockType = str;
@@ -227,21 +218,13 @@ public class Timeline : MonoBehaviour
         else if (blockType == "HideBothPanels") Panel.HideBoth();
 
         // Generates block
-        else if (blockType != "None" && (GeneralSettings.specialMode != 2 || IgnoresSpecialMode2(blockType)) && !ShieldedByDifficulty(blockType))
+        else if (blockType != "None" && (GeneralSettings.specialMode != 2 || IgnoresSpecialMode2(blockType)))
         {
             if (Harp.Contains(kd))
             {
-                if (!Harp.ins.rouxian)
-                {
-                    Beat beat = RhythmGameManager.CreateBeat(exit, panel, Utils.GetRandomColor());
-                    // float waitTime = Mathf.Max(0, fallingTime - beat.lifetime);
-                    OnBlockCreated?.Invoke(beat);
-                    // if (waitTime > 0) yield return new WaitForSeconds(waitTime);
-                }
-                else if (blockType == "Lyrics")
-                {
-                    Harp.CreateLyrics(kd.prop["Lyrics"], float.Parse(kd.prop["TimeLast"]));
-                }
+                if (Harp.ins.rouxian)
+                    if (blockType == "Lyrics") 
+                        Harp.CreateLyrics(kd.prop["Lyrics"], float.Parse(kd.prop["TimeLast"]));
             }
             else
             {
@@ -252,7 +235,7 @@ public class Timeline : MonoBehaviour
                     c = new Color32(byte.Parse(seg[0]), byte.Parse(seg[1]), byte.Parse(seg[2]), 255);
                 }
                 var block = RhythmGameManager.CreateBlock(exit, panel, blockType, c);
-                block.fallingTime = fallingTime;
+                block.fallingTime = GeneralSettings.fallingTime;
 
                 if (kd.prop.TryGetValue("Note", out str))
                 {
@@ -286,13 +269,9 @@ public class Timeline : MonoBehaviour
                     }
                 }
 
-                float shieldingTime = -999;
                 switch (blockType)
                 {
                     case "FallingBlock":
-                        // 难度屏蔽
-                        if (GeneralSettings.difficulty == 1) shieldingTime = 0.3f;
-                        else if (GeneralSettings.difficulty == 2) shieldingTime = 0.6f;
                         break;
                     case "Beat":
                         Beat beat = (Beat)block;
@@ -312,17 +291,11 @@ public class Timeline : MonoBehaviour
                     case "LongFallingBlock":
                         LongFallingBlock lfb = (LongFallingBlock)block;
                         lfb.length = int.Parse(kd.prop["Length"]);
-                        // 难度屏蔽
-                        if (GeneralSettings.difficulty == 1) shieldingTime = 0.6f * lfb.length * 0.5f;
-                        else if (GeneralSettings.difficulty == 2) shieldingTime = 0.6f * lfb.length * 1f;
                         break;
                     case "HorizontalMove":
                         HorizontalMove hrm = (HorizontalMove)block;
                         hrm.width = int.Parse(kd.prop["Width"]);
                         hrm.direction = kd.prop["Direction"] == "Up" ? Direction.Up : Direction.Down;
-                        // 难度屏蔽
-                        if (GeneralSettings.difficulty == 1) shieldingTime = 0.6f * hrm.width * 0.5f;
-                        else if (GeneralSettings.difficulty == 2) shieldingTime = 0.6f * hrm.width * 1f;
                         break;
                     case "Harp":
                         Harp h = (Harp)block;
@@ -364,17 +337,8 @@ public class Timeline : MonoBehaviour
                         break;
                 }
                 OnBlockCreated?.Invoke(block);
-                if (shieldingTime > 0)
-                {
-                    difficultyShielding = true;
-                    yield return new WaitForSeconds(shieldingTime);
-                    difficultyShielding = false;
-                }
             }
         }
-        // yield return new WaitForSeconds(block.fallingTime);
-        // SyncMusic(kd.startTime + block.fallingTime);
-
     }
 
     static bool IgnoresSpecialMode2(string blockType)
@@ -382,10 +346,6 @@ public class Timeline : MonoBehaviour
         print(blockType);
         RhythmType t = Resources.Load<GameObject>(blockType).GetComponent<RhythmObject>().Type;
         return t == RhythmType.Misc;
-    }
-    static bool ShieldedByDifficulty(string blockType)
-    {
-        return ins.difficultyShielding && difficultyShieldingTypes.Contains(blockType);
     }
 
     IEnumerator StartMusic(float time)

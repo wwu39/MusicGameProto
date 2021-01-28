@@ -48,6 +48,7 @@ public class Panel : MonoBehaviour
 
         void OnShowLeftFinished()
         {
+            Debug.Log("ShowLeftFinished");
             Left.ShowBottom(true);
             Left.ShowExits(true);
             foreach (var exit in RhythmGameManager.exits)
@@ -284,6 +285,8 @@ public class Panel : MonoBehaviour
             g.color = c;
         }
         Visible = !disappear;
+        print(Time.time - startTime);
         OnFinished?.Invoke();
+        print(Time.time - startTime);
     }
 }

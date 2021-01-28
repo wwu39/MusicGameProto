@@ -14,7 +14,9 @@ public class SelectLevel : MonoBehaviour
     [SerializeField] string[] titles;
     [SerializeField] string[] desc;
     [SerializeField] string[] songNames;
+    GameObject preenterDialog;
     [HideInInspector] public string preselectedSongName;
+    [HideInInspector] public float fallingTime = 3;
 
     public static SelectLevel ins;
 
@@ -33,22 +35,11 @@ public class SelectLevel : MonoBehaviour
             btn.GetComponent<Button>().onClick.AddListener(delegate
             {
                 preselectedSongName = songNames[j];
-                SceneManager.LoadScene(1);
+                preenterDialog = Instantiate(Resources.Load<GameObject>("PreEnter"), GameObject.Find("Canvas").transform);
+                //SceneManager.LoadScene(1);
             });
             ++i;
         }
         DontDestroyOnLoad(this);
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

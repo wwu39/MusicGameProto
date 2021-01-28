@@ -13,7 +13,7 @@ public class DefRes // 开发用分辨率
 }
 public class BlockSize
 {
-    public static int x = 90; // 原来是45，改为90增大判定区域，但是图像没有改
+    public static int x = 90; // 原来是45，改为90增大判定区域
     public static int y = 90;
 }
 
@@ -22,9 +22,9 @@ public struct GeneralSettings
     public static int mode; // 0=正常, 1=拖轨
     public static int exitCount;
     public static float delay;
-    public static float bingguiSpeed = 2750;
     public static int specialMode = 0; // 0=正常, 1=把所有方块当作下落方块, 2=不下落任何方块
     public static float musicStartTime;
+    public static float fallingTime = 3;
     
     // 难度: 0=困难, 1=中等, 2=简单
     public static int difficulty = 0;
@@ -33,10 +33,10 @@ public struct GeneralSettings
         mode = 0;
         exitCount = 0;
         delay = 0;
-        bingguiSpeed = 2750;
         specialMode = 0;
         difficulty = 0;
         musicStartTime = 0;
+        fallingTime = 3;
     }
 }
 
@@ -119,7 +119,6 @@ public class RhythmGameManager : MonoBehaviour
     [SerializeField] GameObject gameContent;
     [SerializeField] GameObject selectSong;
     public static ExitData[] exits;
-    public static ExitData binggui;
     [SerializeField] Text UIScore;
     [SerializeField] Button reload;
     public Button pauseButton;
@@ -153,15 +152,9 @@ public class RhythmGameManager : MonoBehaviour
     {
         ins = this;
         exits = null;
-        binggui = null;
         reload.onClick.AddListener(delegate
         {
             Timeline.Stop();
-            if (binggui != null)
-            {
-                Destroy(binggui.obj);
-                binggui = null;
-            }
             SceneManager.LoadScene(0);
         });
         Panel.Left = leftPanel;
@@ -209,7 +202,7 @@ public class RhythmGameManager : MonoBehaviour
         }
         else
         {
-            Timeline.StartMusicScript(SelectLevel.ins.preselectedSongName);
+            Timeline.StartMusicScript(SelectLevel.ins.preselectedSongName, SelectLevel.ins.fallingTime);
             Destroy(SelectLevel.ins.gameObject);
             GenerateExits();
             Destroy(selectSong);
@@ -219,7 +212,7 @@ public class RhythmGameManager : MonoBehaviour
     bool pause;
     private void Update()
     {
-        timeShown.text = ((int)((Time.time - Timeline.ins.startTime) * 1000)).ToString();
+        // timeShown.text = ((int)((Time.time - Timeline.ins.startTime) * 1000)).ToString();
         if (Input.GetKeyDown(KeyCode.Escape)) OnPauseButtonPressed();
 
         ExitData.CheckInput();
@@ -405,7 +398,6 @@ public class RhythmGameManager : MonoBehaviour
     public static void HideExit(bool hide = true)
     {
         foreach (ExitData ed in exits) ed.obj.SetActive(!hide);
-        if (binggui != null) binggui.obj.SetActive(!hide);
     }
 
     public static void HideExit(HashSet<int> exitsToHide)
