@@ -23,7 +23,7 @@ public class BGMusicVolume : MonoBehaviour
 
     void OnValueChanged(float val)
     {
-        Timeline.ins.vEventIns.setVolume(val);
+        Timeline.SetParam("BGVolumn", val);
         t.text = "背景音量" + val;
     }
 }

@@ -25,6 +25,7 @@ public struct GeneralSettings
     public static int specialMode = 0; // 0=正常, 1=把所有方块当作下落方块, 2=不下落任何方块
     public static float musicStartTime;
     public static float fallingTime = 3;
+    public static bool midiTrack = false;
     
     // 难度: 0=困难, 1=中等, 2=简单
     public static int difficulty = 0;
@@ -37,6 +38,7 @@ public struct GeneralSettings
         difficulty = 0;
         musicStartTime = 0;
         fallingTime = 3;
+        midiTrack = false;
     }
 }
 

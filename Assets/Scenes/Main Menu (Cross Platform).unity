@@ -26884,15 +26884,19 @@ MonoBehaviour:
   tilepages:
   - {fileID: 21300000, guid: 6d62e8251d7836043a6f40e27ee5d646, type: 3}
   - {fileID: 21300000, guid: 6d62e8251d7836043a6f40e27ee5d646, type: 3}
+  - {fileID: 21300000, guid: 94e3fb5b5bcdfdc40b2b96af289d0f1b, type: 3}
   titles:
   - Cheng's Secret
   - Cheng's Secret
+  - Rubia
   desc:
   - Standard Version
   - Double Panel Test
+  - Honkai Impact 3rd
   songNames:
   - Cheng
   - Cheng2
+  - Rubia
   preselectedSongName: 
   fallingTime: 3
 --- !u!4 &1021469528
@@ -63454,11 +63458,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 224357076414380102, guid: 34454bb273a5c294491cb70404c95a1f, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224357076414380102, guid: 34454bb273a5c294491cb70404c95a1f, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224357076414380102, guid: 34454bb273a5c294491cb70404c95a1f, type: 3}
       propertyPath: m_SizeDelta.y
@@ -63466,11 +63470,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 224357076414380102, guid: 34454bb273a5c294491cb70404c95a1f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 894.954
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224357076414380102, guid: 34454bb273a5c294491cb70404c95a1f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -243.4685
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224379349299168568, guid: 34454bb273a5c294491cb70404c95a1f, type: 3}
       propertyPath: m_AnchorMax.y

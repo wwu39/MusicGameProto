@@ -17,7 +17,7 @@ public struct KeyData
 public class Timeline : MonoBehaviour
 {
     [SerializeField] GameObject pauseGameUI;
-    [HideInInspector] public FMOD.Studio.EventInstance vEventIns;
+    [HideInInspector] FMOD.Studio.EventInstance vEventIns;
     [HideInInspector] public bool hasMusic;
     [SerializeField] VideoPlayer vp;
     [SerializeField] VideoClip[] clips;
@@ -37,6 +37,7 @@ public class Timeline : MonoBehaviour
     {
         ins = this;
     }
+
     public static void StartMusicScript(string scriptName, float fallingTime = 3)
     {
         Time.timeScale = 0;
@@ -52,6 +53,7 @@ public class Timeline : MonoBehaviour
         if (sections["General"].TryGetValue("Delay", out str)) GeneralSettings.delay = float.Parse(str); else GeneralSettings.delay = 3;
         if (sections["General"].TryGetValue("Difficulty", out str)) GeneralSettings.difficulty = int.Parse(str); else GeneralSettings.difficulty = 0;
         if (sections["General"].TryGetValue("MusicStartPosition", out str)) GeneralSettings.musicStartTime = float.Parse(str); else GeneralSettings.musicStartTime = 0;
+        if (sections["General"].TryGetValue("MidiTrack", out str)) GeneralSettings.midiTrack = str == "yes";
 
         if (musicName != "none")
         {
@@ -68,15 +70,6 @@ public class Timeline : MonoBehaviour
     {
         ins.StopAllCoroutines();
         ins.vEventIns.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-    }
-
-    public static void SyncMusic(float time)
-    {
-        Debug.Log("Sync " + time);
-        FMOD.Studio.PLAYBACK_STATE state;
-        ins.vEventIns.getPlaybackState(out state);
-        if (state == FMOD.Studio.PLAYBACK_STATE.PLAYING)
-            ins.vEventIns.setTimelinePosition((int)(time * 1000));
     }
 
     bool resuming;
@@ -420,5 +413,10 @@ public class Timeline : MonoBehaviour
             vEventIns.setVolume(i);
             yield return new WaitForSeconds(step);
         }
+    }
+
+    public static void SetParam(string id, float val)
+    {
+        ins.vEventIns.setParameterByName(id, val);
     }
 }

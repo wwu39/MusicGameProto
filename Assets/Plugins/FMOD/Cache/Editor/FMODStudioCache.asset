@@ -35,6 +35,23 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 0
+--- !u!114 &-9093780540692006254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/SingerOn
+  m_EditorClassIdentifier: 
+  Name: SingerOn
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 1
 --- !u!114 &-8983688809953469975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,7 +119,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/a-4
   guid: 4d5217991c83ea40b081facb696c5294
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -178,7 +195,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/d5
   guid: f3c0182beb6d964eb0dd011e4247ec1c
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -186,6 +203,24 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 705
+--- !u!114 &-8328807591142650436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Voices.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Voices.bank
+  SubDir: 
+  lastModified: 637474821443937651
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
 --- !u!114 &-8299884745194502239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,7 +272,7 @@ MonoBehaviour:
   Path: event:/820-3
   guid: 49b2c7cdde53e24aa9c9e6cbd60bc72e
   Banks:
-  - {fileID: -4453129156943312096}
+  - {fileID: -1030268578293241487}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -260,6 +295,42 @@ MonoBehaviour:
   Path: FmodProj/Build/Desktop/MidiNotes.bank
   SubDir: 
   lastModified: 637441276064786926
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
+--- !u!114 &-8051487857521898345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637474821424222589
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
+--- !u!114 &-8030530830998620606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Voices.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Voices.bank
+  SubDir: 
+  lastModified: 637474822329773180
   LoadResult: 0
   FileSizes: []
   Exists: 0
@@ -299,6 +370,23 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 0
+--- !u!114 &-7943541324806728069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Cheng/BGVolumn
+  m_EditorClassIdentifier: 
+  Name: BGVolumn
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
 --- !u!114 &-7760229728945905829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -332,7 +420,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/c6
   guid: 1d23ccfd3b62d24498f3a705a822b00e
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -373,7 +461,7 @@ MonoBehaviour:
   Path: event:/Jack06
   guid: 0651b9038e5751489f21cd0100665d3c
   Banks:
-  - {fileID: 4094364568487317230}
+  - {fileID: 8091905792042247016}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -470,7 +558,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/g-5
   guid: abc9dd85ced49d4ba9777045d24c78c3
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -548,6 +636,23 @@ MonoBehaviour:
   Max: 1
   Default: 0
   Exists: 1
+--- !u!114 &-6861631027940529621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/Quality
+  m_EditorClassIdentifier: 
+  Name: Quality
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
 --- !u!114 &-6755132124580219938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -565,6 +670,23 @@ MonoBehaviour:
   Max: 1
   Default: 0
   Exists: 1
+--- !u!114 &-6612558100664578539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Cheng/BGVolumn
+  m_EditorClassIdentifier: 
+  Name: BGVolumn
+  Min: 0
+  Max: 1
+  Default: 1
+  Exists: 1
 --- !u!114 &-6567527044738336732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -580,7 +702,7 @@ MonoBehaviour:
   Path: event:/Rouxian1
   guid: 9da98404dac1cd41a13d57db27f695da
   Banks:
-  - {fileID: -4453129156943312096}
+  - {fileID: -1030268578293241487}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -637,7 +759,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/f3
   guid: 34ab15c4bfd46742ac6badc40cea96c5
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -662,6 +784,23 @@ MonoBehaviour:
   Max: 1
   Default: 0
   Exists: 0
+--- !u!114 &-6124711656009813866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Rubia/KeyOn
+  m_EditorClassIdentifier: 
+  Name: KeyOn
+  Min: 0
+  Max: 2
+  Default: 0
+  Exists: 0
 --- !u!114 &-6074406681843397094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -680,6 +819,42 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 0
+--- !u!114 &-5920286726887866826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/MidiNotes.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/MidiNotes.bank
+  SubDir: 
+  lastModified: 637474849275853528
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
+--- !u!114 &-5789058883655969996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637474789687584391
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
 --- !u!114 &-5746386799022283260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -695,7 +870,7 @@ MonoBehaviour:
   Path: event:/Jack01
   guid: c406e2e4f2bfbe47b852dcd7855ec0c1
   Banks:
-  - {fileID: 4094364568487317230}
+  - {fileID: 8091905792042247016}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -718,7 +893,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/c4
   guid: d2fa1b0e4133394aae258d5119230570
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -726,6 +901,23 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 705
+--- !u!114 &-5707282964207863305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/SingerOn
+  m_EditorClassIdentifier: 
+  Name: SingerOn
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
 --- !u!114 &-5532757206299235545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -741,7 +933,7 @@ MonoBehaviour:
   Path: event:/820-1
   guid: 6d3585f0771e8343aeb12d7a6aa87a48
   Banks:
-  - {fileID: -4453129156943312096}
+  - {fileID: -1030268578293241487}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -766,6 +958,24 @@ MonoBehaviour:
   Max: 1
   Default: 0
   Exists: 0
+--- !u!114 &-5475757132488382765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/MidiNotes.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/MidiNotes.bank
+  SubDir: 
+  lastModified: 637474789571106946
+  LoadResult: 0
+  FileSizes: []
+  Exists: 1
 --- !u!114 &-5393975943387261627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -817,7 +1027,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/d-4
   guid: 9f02b12a546a604d849d3a0cfd3f5ca1
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -840,11 +1050,12 @@ MonoBehaviour:
   Path: event:/Cheng
   guid: d0c385d5a4ce6348ae172588a0a32ba8
   Banks:
-  - {fileID: -4453129156943312096}
+  - {fileID: -1030268578293241487}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
-  Parameters: []
+  Parameters:
+  - {fileID: -6612558100664578539}
   MinDistance: 0
   MaxDistance: 0
   Length: 213360
@@ -881,7 +1092,7 @@ MonoBehaviour:
   Path: event:/818
   guid: d9a35c207f34d54d8d934c83428693a7
   Banks:
-  - {fileID: -4453129156943312096}
+  - {fileID: -1030268578293241487}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -977,6 +1188,57 @@ MonoBehaviour:
   Max: 1
   Default: 0
   Exists: 0
+--- !u!114 &-4597584768241014173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/Quality
+  m_EditorClassIdentifier: 
+  Name: Quality
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
+--- !u!114 &-4580823841803495017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/Quality
+  m_EditorClassIdentifier: 
+  Name: Quality
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
+--- !u!114 &-4517928529604221962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/SingerOn
+  m_EditorClassIdentifier: 
+  Name: SingerOn
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
 --- !u!114 &-4453129156943312096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -994,7 +1256,42 @@ MonoBehaviour:
   lastModified: 637467161941658191
   LoadResult: 0
   FileSizes: []
-  Exists: 1
+  Exists: 0
+--- !u!114 &-4435773273660031681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/SingerOn
+  m_EditorClassIdentifier: 
+  Name: SingerOn
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
+--- !u!114 &-4297072482506694189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/MidiNotes.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/MidiNotes.bank
+  SubDir: 
+  lastModified: 637474825441036366
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
 --- !u!114 &-4144506554965486829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1027,7 +1324,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/e4
   guid: cc3243f3359aac46b5f65a0a99cad26b
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -1068,7 +1365,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/f-5
   guid: 00cca64215eff9489971015f6dbd4bbc
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -1093,6 +1390,23 @@ MonoBehaviour:
   lastModified: 637439432443202140
   LoadResult: 0
   FileSizes: []
+  Exists: 0
+--- !u!114 &-4030602260387827383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/Quality
+  m_EditorClassIdentifier: 
+  Name: Quality
+  Min: 0
+  Max: 1
+  Default: 0
   Exists: 0
 --- !u!114 &-3962523613497750581
 MonoBehaviour:
@@ -1162,7 +1476,7 @@ MonoBehaviour:
   Path: event:/Jack02
   guid: 05958089b2f04d4ea1f087ef56e6b5d6
   Banks:
-  - {fileID: 4094364568487317230}
+  - {fileID: 8091905792042247016}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -1185,7 +1499,7 @@ MonoBehaviour:
   Path: event:/Jack Battle
   guid: e6b96f5c2c63124a8aa311e6bd396f7e
   Banks:
-  - {fileID: -4453129156943312096}
+  - {fileID: -1030268578293241487}
   IsStream: 1
   Is3D: 0
   IsOneShot: 1
@@ -1193,6 +1507,23 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 208039
+--- !u!114 &-3679033440137825109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Cheng/BGVolumn
+  m_EditorClassIdentifier: 
+  Name: BGVolumn
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
 --- !u!114 &-3612095934980521880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1208,7 +1539,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/e5
   guid: 16eb338da6e6de499a5b9313c4b69f64
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -1216,6 +1547,41 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 705
+--- !u!114 &-3591028121729024468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Voices.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Voices.bank
+  SubDir: 
+  lastModified: 637474789575442813
+  LoadResult: 0
+  FileSizes: []
+  Exists: 1
+--- !u!114 &-3576961168433195307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/Quality
+  m_EditorClassIdentifier: 
+  Name: Quality
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 1
 --- !u!114 &-3554229280930757817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1231,7 +1597,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/g4
   guid: ce1c65908cbdb14eae23819797607026
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -1254,7 +1620,7 @@ MonoBehaviour:
   Path: event:/821-2
   guid: 72aaf422f05aa146867c15deb41b8d45
   Banks:
-  - {fileID: -4453129156943312096}
+  - {fileID: -1030268578293241487}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -1295,7 +1661,7 @@ MonoBehaviour:
   Path: event:/TBC
   guid: 70dbcf8fee11f248978fd5313ce53f56
   Banks:
-  - {fileID: -4453129156943312096}
+  - {fileID: -1030268578293241487}
   IsStream: 1
   Is3D: 0
   IsOneShot: 1
@@ -1335,7 +1701,7 @@ MonoBehaviour:
   Path: event:/821-1
   guid: 83eff06f4a0c044ebb236b3912076b1a
   Banks:
-  - {fileID: -4453129156943312096}
+  - {fileID: -1030268578293241487}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -1358,7 +1724,7 @@ MonoBehaviour:
   Path: event:/Jack04
   guid: 8bea559f2916ba4ab698dd52432ca4d8
   Banks:
-  - {fileID: 4094364568487317230}
+  - {fileID: 8091905792042247016}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -1402,6 +1768,23 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 0
+--- !u!114 &-2885543673573671894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/SingerOn
+  m_EditorClassIdentifier: 
+  Name: SingerOn
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 1
 --- !u!114 &-2852726952795296437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1417,7 +1800,7 @@ MonoBehaviour:
   Path: event:/WRONG
   guid: e6624788a28d034a8c458269b402f239
   Banks:
-  - {fileID: -4453129156943312096}
+  - {fileID: -1030268578293241487}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -1460,7 +1843,24 @@ MonoBehaviour:
   lastModified: 637467161944362731
   LoadResult: 0
   FileSizes: []
-  Exists: 1
+  Exists: 0
+--- !u!114 &-2662833292284565957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/SingerOn
+  m_EditorClassIdentifier: 
+  Name: SingerOn
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
 --- !u!114 &-2497700721031721551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1496,6 +1896,41 @@ MonoBehaviour:
   Max: 1
   Default: 0
   Exists: 0
+--- !u!114 &-2229910756856791259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Rubia/KeyOn
+  m_EditorClassIdentifier: 
+  Name: KeyOn
+  Min: 0
+  Max: 2
+  Default: 0
+  Exists: 0
+--- !u!114 &-2162035023609798725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637474849271937764
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
 --- !u!114 &-2118289768843094113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1514,6 +1949,23 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 0
+--- !u!114 &-2067582079037683693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Rubia/KeyOn
+  m_EditorClassIdentifier: 
+  Name: KeyOn
+  Min: 0
+  Max: 2
+  Default: 0
+  Exists: 1
 --- !u!114 &-2057279211406706646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1550,6 +2002,24 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 0
+--- !u!114 &-2011126320649687065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Voices.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Voices.bank
+  SubDir: 
+  lastModified: 637474825441432392
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
 --- !u!114 &-2002930469380033541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1565,7 +2035,7 @@ MonoBehaviour:
   Path: event:/820-2
   guid: 3f6cf7a0c6974145b0cee3ec57bdf8da
   Banks:
-  - {fileID: -4453129156943312096}
+  - {fileID: -1030268578293241487}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -1624,7 +2094,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/f-3
   guid: 5cd82a838dc99a4d82617aca59e6c95e
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -1672,6 +2142,24 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 208039
+--- !u!114 &-1753121791895039311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Voices.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Voices.bank
+  SubDir: 
+  lastModified: 637474863332687771
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
 --- !u!114 &-1680157101061441499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1688,7 +2176,7 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
-  Exists: 1
+  Exists: 0
 --- !u!114 &-1675059759562502657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1755,7 +2243,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/d3
   guid: b830d6a5c4c9a2499974f4262c8d0d9e
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -1778,7 +2266,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/f-4
   guid: 3fd3b3b84447b040bcb4705a53ec0ab7
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -1820,6 +2308,24 @@ MonoBehaviour:
   Max: 1
   Default: 0
   Exists: 0
+--- !u!114 &-1030268578293241487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637474873102618232
+  LoadResult: 0
+  FileSizes: []
+  Exists: 1
 --- !u!114 &-1027279685769906816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1889,7 +2395,7 @@ MonoBehaviour:
   Path: event:/The Bass Part
   guid: 4726c3910ac2cd46be58d4488cf78267
   Banks:
-  - {fileID: -4453129156943312096}
+  - {fileID: -1030268578293241487}
   IsStream: 1
   Is3D: 0
   IsOneShot: 1
@@ -1929,7 +2435,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/e3
   guid: 849ef8d2677ca34eb728e85b2c0cf52b
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -1975,6 +2481,24 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+  Exists: 0
+--- !u!114 &-314206667664807478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/MidiNotes.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/MidiNotes.bank
+  SubDir: 
+  lastModified: 637474789688322208
+  LoadResult: 0
+  FileSizes: []
   Exists: 0
 --- !u!114 &-276304216198938147
 MonoBehaviour:
@@ -2043,9 +2567,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EditorBanks:
   - {fileID: 7407921767779674772}
-  - {fileID: -4453129156943312096}
-  - {fileID: -2760435908479400020}
-  - {fileID: 4094364568487317230}
+  - {fileID: -1030268578293241487}
+  - {fileID: 139079580196737768}
+  - {fileID: 8091905792042247016}
   EditorEvents:
   - {fileID: 474354688781625152}
   - {fileID: -625618225398449996}
@@ -2107,12 +2631,16 @@ MonoBehaviour:
   - {fileID: -8353511888763229048}
   - {fileID: -2852726952795296437}
   - {fileID: -5105163161812755525}
+  - {fileID: 918140503611541724}
+  - {fileID: 296006537009423573}
+  - {fileID: 4762554643238091443}
+  - {fileID: 4502426432355307169}
   EditorParameters: []
   MasterBanks:
-  - {fileID: -4453129156943312096}
+  - {fileID: -1030268578293241487}
   StringsBanks:
   - {fileID: 7407921767779674772}
-  stringsBankWriteTime: 637467161941718028
+  stringsBankWriteTime: 637474873102698025
   cacheVersion: 3
 --- !u!114 &18418552791820621
 MonoBehaviour:
@@ -2202,6 +2730,24 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 0
+--- !u!114 &139079580196737768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/MidiNotes.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/MidiNotes.bank
+  SubDir: 
+  lastModified: 637474873103555044
+  LoadResult: 0
+  FileSizes: []
+  Exists: 1
 --- !u!114 &147149101728832475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2217,7 +2763,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/d4
   guid: 0955b35ed925cc4a8c26152d995a8721
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -2225,6 +2771,24 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 705
+--- !u!114 &165561038033576796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Voices.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Voices.bank
+  SubDir: 
+  lastModified: 637474793214233027
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
 --- !u!114 &209367189813115954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2240,7 +2804,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/a3
   guid: 045d719bc5cdad49a56a2533e0f2a85c
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -2248,6 +2812,29 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 679
+--- !u!114 &296006537009423573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/MidiNotes/87
+  m_EditorClassIdentifier: 
+  Path: event:/MidiNotes/87
+  guid: 643c6a6db2dc9f4d91d4ee879dc5cff4
+  Banks:
+  - {fileID: 139079580196737768}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 2533
 --- !u!114 &402828597134409274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2281,7 +2868,7 @@ MonoBehaviour:
   Path: event:/TestMusic
   guid: 395ec695d6053147863a9785fea3b6ad
   Banks:
-  - {fileID: -4453129156943312096}
+  - {fileID: -1030268578293241487}
   IsStream: 1
   Is3D: 0
   IsOneShot: 1
@@ -2339,13 +2926,13 @@ MonoBehaviour:
   Path: event:/Trust you
   guid: 448b19a311ad01419ccdabb1207f7fac
   Banks:
-  - {fileID: -4453129156943312096}
+  - {fileID: -1030268578293241487}
   IsStream: 1
   Is3D: 0
   IsOneShot: 1
   Parameters:
-  - {fileID: -1680157101061441499}
-  - {fileID: 3129701384812884218}
+  - {fileID: -3576961168433195307}
+  - {fileID: -9093780540692006254}
   MinDistance: 0
   MaxDistance: 0
   Length: 100257
@@ -2366,6 +2953,24 @@ MonoBehaviour:
   Max: 1
   Default: 0
   Exists: 0
+--- !u!114 &741469248511123850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637474825440246188
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
 --- !u!114 &758609288772699895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2384,6 +2989,31 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 0
+--- !u!114 &918140503611541724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Rubia
+  m_EditorClassIdentifier: 
+  Path: event:/Rubia
+  guid: 6842e59c7cfb2543bd3db7bd0d86539c
+  Banks:
+  - {fileID: -1030268578293241487}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -2067582079037683693}
+  - {fileID: 8415493786670922427}
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 194558
 --- !u!114 &950598007587941475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2454,6 +3084,24 @@ MonoBehaviour:
   Max: 1
   Default: 0
   Exists: 0
+--- !u!114 &1155246661137218238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Voices.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Voices.bank
+  SubDir: 
+  lastModified: 637474849277686467
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
 --- !u!114 &1359452492320010262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2472,6 +3120,23 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 0
+--- !u!114 &1380302744661237360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Rubia/BGVolumn
+  m_EditorClassIdentifier: 
+  Name: BGVolumn
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
 --- !u!114 &1507676124675363227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2487,7 +3152,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/g3
   guid: 96965c67fb888c42a101892f4082aa9e
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -2528,7 +3193,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/a-5
   guid: 3260eef961156d49bd477ec979cf1aad
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -2554,6 +3219,23 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 0
+--- !u!114 &1818238343107018607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/SingerOn
+  m_EditorClassIdentifier: 
+  Name: SingerOn
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
 --- !u!114 &1894902516355094078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2569,7 +3251,7 @@ MonoBehaviour:
   Path: event:/TestMidi
   guid: 82e5b87d57f30b48bf8582c3665acaed
   Banks:
-  - {fileID: -4453129156943312096}
+  - {fileID: -1030268578293241487}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -2592,7 +3274,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/f5
   guid: 979fc8fe1b744143a2395f1b36660b6f
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -2615,7 +3297,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/d-3
   guid: 3b60c4ef866e934dbd4f696c689cc426
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -2623,6 +3305,41 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 705
+--- !u!114 &2217445694607443047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/Quality
+  m_EditorClassIdentifier: 
+  Name: Quality
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 1
+--- !u!114 &2258416515278718147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/MidiNotes.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/MidiNotes.bank
+  SubDir: 
+  lastModified: 637474869734704681
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
 --- !u!114 &2266651601260145625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2640,6 +3357,57 @@ MonoBehaviour:
   lastModified: 637433538559934496
   LoadResult: 0
   FileSizes: []
+  Exists: 0
+--- !u!114 &2321321073636755077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/SingerOn
+  m_EditorClassIdentifier: 
+  Name: SingerOn
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
+--- !u!114 &2407364258809180469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/Quality
+  m_EditorClassIdentifier: 
+  Name: Quality
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
+--- !u!114 &2423816455986958111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Rubia/BGVolumn
+  m_EditorClassIdentifier: 
+  Name: BGVolumn
+  Min: 0
+  Max: 1
+  Default: 0
   Exists: 0
 --- !u!114 &2429595244062076093
 MonoBehaviour:
@@ -2699,6 +3467,24 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 0
+--- !u!114 &3059065506842087666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637474822328583442
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
 --- !u!114 &3061671901596817223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2714,7 +3500,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/d-5
   guid: 46b501be282c774789dedb4faa53ec47
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -2738,7 +3524,25 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
-  Exists: 1
+  Exists: 0
+--- !u!114 &3134282120135703094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/MidiNotes.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/MidiNotes.bank
+  SubDir: 
+  lastModified: 637474822329365197
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
 --- !u!114 &3241545323785985772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2807,7 +3611,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/b4
   guid: 92c4ac037feb764da16bd3b7675c0428
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -2815,6 +3619,24 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 731
+--- !u!114 &3783860776116910756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Voices.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Voices.bank
+  SubDir: 
+  lastModified: 637474789689545121
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
 --- !u!114 &3845150796292489997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2832,6 +3654,24 @@ MonoBehaviour:
   Max: 2
   Default: 0
   Exists: 0
+--- !u!114 &3929600899974421454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/MidiNotes.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/MidiNotes.bank
+  SubDir: 
+  lastModified: 637474793213827229
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
 --- !u!114 &4025555294385458064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2847,7 +3687,7 @@ MonoBehaviour:
   Path: event:/n733
   guid: 817d8f7e26273449946267f27d77d811
   Banks:
-  - {fileID: -4453129156943312096}
+  - {fileID: -1030268578293241487}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -2890,7 +3730,43 @@ MonoBehaviour:
   lastModified: 637467161945962352
   LoadResult: 0
   FileSizes: []
-  Exists: 1
+  Exists: 0
+--- !u!114 &4102458179311405898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637474793213055203
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
+--- !u!114 &4119442733142608631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/MidiNotes.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/MidiNotes.bank
+  SubDir: 
+  lastModified: 637474821443514707
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
 --- !u!114 &4285951209678520527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2960,7 +3836,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/b5
   guid: 6949cdec972f524a95f7d10693f61327
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -3003,6 +3879,29 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 0
+--- !u!114 &4502426432355307169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/MidiNotes/82
+  m_EditorClassIdentifier: 
+  Path: event:/MidiNotes/82
+  guid: f8e82343854fcb4fa9eba7b768981e16
+  Banks:
+  - {fileID: 139079580196737768}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 2533
 --- !u!114 &4517830618820800498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3056,6 +3955,24 @@ MonoBehaviour:
   Max: 1
   Default: 0
   Exists: 0
+--- !u!114 &4592728227252848899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637474863330365699
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
 --- !u!114 &4639091137276820976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3071,7 +3988,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/a-3
   guid: 3b0c551cee56ef498d6b18596843c752
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -3097,6 +4014,29 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 0
+--- !u!114 &4762554643238091443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/MidiNotes/85
+  m_EditorClassIdentifier: 
+  Path: event:/MidiNotes/85
+  guid: cac54aee36d2ac449a56f056b3e1241f
+  Banks:
+  - {fileID: 139079580196737768}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 2533
 --- !u!114 &4923519034419187386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3150,6 +4090,41 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 0
+--- !u!114 &5244973897079756536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/SingerOn
+  m_EditorClassIdentifier: 
+  Name: SingerOn
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
+--- !u!114 &5538640543032642642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/MidiNotes.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/MidiNotes.bank
+  SubDir: 
+  lastModified: 637474863332189843
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
 --- !u!114 &5604724035149206354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3200,7 +4175,7 @@ MonoBehaviour:
   Path: event:/816
   guid: e631ae64eaf71d449cd3925159153be1
   Banks:
-  - {fileID: 4094364568487317230}
+  - {fileID: 8091905792042247016}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -3241,7 +4216,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/g5
   guid: 5121eb8289d5d94f9dea171897ff7dc6
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -3249,6 +4224,24 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 705
+--- !u!114 &5789511471328091074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637474789566143461
+  LoadResult: 0
+  FileSizes: []
+  Exists: 1
 --- !u!114 &5871189418403830490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3282,7 +4275,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/c3
   guid: 6d4ac90b0ab104488526a1b23489897a
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -3305,7 +4298,7 @@ MonoBehaviour:
   Path: event:/Jack03
   guid: abd7a0f5ff4305449069aa413556f0f5
   Banks:
-  - {fileID: 4094364568487317230}
+  - {fileID: 8091905792042247016}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -3331,6 +4324,23 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 1
+--- !u!114 &6562475038792864407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/Quality
+  m_EditorClassIdentifier: 
+  Name: Quality
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
 --- !u!114 &6665297491386951364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3364,7 +4374,7 @@ MonoBehaviour:
   Path: event:/Jack05
   guid: 264c43bd32a81d49b3ede225b3ce5b06
   Banks:
-  - {fileID: 4094364568487317230}
+  - {fileID: 8091905792042247016}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -3372,6 +4382,41 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 1074
+--- !u!114 &6837876744396610053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/Quality
+  m_EditorClassIdentifier: 
+  Name: Quality
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
+--- !u!114 &7018872971915969602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637474869733945091
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
 --- !u!114 &7098128921428054474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3440,7 +4485,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/a4
   guid: d16b28da3613f54fbd6e512f985ff98e
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -3479,11 +4524,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: FmodProj/Build/Desktop/Master.strings.bank
   SubDir: 
-  lastModified: 637467161941718028
+  lastModified: 637474873102698025
   LoadResult: 0
   FileSizes:
   - Name: Desktop
-    Value: 3178
+    Value: 3408
   Exists: 1
 --- !u!114 &7468772666779659898
 MonoBehaviour:
@@ -3534,7 +4579,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/c-3
   guid: 6cf08eb3003b004d9d4066964f4ddc9e
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -3611,7 +4656,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/b3
   guid: 054ee4d98132284db9c3aab81f210acd
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -3634,7 +4679,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/c-4
   guid: 2c6b2b6e031da74bb24f51f87b971c89
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -3675,7 +4720,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/g-3
   guid: 027d194714e8d545af31cbace13cc94c
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -3700,6 +4745,24 @@ MonoBehaviour:
   Max: 1
   Default: 0
   Exists: 0
+--- !u!114 &7866863621986456418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Voices.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Voices.bank
+  SubDir: 
+  lastModified: 637474869735103503
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
 --- !u!114 &7869117987180087032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3718,6 +4781,58 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 0
+--- !u!114 &8091905792042247016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Voices.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Voices.bank
+  SubDir: 
+  lastModified: 637474873103955584
+  LoadResult: 0
+  FileSizes: []
+  Exists: 1
+--- !u!114 &8094390315524600318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Rubia/KeyOn
+  m_EditorClassIdentifier: 
+  Name: KeyOn
+  Min: 0
+  Max: 2
+  Default: 0
+  Exists: 0
+--- !u!114 &8138635603324194281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/Quality
+  m_EditorClassIdentifier: 
+  Name: Quality
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
 --- !u!114 &8168026339760106558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3733,7 +4848,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/a5
   guid: aef43f7e3d89524bab659a2bc7631c36
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -3756,7 +4871,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/f4
   guid: 7f63849a25daf24aa92e8228af0a7521
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -3814,7 +4929,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/c-5
   guid: 2c47c1aecaa8dd4fad60b8a465badfe0
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -3822,6 +4937,23 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 705
+--- !u!114 &8415493786670922427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Rubia/BGVolumn
+  m_EditorClassIdentifier: 
+  Name: BGVolumn
+  Min: 0
+  Max: 1
+  Default: 1
+  Exists: 1
 --- !u!114 &8425522613888622986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3858,6 +4990,23 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 1
+--- !u!114 &8507865154265257632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/SingerOn
+  m_EditorClassIdentifier: 
+  Name: SingerOn
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
 --- !u!114 &8570217334043292516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3890,7 +5039,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/g-4
   guid: 72c5cfd98f594040b8a7becd280938bf
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -3966,7 +5115,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/c5
   guid: ca2a4ffb289d064183200e121a21c1aa
   Banks:
-  - {fileID: -2760435908479400020}
+  - {fileID: 139079580196737768}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1

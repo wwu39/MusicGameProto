@@ -20,14 +20,36 @@ public struct SoundStruct
     public float delay;
     public bool played { private set; get; }
     public float createTime;
-    public void Play()
+    public void Play(int score)
     {
-        FMODUnity.RuntimeManager.PlayOneShot("event:/" + id);
-        int tlpos;
-        Timeline.ins.vEventIns.getTimelinePosition(out tlpos);
-        float bgmPos = tlpos / 1000f;
-        float notePos = Time.time - Timeline.ins.startTime;
-        Debug.Log("Event " + id + " Played at " + notePos + "; BGMPos=" + bgmPos + "; diff=" + (notePos - bgmPos));
+        if (GeneralSettings.midiTrack)
+        {
+            if (score == 1)
+            {
+                FMODUnity.RuntimeManager.PlayOneShot("event:/" + id);
+                Timeline.SetParam("KeyOn", 0);
+            }
+            else if (score == 2)
+            {
+                Timeline.SetParam("KeyOn", 1);
+            }
+            else
+            {
+                Timeline.SetParam("KeyOn", 0);
+                FMODUnity.RuntimeManager.PlayOneShot("event:/WRONG");
+            }
+        }
+        else
+        {
+            if (score > 0)
+            {
+                FMODUnity.RuntimeManager.PlayOneShot("event:/" + id);
+            }
+            else
+            {
+                FMODUnity.RuntimeManager.PlayOneShot("event:/WRONG");
+            }
+        }
         played = true;
     }
 }
@@ -167,7 +189,7 @@ public abstract class RhythmObject : MonoBehaviour
                 if (allScores.Count > 0 && allScores[0].score == 2)
                 {
                     // 如果已经按过Perfect，则声音再正确的时间播放
-                    sound[0].Play();
+                    sound[0].Play(2);
                 }
             }
             OnBottomReached?.Invoke();
@@ -185,11 +207,7 @@ public abstract class RhythmObject : MonoBehaviour
             if (!sound[curNote].played && Time.time - createTime - fallingTime >= sound[curNote].delay)
             {
                 // 时间已到
-                if (allScores[allScores.Count - 1].score > 0)
-                {
-                    // 只要最近一次不是miss就按时播放
-                    sound[curNote].Play();
-                }
+                sound[curNote].Play(allScores[allScores.Count - 1].score);
                 ++curNote;
             }
         }
@@ -239,11 +257,14 @@ public abstract class RhythmObject : MonoBehaviour
         
         if (s >= 1)
         {
-            if (sound.Length > 0 && allScores.Count == 0 && s == 1) sound[0].Play(); // 按到good时声效不会按时播放
+            if (sound.Length > 0 && allScores.Count == 0 && s == 1) sound[0].Play(1); // 按到good时声效不会按时播放
             if (flashBottom && coloringParts.Length > 0) Bottom.SetColor(panel, coloringParts[0].color * 0.75f); // 底边变色
         }
-
-        if (s == 0) FlyingText.Create(_text, _color, lastScorePos.Value, rt.parent);
+        else
+        {
+            if (sound.Length > 0 && allScores.Count == 0) sound[0].Play(0); // 按到miss时声效不会按时播放
+            FlyingText.Create(_text, _color, lastScorePos.Value, rt.parent);
+        }
         allScores.Add(new ScoreRecord(Time.time - createTime, s));
         OnScored?.Invoke(s);
     }

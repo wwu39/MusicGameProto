@@ -159,8 +159,8 @@ public class Harp : RhythmObject
                 harpImageOut = false;
                 frac = 1;
                 harpImage2.enabled = harpImage.enabled = false;
-                Timeline.ins.vEventIns.setParameterByName("Quality", 0);
-                Timeline.ins.vEventIns.setParameterByName("SingerOn", 1);
+                Timeline.SetParam("Quality", 0);
+                Timeline.SetParam("SingerOn", 1);
                 Destroy(gameObject);
             }
             harpImage2.rectTransform.sizeDelta = harpImage.rectTransform.sizeDelta = new Vector2(touchField.width, harpImageEndHeight + frac * (harpImageStartHeight - harpImageEndHeight));
@@ -227,8 +227,8 @@ public class Harp : RhythmObject
             bool volumeIncreasing = Time.time >= lastScoreRecord.time && Time.time - lastScoreRecord.time < 2f;
             quality = Mathf.Clamp(quality + (qualityIncreasing ? 1 : -0.1f) * Time.deltaTime, 0, 1);
             volume = Mathf.Clamp(volume + (volumeIncreasing ? 1 : -1) * Time.deltaTime * 2, 0, 1);
-            Timeline.ins.vEventIns.setParameterByName("Quality", 1 - quality);
-            Timeline.ins.vEventIns.setParameterByName("SingerOn", volume);
+            Timeline.SetParam("Quality", 1 - quality);
+            Timeline.SetParam("SingerOn", volume);
             //print("Quality: " + quality + "(" + (qualityIncreasing ? "increasing" : "decreasing") + ") SingerOn: " + volume + "(" + (volumeIncreasing ? "increasing" : "decreasing") + ")");
         }
 

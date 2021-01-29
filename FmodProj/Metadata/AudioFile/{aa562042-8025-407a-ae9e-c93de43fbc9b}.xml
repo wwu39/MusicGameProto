@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.00.00">
+	<object class="AudioFile" id="{aa562042-8025-407a-ae9e-c93de43fbc9b}">
+		<property name="assetPath">
+			<value>MidiNotes/85.mp3</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>2.5338775510204083</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{eb2c591e-9d8c-4d58-b77f-25a1298253e5}</destination>
+		</relationship>
+	</object>
+</objects>
