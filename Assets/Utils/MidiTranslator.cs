@@ -42,8 +42,6 @@ public class MidiTranslator : MonoBehaviour
     static int ticksPerQuarterNote;
     static float TickPerSecond(int bpm) => 60f / (bpm * ticksPerQuarterNote);
 
-    static float midiDelay;
-
     public static string[] noteNames = new string[12]
     {
         "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"
@@ -127,6 +125,14 @@ public class MidiTranslator : MonoBehaviour
         ParseTracks(file, min, max);
         File.WriteAllText("Dump/General.txt", text);
         Debug.Log("MaxNote: " + noteMax + " MinNote: " + noteMin);
+
+        tempoChanges.Sort((a, b) => a.startTime.CompareTo(b.startTime));
+        for (int i = 0; i < tempoChanges.Count; ++i)
+        {
+            var tc = tempoChanges[i];
+            tc.timeLast = i == tempoChanges.Count - 1 ? -1 : (tempoChanges[i + 1].startTime - tempoChanges[i].startTime) * TickPerSecond(tempoChanges[i].tempo);
+            tempoChanges[i] = tc;
+        }
     }
 
     static void ParseTracks(MidiFile file, int min, int max)
@@ -153,7 +159,7 @@ public class MidiTranslator : MonoBehaviour
                     if (map.TryGetValue(me.Note, out stack))
                     {
                         stack.Push(me);
-                        Debug.Log("Duplicate events");
+                        // Debug.Log("Duplicate events");
                     }
                     else
                     {
@@ -230,7 +236,7 @@ public class MidiTranslator : MonoBehaviour
     public static void PrepareTrack(int t)
     {
         tracks[t].Sort((a, b) => a.startTime.CompareTo(b.startTime));
-        //tracks[t].RemoveAll(n => !Utils.noteToFile.ContainsKey(n.note));
+        // tracks[t].RemoveAll(n => !Utils.noteToFile.ContainsKey(n.note));
         for (int h = 0; h < tracks[t].Count; ++h)
         {
             Note n = tracks[t][h];
@@ -260,21 +266,11 @@ public class MidiTranslator : MonoBehaviour
         filename = "Cheng";
         MakeNotes();
         exitCount = 3;
-        string text = "[General]\nExit=3\nDelay=0\n\n[TempoChanges]\n";
-        tempoChanges.Sort((a, b) => a.startTime.CompareTo(b.startTime));
-
-        for (int i = 0; i < tempoChanges.Count; ++i)
-        {
-            var tc = tempoChanges[i];
-            tc.timeLast = i == tempoChanges.Count - 1 ? -1 : (tempoChanges[i + 1].startTime - tempoChanges[i].startTime) * TickPerSecond(tempoChanges[i].tempo);
-            tempoChanges[i] = tc;
-            text += tc.startTime + "=" + tc.tempo + "," + tc.timeLast + "\n";
-        }
-        text += "\n\n";
+        string text = "[General]\nExit=3\nDelay=0\n\n";
 
         // curTrack=7
         curPanel = PanelType.Left;
-        PrepareTrack(7);
+        PrepareTrack(7); // 转化第七轨道
         text += ";Track 7: Melody 开头\n";
 
         Note n = tracks[7][GetIndex(17310)];
@@ -347,7 +343,7 @@ public class MidiTranslator : MonoBehaviour
 
         n = tracks[8][GetIndex(86444)];
         text += "[" + (n.startTimeInSec - 1.5f) + "]\nType=ShowRightPanel\n\n";
-        text += DoublePanel(86444, 123890, 960);
+        text += DoublePanel(86444, 123890, 240);
 
         n = tracks[8][GetIndex(123890)];
         text += "[" + (n.startTimeInSec + 4f) + "]\nType=HideRightPanel\n\n";
@@ -360,13 +356,6 @@ public class MidiTranslator : MonoBehaviour
         filename = "Cheng";
         MakeNotes();
         exitCount = 3;
-        tempoChanges.Sort((a, b) => a.startTime.CompareTo(b.startTime));
-        for (int i = 0; i < tempoChanges.Count; ++i)
-        {
-            var tc = tempoChanges[i];
-            tc.timeLast = i == tempoChanges.Count - 1 ? -1 : (tempoChanges[i + 1].startTime - tempoChanges[i].startTime) * TickPerSecond(tempoChanges[i].tempo);
-            tempoChanges[i] = tc;
-        }
         PrepareTrack(8);
         Note n = tracks[8][GetIndex(86444)];
         string text = "[General]\nExit=3\nDelay=0\nMusic=Cheng\nMusicStartPosition=" + (n.startTimeInSec - 6f) + "\n\n";
@@ -702,28 +691,16 @@ public class MidiTranslator : MonoBehaviour
         }
         return -1;
     }
-
     static float midiMult = 1;
     public static void TranslateRubia()
     {
         filename = "Rubia";
-        midiDelay = 0;// -0.069089f;
         midiMult = 183.509f / 186.2686f;
         MakeNotes();
         exitCount = 3;
-        string text = "[General]\nExit=3\nDelay=0\n\n[TempoChanges]\n";
-        tempoChanges.Sort((a, b) => a.startTime.CompareTo(b.startTime));
+        string text = "[General]\nExit=3\nDelay=0\nMidiTrack=yes\n";
 
-        for (int i = 0; i < tempoChanges.Count; ++i)
-        {
-            var tc = tempoChanges[i];
-            tc.timeLast = i == tempoChanges.Count - 1 ? -1 : (tempoChanges[i + 1].startTime - tempoChanges[i].startTime) * TickPerSecond(tempoChanges[i].tempo);
-            tempoChanges[i] = tc;
-            text += tc.startTime + "=" + tc.tempo + "," + tc.timeLast + "\n";
-        }
-        text += "\n\n";
-
-        // curTrack=7
+        // curTrack=1
         curPanel = PanelType.Left;
         PrepareTrack(1);
         text += ";Rubia 开头\n";
@@ -768,6 +745,8 @@ public class MidiTranslator : MonoBehaviour
 
     private void Start()
     {
-        TranslateRubia();
+        //TranslateRubia();
+        TranslateCheng();
+        //TranslateCheng2();
     }
 }
