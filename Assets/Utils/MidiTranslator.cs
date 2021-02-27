@@ -4,6 +4,36 @@ using UnityEngine;
 using MidiParser;
 using System.IO;
 using System.Runtime.InteropServices;
+using System;
+
+public class ExtraInfoEmbeddedInVelocity
+{
+    byte inVelocity, outVelocity;
+    string stringFormat;
+
+    public bool stemUp; // 符杆朝上
+    public string timeValue; // 时值
+    public bool dotted; // 是否带点
+    public string keymap; // 键位信息
+
+    public ExtraInfoEmbeddedInVelocity(byte @in, byte @out = 0)
+    {
+        inVelocity = @in;
+        outVelocity = @out; // 备用
+
+        var bitArray = new BitArray(new byte[] { inVelocity });
+        for (int i = 0; i < bitArray.Length; ++i) stringFormat += bitArray[BitConverter.IsLittleEndian ? bitArray.Length - i - 1 : i] ? 1 : 0;
+
+        stemUp = stringFormat[0] == '0';
+        timeValue = stringFormat.Substring(1, 3);
+        dotted = stringFormat[4] == '1';
+        keymap = stringFormat.Substring(5, 2);
+    }
+    public override string ToString()
+    {
+        return stringFormat;
+    }
+}
 
 public struct Note
 {
@@ -746,7 +776,14 @@ public class MidiTranslator : MonoBehaviour
     private void Start()
     {
         //TranslateRubia();
-        TranslateCheng();
+        //TranslateCheng();
         //TranslateCheng2();
+
+        var info = new ExtraInfoEmbeddedInVelocity(123);
+        print(info);
+        print("符杆: " + (info.stemUp ? "上" : "下"));
+        print("符值: " + info.timeValue);
+        print("是否带点：" + info.dotted);
+        print("键位值：" + info.keymap);
     }
 }
