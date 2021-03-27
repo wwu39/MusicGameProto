@@ -27,6 +27,7 @@ public class Panel : MonoBehaviour
     public static float exitPos = 64;
     public static float longExitPos = PanelSize.x - exitPos;
     public static float bottomPos = 815;
+    public static float alpha = 1f;
 
     // Panel State
     // 0=No Panel
@@ -58,8 +59,8 @@ public class Panel : MonoBehaviour
         }
 
         Left.StartAnimtion(new Vector2(0, PanelPos.y), new Vector2(0, PanelPos.y), 
-            Vector2.one, new Vector2(2 * PanelSize.x, PanelSize.y), 
-            1, 1, 
+            Vector2.one, new Vector2(2 * PanelSize.x, PanelSize.y),
+            alpha, alpha, 
             OnFinished: OnShowLeftFinished);
         state = 1;
     }
@@ -75,7 +76,7 @@ public class Panel : MonoBehaviour
         isBusy = true;
         Left.ShowBottom(false);
         Left.ShowExits(false);
-        Left.StartAnimtion(new Vector2(0, PanelPos.y), new Vector2(0, PanelPos.y), new Vector2(2 * PanelSize.x, PanelSize.y), new Vector2(2 * PanelSize.x, PanelSize.y), 1, 0, 0, true, delegate { isBusy = false; });
+        Left.StartAnimtion(new Vector2(0, PanelPos.y), new Vector2(0, PanelPos.y), new Vector2(2 * PanelSize.x, PanelSize.y), new Vector2(2 * PanelSize.x, PanelSize.y), alpha, 0, 0, true, delegate { isBusy = false; });
         state = 0;
     }
     public static void ShowRight()
@@ -104,7 +105,7 @@ public class Panel : MonoBehaviour
                 if (exit.panel == PanelType.Left)
                     exit.SetX(-exitPos);
         }
-        Left.StartAnimtion(new Vector2(0, PanelPos.y), new Vector2(-PanelPos.x, PanelPos.y), new Vector2(2 * PanelSize.x, PanelSize.y), new Vector2(PanelSize.x, PanelSize.y), 1, 1, OnFinished: OnLeftMoveFinished);
+        Left.StartAnimtion(new Vector2(0, PanelPos.y), new Vector2(-PanelPos.x, PanelPos.y), new Vector2(2 * PanelSize.x, PanelSize.y), new Vector2(PanelSize.x, PanelSize.y), alpha, alpha, OnFinished: OnLeftMoveFinished);
 
         void OnRightMoveFinished()
         {
@@ -112,7 +113,7 @@ public class Panel : MonoBehaviour
             Right.ShowExits(true);
             isBusy = false;
         }
-        Right.StartAnimtion(new Vector2(PanelPos.x, PanelPos.y), new Vector2(PanelPos.x, PanelPos.y), Vector2.one, new Vector2(PanelSize.x, PanelSize.y), 1, 1, animTime, false, OnRightMoveFinished);
+        Right.StartAnimtion(new Vector2(PanelPos.x, PanelPos.y), new Vector2(PanelPos.x, PanelPos.y), Vector2.one, new Vector2(PanelSize.x, PanelSize.y), alpha, alpha, animTime, false, OnRightMoveFinished);
         state = 2;
     }
 
@@ -138,11 +139,11 @@ public class Panel : MonoBehaviour
             Left.OnAnimUpdate -= MoveExits;
             isBusy = false;
         }
-        Left.StartAnimtion(new Vector2(-PanelPos.x, PanelPos.y), new Vector2(0, PanelPos.y), new Vector2(PanelSize.x, PanelSize.y), new Vector2(2 * PanelSize.x, PanelSize.y), 1, 1, animTime, false, OnLeftMoveFinished);
+        Left.StartAnimtion(new Vector2(-PanelPos.x, PanelPos.y), new Vector2(0, PanelPos.y), new Vector2(PanelSize.x, PanelSize.y), new Vector2(2 * PanelSize.x, PanelSize.y), alpha, alpha, animTime, false, OnLeftMoveFinished);
 
         Right.ShowBottom(false);
         Right.ShowExits(false);
-        Right.StartAnimtion(new Vector2(PanelPos.x, PanelPos.y), new Vector2(PanelPos.x, PanelPos.y), new Vector2(PanelSize.x, PanelSize.y), new Vector2(PanelSize.x, PanelSize.y), 1, 0, 0, true);
+        Right.StartAnimtion(new Vector2(PanelPos.x, PanelPos.y), new Vector2(PanelPos.x, PanelPos.y), new Vector2(PanelSize.x, PanelSize.y), new Vector2(PanelSize.x, PanelSize.y), alpha, 0, 0, true);
         state = 1;
     }
 
@@ -159,11 +160,11 @@ public class Panel : MonoBehaviour
 
         Left.ShowBottom(false);
         Left.ShowExits(false);
-        Left.StartAnimtion(new Vector2(-PanelPos.x, PanelPos.y), new Vector2(-PanelPos.x, PanelPos.y), new Vector2(PanelSize.x, PanelSize.y), new Vector2(PanelSize.x, PanelSize.y), 1, 0, 0, true);
+        Left.StartAnimtion(new Vector2(-PanelPos.x, PanelPos.y), new Vector2(-PanelPos.x, PanelPos.y), new Vector2(PanelSize.x, PanelSize.y), new Vector2(PanelSize.x, PanelSize.y), alpha, 0, 0, true);
         
         Right.ShowBottom(false);
         Right.ShowExits(false);
-        Right.StartAnimtion(new Vector2(PanelPos.x, PanelPos.y), new Vector2(PanelPos.x, PanelPos.y), new Vector2(PanelSize.x, PanelSize.y), new Vector2(PanelSize.x, PanelSize.y), 1, 0, 0, true, delegate { isBusy = false; });
+        Right.StartAnimtion(new Vector2(PanelPos.x, PanelPos.y), new Vector2(PanelPos.x, PanelPos.y), new Vector2(PanelSize.x, PanelSize.y), new Vector2(PanelSize.x, PanelSize.y), alpha, 0, 0, true, delegate { isBusy = false; });
         state = 0;
     }
 
@@ -285,8 +286,6 @@ public class Panel : MonoBehaviour
             g.color = c;
         }
         Visible = !disappear;
-        print(Time.time - startTime);
         OnFinished?.Invoke();
-        print(Time.time - startTime);
     }
 }

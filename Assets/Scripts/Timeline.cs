@@ -19,10 +19,11 @@ public class Timeline : MonoBehaviour
     [SerializeField] GameObject pauseGameUI;
     [HideInInspector] FMOD.Studio.EventInstance vEventIns;
     [HideInInspector] public bool hasMusic;
-    [SerializeField] VideoPlayer vp;
+    [SerializeField] VideoPlayer[] videoPlayer;
     [SerializeField] VideoClip[] clips;
-    [SerializeField] RenderTexture[] videoRatios;
-    [SerializeField] RawImage videoDisplay;
+    [SerializeField] RenderTexture[] videoTextures;
+    [SerializeField] RawImage[] videoDisplay;
+    int vdidx, lastVdIdx = -1;
 
     public static Timeline ins;
     List<KeyData> keyData;
@@ -31,7 +32,7 @@ public class Timeline : MonoBehaviour
     public float startTime;
     private void OnValidate()
     {
-        vp = GetComponent<VideoPlayer>();
+        videoPlayer = GetComponents<VideoPlayer>();
     }
     private void Awake()
     {
@@ -83,7 +84,7 @@ public class Timeline : MonoBehaviour
             Time.timeScale = 0;
             ins.vEventIns.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
             ins.vEventIns.getTimelinePosition(out ins.tlpos);
-            ins.vp.Pause();
+            ins.videoPlayer[ins.vdidx].Pause();
         }
         else
         {
@@ -112,7 +113,7 @@ public class Timeline : MonoBehaviour
         Time.timeScale = 1;
         vEventIns.setVolume(1);
         RhythmGameManager.ins.invisibleBlocker.SetActive(false);
-        vp.Play();
+        videoPlayer[vdidx].Play();
         resuming = false;
     }
 
@@ -191,6 +192,18 @@ public class Timeline : MonoBehaviour
         if (kd.prop.TryGetValue("VideoVolumeFadeOut", out str)) ins.StartCoroutine(FadeVideoVolume(float.Parse(str)));
         if (kd.prop.TryGetValue("MusicFadeIn", out str)) ins.StartCoroutine(MusicFadeIn(float.Parse(str)));
         if (kd.prop.TryGetValue("MusicFadeOut", out str)) ins.StartCoroutine(MusicFadeOut(float.Parse(str)));
+        if (kd.prop.TryGetValue("PreloadVideoClip", out str))
+        {
+            int clipNum = int.Parse(str);
+            int mode = kd.prop["Ratio"] == "16:9" ? 1 : 0;
+            double time = 0;
+            if (kd.prop.TryGetValue("VideoStartTime", out str)) time = double.Parse(str);
+            PreloadVideo(clipNum, mode, time);
+        }
+        if (kd.prop.TryGetValue("ShowPreloadVideo", out str))
+        {
+            StartCoroutine(SetPreloadVideoActive());
+        }
         if (kd.prop.TryGetValue("PlayVideoClip", out str))
         {
             int clipNum = int.Parse(str);
@@ -198,6 +211,25 @@ public class Timeline : MonoBehaviour
             double time = 0;
             if (kd.prop.TryGetValue("VideoStartTime", out str)) time = double.Parse(str);
             PlayVideo(clipNum, mode, time);
+        }
+        if (kd.prop.TryGetValue("PanelAlpha", out str))
+        {
+            Panel.alpha = float.Parse(str);
+            foreach (var e in RhythmGameManager.exits)
+            {
+                foreach(Graphic g in e.obj.GetComponentsInChildren<Graphic>())
+                {
+                    Color c = g.color;
+                    c.a = Panel.alpha;
+                    g.color = c;
+                }
+                foreach (Graphic g in e.idctor.GetComponentsInChildren<Graphic>())
+                {
+                    Color c = g.color;
+                    c.a = Panel.alpha;
+                    g.color = c;
+                }
+            }
         }
 
         if (blockType == "GameOver")
@@ -360,33 +392,65 @@ public class Timeline : MonoBehaviour
         while (state == FMOD.Studio.PLAYBACK_STATE.PLAYING);
     }
 
-    public static void PlayVideo(int clipNum, int mode = 1, double startTime = 0)
+    public void PlayVideo(int clipNum, int mode = 1, double startTime = 0)
     {
         //if (ins.vp.isPlaying) return;
-        ins.vp.clip = ins.clips[clipNum];
-        ins.vp.time = startTime;
-        ins.videoDisplay.GetComponent<RawImage>().texture = ins.vp.targetTexture = ins.videoRatios[mode];
-        ins.videoDisplay.rectTransform.sizeDelta = new Vector2(mode == 0 ? DefRes.x * 0.75f : DefRes.x, DefRes.y);
-        for (ushort u = 0; u < ins.vp.audioTrackCount; ++u) ins.vp.SetDirectAudioVolume(u, 1);
-        ins.vp.Play();
-        ins.StartCoroutine(ins.CheckVideoFinish());
+        videoPlayer[vdidx].clip = clips[clipNum];
+        videoPlayer[vdidx].time = startTime;
+        videoDisplay[vdidx].GetComponent<RawImage>().texture = videoPlayer[vdidx].targetTexture = videoTextures[vdidx * 2 + mode];
+        videoDisplay[vdidx].rectTransform.sizeDelta = new Vector2(mode == 0 ? DefRes.x * 0.75f : DefRes.x, DefRes.y);
+        Utils.SetVideoVolume(videoPlayer[vdidx], 1);
+        videoPlayer[vdidx].Play();
+        StartCoroutine(CheckVideoFinish());
     }
 
-    IEnumerator CheckVideoFinish()
+    public void PreloadVideo(int clipNum, int mode = 1, double startTime = 0)
     {
-        videoDisplay.gameObject.SetActive(true);
-        for (float i = 0; i <= 1; i += 0.2f)
-        {
-            videoDisplay.GetComponent<Graphic>().color = new Color(1, 1, 1, i);
-            yield return new WaitForSeconds(0.1f);
-        }
-        yield return new WaitForSeconds((float)vp.clip.length);
+        lastVdIdx = vdidx; // remember last video idx
+        vdidx = (vdidx + 1) % 2; // new video idx
+        videoPlayer[vdidx].clip = clips[clipNum]; // set clip
+        videoPlayer[vdidx].time = startTime; // set start time
+        videoDisplay[vdidx].GetComponent<RawImage>().texture = videoPlayer[vdidx].targetTexture = videoTextures[vdidx * 2 + mode]; // set target texture
+        videoDisplay[vdidx].rectTransform.sizeDelta = new Vector2(mode == 0 ? DefRes.x * 0.75f : DefRes.x, DefRes.y); // set aspect ratio
+        Utils.SetVideoVolume(videoPlayer[vdidx], 0); // should be no sound when "preloading"
+        videoPlayer[vdidx].Play(); // "preload"
+        //StartCoroutine(CheckVideoFinish(false, vdidx)); // check if finish playing
+    }
+    IEnumerator SetPreloadVideoActive()
+    {
+        videoDisplay[vdidx].gameObject.SetActive(true); // set the object to be active;
+        videoDisplay[vdidx].GetComponent<Graphic>().color = Color.white;
         for (float i = 1; i >= 0; i -= 0.2f)
         {
-            videoDisplay.GetComponent<Graphic>().color = new Color(1, 1, 1, i);
+            if (lastVdIdx > 0)
+            {
+                // fade the last video's graphic and graphic
+                videoDisplay[lastVdIdx].GetComponent<Graphic>().color = new Color(1, 1, 1, i);
+                Utils.SetVideoVolume(videoPlayer[lastVdIdx], i);
+            }
+            Utils.SetVideoVolume(videoPlayer[vdidx], 1 - i);
             yield return new WaitForSeconds(0.1f);
         }
-        videoDisplay.gameObject.SetActive(false);
+        Utils.SetVideoVolume(videoPlayer[lastVdIdx], 0);
+        videoPlayer[lastVdIdx].Stop();
+        videoDisplay[lastVdIdx].gameObject.SetActive(false);
+    }
+    IEnumerator CheckVideoFinish(bool showAtStart = true, int layer = 0)
+    {
+        videoDisplay[layer].gameObject.SetActive(showAtStart);
+        if (showAtStart)
+            for (float i = 0; i <= 1; i += 0.2f)
+            {
+                videoDisplay[layer].GetComponent<Graphic>().color = new Color(1, 1, 1, i);
+                yield return new WaitForSeconds(0.1f);
+            }
+        yield return new WaitForSeconds((float)videoPlayer[ins.vdidx].clip.length);
+        for (float i = 1; i >= 0; i -= 0.2f)
+        {
+            videoDisplay[layer].GetComponent<Graphic>().color = new Color(1, 1, 1, i);
+            yield return new WaitForSeconds(0.1f);
+        }
+        videoDisplay[layer].gameObject.SetActive(false);
     }
 
     IEnumerator FadeVideoVolume(float sec)
@@ -394,7 +458,7 @@ public class Timeline : MonoBehaviour
         float step = sec / 10;
         for (float i = 1; i >= 0; i -= 0.1f)
         {
-            for (ushort u = 0; u < vp.audioTrackCount; ++u) vp.SetDirectAudioVolume(u, i);
+            for (ushort u = 0; u < videoPlayer[ins.vdidx].audioTrackCount; ++u) videoPlayer[ins.vdidx].SetDirectAudioVolume(u, i);
             yield return new WaitForSeconds(step);
         }
     }

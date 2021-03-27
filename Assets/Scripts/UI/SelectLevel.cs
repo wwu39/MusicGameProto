@@ -12,7 +12,7 @@ public class SelectLevel : MonoBehaviour
     [SerializeField] GameObject chapterPrefab;
     [SerializeField] Sprite[] tilepages;
     [SerializeField] string[] titles;
-    [SerializeField] string[] desc;
+    [SerializeField] [TextArea] string[] desc;
     [SerializeField] string[] songNames;
     GameObject preenterDialog;
     [HideInInspector] public string preselectedSongName;

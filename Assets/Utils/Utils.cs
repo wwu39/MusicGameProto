@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using UnityEngine.Video;
 
 public delegate void Void_Float(float f);
 public delegate void Void_FloatInt(float f, int i);
@@ -69,5 +70,10 @@ public class Utils
         if (curve == NlerpMode.InSine) return a + (b - a) * Mathf.Sin(frac * Mathf.PI / 2);
         else if (curve == NlerpMode.OutSine) return a + (b - a) * (1 - Mathf.Sin((1 - frac) * Mathf.PI / 2));
         return a + (b - a) * frac;
+    }
+    public static void SetVideoVolume(VideoPlayer vp, float volume)
+    {
+        for (ushort u = 0; u < vp.audioTrackCount; ++u)
+            vp.SetDirectAudioVolume(u, volume);
     }
 }
