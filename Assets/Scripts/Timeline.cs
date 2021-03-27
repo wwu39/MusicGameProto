@@ -195,7 +195,9 @@ public class Timeline : MonoBehaviour
         {
             int clipNum = int.Parse(str);
             int mode = kd.prop["Ratio"] == "16:9" ? 1 : 0;
-            PlayVideo(clipNum, mode);
+            double time = 0;
+            if (kd.prop.TryGetValue("VideoStartTime", out str)) time = double.Parse(str);
+            PlayVideo(clipNum, mode, time);
         }
 
         if (blockType == "GameOver")
@@ -358,10 +360,11 @@ public class Timeline : MonoBehaviour
         while (state == FMOD.Studio.PLAYBACK_STATE.PLAYING);
     }
 
-    public static void PlayVideo(int clipNum, int mode = 1)
+    public static void PlayVideo(int clipNum, int mode = 1, double startTime = 0)
     {
-        if (ins.vp.isPlaying) return;
+        //if (ins.vp.isPlaying) return;
         ins.vp.clip = ins.clips[clipNum];
+        ins.vp.time = startTime;
         ins.videoDisplay.GetComponent<RawImage>().texture = ins.vp.targetTexture = ins.videoRatios[mode];
         ins.videoDisplay.rectTransform.sizeDelta = new Vector2(mode == 0 ? DefRes.x * 0.75f : DefRes.x, DefRes.y);
         for (ushort u = 0; u < ins.vp.audioTrackCount; ++u) ins.vp.SetDirectAudioVolume(u, 1);
