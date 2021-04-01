@@ -270,10 +270,7 @@ public class Timeline : MonoBehaviour
                     block.sound = new SoundStruct[seg.Length];
                     for (int i = 0; i < seg.Length; ++i)
                     {
-                        if (Utils.noteToFile.TryGetValue(int.Parse(seg[i]), out str))
-                        {
-                            block.sound[i].id = "MidiNotes/" + str;
-                        }
+                        block.sound[i].id = "MidiNotes/" + seg[i];
                     }
                 }
                 if (kd.prop.TryGetValue("Delays", out str))

@@ -49,7 +49,6 @@ public class Panel : MonoBehaviour
 
         void OnShowLeftFinished()
         {
-            Debug.Log("ShowLeftFinished");
             Left.ShowBottom(true);
             Left.ShowExits(true);
             foreach (var exit in RhythmGameManager.exits)

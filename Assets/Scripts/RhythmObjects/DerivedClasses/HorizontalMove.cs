@@ -105,7 +105,6 @@ public class HorizontalMove : RhythmObject
                 if (!checkpoints[i])
                 {
                     ExitData curExit = GetExit(direction == Direction.Down ? i : -i);
-                    print(ams.time);
                     if (curExit.IsBeingTouched() || autoMode)
                     {
                         curScore = Mathf.Clamp(curScore + 1, 0, 2);

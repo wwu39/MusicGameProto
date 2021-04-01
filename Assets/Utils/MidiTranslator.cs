@@ -416,7 +416,6 @@ public class MidiTranslator : MonoBehaviour
             text += "Exit=" + curExit + "\n";
             ++curExit;
             if (curExit >= exitCount) curExit = 0;
-            if (!Utils.noteToFile.ContainsKey(n.note)) Debug.Log("Note " + n.startTimeInSec + " has no sound!");
             text += "Note=" + n.note + "\n";
             if (n.startTime == endMidiTime) break;
         }
@@ -434,7 +433,6 @@ public class MidiTranslator : MonoBehaviour
             text += "Type=FallingBlock\n";
             text += "Panel=" + curPanel + "\n";
             text += "Exit=" + curExit + "\n";
-            if (!Utils.noteToFile.ContainsKey(n.note)) Debug.Log("Note " + n.startTime + " has no sound!");
             text += "Note=" + n.note + "\n";
             if (n.startTime == endMidiTime) break;
         }
@@ -479,7 +477,6 @@ public class MidiTranslator : MonoBehaviour
                 text += "Exit=" + curExit + "\n";
                 ++curExit;
                 if (curExit >= exitCount) curExit = 0;
-                if (!Utils.noteToFile.ContainsKey(n.note)) Debug.Log("Note " + n.startTime + " has no sound!");
                 text += "Note=" + n.note + "\n";
             }
             else if (v.Count > 1)
@@ -579,7 +576,6 @@ public class MidiTranslator : MonoBehaviour
                 text += "Panel=" + curPanel + "\n";
                 text += "Exit=" + curExit + "\n";
                 ExitIncrement();
-                if (!Utils.noteToFile.ContainsKey(n.note)) Debug.Log("Note " + n.startTime + " has no sound!");
                 text += "Note=" + n.note + "\n";
             }
             else if (v.Count > 1)
@@ -632,7 +628,6 @@ public class MidiTranslator : MonoBehaviour
         {
             Note n = tracks[curTrack][i];
             noteVals.Add(n.note);
-            if (!Utils.noteToFile.ContainsKey(n.note)) Debug.Log("Note " + n.startTimeInSec + " has no sound!");
             delays.Add(n.startTimeInSec - tracks[curTrack][i - 1].startTimeInSec);
             if (n.startTime == endMidiTime) break;
         }
@@ -660,7 +655,6 @@ public class MidiTranslator : MonoBehaviour
         {
             Note n = tracks[curTrack][i];
             noteVals.Add(n.note);
-            if (!Utils.noteToFile.ContainsKey(n.note)) Debug.Log("Note " + n.startTimeInSec + " has no sound!");
             delays.Add(n.startTimeInSec - tracks[curTrack][i - 1].startTimeInSec);
             if (n.startTime == endMidiTime) break;
         }
@@ -689,7 +683,6 @@ public class MidiTranslator : MonoBehaviour
         {
             Note n = tracks[curTrack][i];
             noteVals.Add(n.note);
-            if (!Utils.noteToFile.ContainsKey(n.note)) Debug.Log("Note " + n.startTimeInSec + " has no sound!");
             delays.Add(n.startTimeInSec - tracks[curTrack][i - 1].startTimeInSec);
             if (n.startTime == endMidiTime) break;
         }
@@ -765,7 +758,6 @@ public class MidiTranslator : MonoBehaviour
                 ++curExit;
                 if (curExit >= exitCount) curExit = 0;
             }
-            if (!Utils.noteToFile.ContainsKey(n.note)) Debug.Log("Note " + n.startTime + " has no sound (" + n.note + ")");
             text += "Note=" + n.note + "\n";
             lastNote = n.note;
             if (n.startTime == endMidiTime) break;
