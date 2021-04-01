@@ -25449,7 +25449,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1346.0267, y: 0}
+  m_AnchoredPosition: {x: 1387.0366, y: 0}
   m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &885691413 stripped
@@ -29037,17 +29037,14 @@ MonoBehaviour:
     type: 3}
   tilepages:
   - {fileID: 21300000, guid: 6d62e8251d7836043a6f40e27ee5d646, type: 3}
-  - {fileID: 21300000, guid: 6d62e8251d7836043a6f40e27ee5d646, type: 3}
   - {fileID: 21300000, guid: 94e3fb5b5bcdfdc40b2b96af289d0f1b, type: 3}
   - {fileID: 21300000, guid: 6a1cb37bf55635c43b18a8045d900252, type: 3}
   titles:
-  - Cheng's Secret
   - Cheng's Secret
   - Rubia
   - Video Test
   desc:
   - Standard Version
-  - Double Panel Test
   - Honkai Impact 3rd
   - 'Star Dash
 
@@ -29056,7 +29053,6 @@ MonoBehaviour:
     Snow Halation'
   songNames:
   - Cheng
-  - Cheng2
   - Rubia
   - LoveLive!
   preselectedSongName: 
@@ -58210,7 +58206,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1158.0067, y: 0}
+  m_AnchoredPosition: {x: 1240.0266, y: 0}
   m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1774977322

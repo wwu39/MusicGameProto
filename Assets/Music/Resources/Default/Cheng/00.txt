@@ -2,10 +2,6 @@
 Exit=3
 Delay=0
 
-[1]
-PlayVideoClip=0
-Ratio=16:9
-
 ;Track 7: Melody 开头
 [13.52604]
 Type=ShowLeftPanel
