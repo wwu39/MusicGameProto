@@ -1,7 +1,7 @@
 [General]
 Exit=3
 Delay=0
-MidiTrack=yes
+MidiTrack=no
 ;Rubia 开头
 [2.02902]
 Type=ShowLeftPanel

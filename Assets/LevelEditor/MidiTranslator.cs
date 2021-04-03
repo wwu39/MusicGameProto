@@ -45,6 +45,7 @@ public struct Note
     public int InitialVelocity;
     public int FinalVelocity;
     public float startTimeInSec;
+    public float lengthInSec;
 }
 
 public struct TempoChange
@@ -63,13 +64,15 @@ public struct TempoChange
 public class MidiTranslator : MonoBehaviour
 {
     static int bpm;
-    static List<Note>[] tracks;
-    static string filename = "The Bass Part.mid";
+    public static List<Note>[] tracks;
+    public static string[] trackNames;
+    public static string filename = "The Bass Part.mid";
     static int exitCount = 3;
     static List<TempoChange> tempoChanges;
     static int noteMax;
     static int noteMin;
     static int ticksPerQuarterNote;
+    public static float endTime { private set; get; }
     static float TickPerSecond(int bpm) => 60f / (bpm * ticksPerQuarterNote);
 
     public static string[] noteNames = new string[12]
@@ -92,67 +95,63 @@ public class MidiTranslator : MonoBehaviour
     public static void Dump()
     {
         var file = new MidiFile("Midi/" + filename);
-        string text = "[General]" + System.Environment.NewLine
-            + "Format=" + file.Format + System.Environment.NewLine
-            + "TracksCount=" + file.TracksCount + System.Environment.NewLine
-            + "TicksPerQuarterNote=" + file.TicksPerQuarterNote + System.Environment.NewLine
-             + System.Environment.NewLine;
+        string text = "[General]" + Environment.NewLine
+            + "Format=" + file.Format + Environment.NewLine
+            + "TracksCount=" + file.TracksCount + Environment.NewLine
+            + "TicksPerQuarterNote=" + file.TicksPerQuarterNote + Environment.NewLine
+             + Environment.NewLine;
         for (int i = 0; i < file.Tracks.Length; ++i)
         {
             var t = file.Tracks[i];
-            text += "[Track" + t.Index + "]" + System.Environment.NewLine;
-            text += "MidiEventsCount=" + t.MidiEvents.Count + System.Environment.NewLine;
-            text += "TextEventsCount=" + t.TextEvents.Count + System.Environment.NewLine;
-            text += System.Environment.NewLine;
+            text += "[Track" + t.Index + "]" + Environment.NewLine;
+            text += "MidiEventsCount=" + t.MidiEvents.Count + Environment.NewLine;
+            text += "TextEventsCount=" + t.TextEvents.Count + Environment.NewLine;
+            text += Environment.NewLine;
             for (int j = 0; j < t.MidiEvents.Count; ++j)
             {
                 MidiEvent me = t.MidiEvents[j];
-                text += "[MidiEvent" + j + "]" + System.Environment.NewLine;
-                text += "Time=" + me.Time + System.Environment.NewLine;
-                text += "Type=" + me.MidiEventType + System.Environment.NewLine;
+                text += "[MidiEvent" + j + "]" + Environment.NewLine;
+                text += "Time=" + me.Time + Environment.NewLine;
+                text += "Type=" + me.MidiEventType + Environment.NewLine;
                 if (me.MidiEventType != MidiEventType.NoteOn && me.MidiEventType != MidiEventType.NoteOff) Debug.Log(j + " : " + me.MidiEventType);
-                if (me.MidiEventType == MidiEventType.MetaEvent) text += "MetaEventType=" + me.MetaEventType + System.Environment.NewLine;
-                text += "Channel=" + me.Channel + System.Environment.NewLine;
-                text += "Note=" + me.Note + System.Environment.NewLine;
-                text += "Velocity=" + me.Velocity + System.Environment.NewLine;
-                if (me.MidiEventType == MidiEventType.ControlChange) text += "ControlChangeType=" + me.ControlChangeType + System.Environment.NewLine;
-                text += System.Environment.NewLine;
+                if (me.MidiEventType == MidiEventType.MetaEvent) text += "MetaEventType=" + me.MetaEventType + Environment.NewLine;
+                text += "Channel=" + me.Channel + Environment.NewLine;
+                text += "Note=" + me.Note + Environment.NewLine;
+                text += "Velocity=" + me.Velocity + Environment.NewLine;
+                if (me.MidiEventType == MidiEventType.ControlChange) text += "ControlChangeType=" + me.ControlChangeType + Environment.NewLine;
+                text += Environment.NewLine;
             }
             for (int j = 0; j < t.TextEvents.Count; ++j)
             {
                 TextEvent te = t.TextEvents[j];
-                text += "[TextEvent" + j + "]" + System.Environment.NewLine;
-                text += "Time=" + te.Time + System.Environment.NewLine;
-                text += "Type=" + te.TextEventType + System.Environment.NewLine;
-                text += "Value=" + te.Value + System.Environment.NewLine;
-                text += System.Environment.NewLine;
+                text += "[TextEvent" + j + "]" + Environment.NewLine;
+                text += "Time=" + te.Time + Environment.NewLine;
+                text += "Type=" + te.TextEventType + Environment.NewLine;
+                text += "Value=" + te.Value + Environment.NewLine;
+                text += Environment.NewLine;
             }
-            text += System.Environment.NewLine;
-            text += System.Environment.NewLine;
-            text += System.Environment.NewLine;
+            text += Environment.NewLine;
+            text += Environment.NewLine;
+            text += Environment.NewLine;
         }
         File.WriteAllText("nnn.txt", text);
     }
-    public static void MakeNotes(int min = int.MinValue, int max = int.MaxValue)
+    public static void MakeNotes()
     {
         noteMax = int.MinValue;
         noteMin = int.MaxValue;
-        if (max > 0 && min > 0)
-        {
-            noteMax = max;
-            noteMin = min;
-        }
         var file = new MidiFile("Midi/" + filename + ".mid");
         ticksPerQuarterNote = file.TicksPerQuarterNote;
-        string text = "[General]" + System.Environment.NewLine
-            + "Format=" + file.Format + System.Environment.NewLine
-            + "TracksCount=" + file.TracksCount + System.Environment.NewLine
-            + "TicksPerQuarterNote=" + file.TicksPerQuarterNote + System.Environment.NewLine
-             + System.Environment.NewLine;
+        string text = "[General]" + Environment.NewLine
+            + "Format=" + file.Format + Environment.NewLine
+            + "TracksCount=" + file.TracksCount + Environment.NewLine
+            + "TicksPerQuarterNote=" + file.TicksPerQuarterNote + Environment.NewLine
+             + Environment.NewLine;
         tracks = new List<Note>[file.Tracks.Length];
+        trackNames = new string[file.Tracks.Length];
         tempoChanges = new List<TempoChange>();
         for (int i = 0; i < tracks.Length; ++i) tracks[i] = new List<Note>();
-        ParseTracks(file, min, max);
+        ParseTracks(file);
         File.WriteAllText("Dump/General.txt", text);
         Debug.Log("MaxNote: " + noteMax + " MinNote: " + noteMin);
 
@@ -165,25 +164,21 @@ public class MidiTranslator : MonoBehaviour
         }
     }
 
-    static void ParseTracks(MidiFile file, int min, int max)
+    static void ParseTracks(MidiFile file)
     {
         for (int i = 0; i < file.Tracks.Length; ++i)
         {
             var t = file.Tracks[i];
-            string text = "[Track" + t.Index + "]" + System.Environment.NewLine;
-            text += "MidiEventsCount=" + t.MidiEvents.Count + System.Environment.NewLine;
-            text += "TextEventsCount=" + t.TextEvents.Count + System.Environment.NewLine;
-            text += System.Environment.NewLine;
+            string text = "[Track" + t.Index + "]" + Environment.NewLine;
+            text += "MidiEventsCount=" + t.MidiEvents.Count + Environment.NewLine;
+            text += "TextEventsCount=" + t.TextEvents.Count + Environment.NewLine;
+            text += Environment.NewLine;
             Dictionary<int, Stack<MidiEvent>> map = new Dictionary<int, Stack<MidiEvent>>();
             int noteNum = 0;
             for (int j = 0; j < t.MidiEvents.Count; ++j)
             {
                 MidiEvent me = t.MidiEvents[j];
                 Stack<MidiEvent> stack;
-                if ((me.MidiEventType == MidiEventType.NoteOn
-                    || me.MidiEventType == MidiEventType.NoteOff
-                    ) && (me.Note < min || me.Note > max))
-                    continue;
                 if (me.MidiEventType == MidiEventType.NoteOn)
                 {
                     if (map.TryGetValue(me.Note, out stack))
@@ -205,16 +200,16 @@ public class MidiTranslator : MonoBehaviour
                         Note n = new Note();
                         var on = stack.Pop();
                         if (stack.Count == 0) map.Remove(me.Note);
-                        text += "[Note" + noteNum + "]" + System.Environment.NewLine; n.idx = noteNum;
+                        text += "[Note" + noteNum + "]" + Environment.NewLine; n.idx = noteNum;
                         n.track = i;
-                        text += "Note=" + NoteToString(on.Note) + " (" + on.Note + ")" + System.Environment.NewLine; n.note = on.Note;
+                        text += "Note=" + NoteToString(on.Note) + " (" + on.Note + ")" + Environment.NewLine; n.note = on.Note;
                         if (on.Note > noteMax) noteMax = on.Note;
                         if (on.Note < noteMin) noteMin = on.Note;
-                        text += "StartTime=" + on.Time + System.Environment.NewLine; n.startTime = on.Time;
+                        text += "StartTime=" + on.Time + Environment.NewLine; n.startTime = on.Time;
                         int length = me.Time - on.Time;
-                        text += "Length=" + length + System.Environment.NewLine; n.length = length;
-                        text += "InitialVelocity=" + on.Velocity + System.Environment.NewLine; n.InitialVelocity = on.Velocity;
-                        text += "FinalVelocity=" + me.Velocity + System.Environment.NewLine + System.Environment.NewLine; n.FinalVelocity = me.Velocity;
+                        text += "Length=" + length + Environment.NewLine; n.length = length;
+                        text += "InitialVelocity=" + on.Velocity + Environment.NewLine; n.InitialVelocity = on.Velocity;
+                        text += "FinalVelocity=" + me.Velocity + Environment.NewLine + Environment.NewLine; n.FinalVelocity = me.Velocity;
                         tracks[i].Add(n);
                         ++noteNum;
                     }
@@ -225,44 +220,49 @@ public class MidiTranslator : MonoBehaviour
                 }
                 else
                 {
-                    text += "[MidiEvent" + j + "]" + System.Environment.NewLine;
-                    text += "Time=" + me.Time + System.Environment.NewLine;
-                    text += "Type=" + me.MidiEventType + System.Environment.NewLine;
+                    text += "[MidiEvent" + j + "]" + Environment.NewLine;
+                    text += "Time=" + me.Time + Environment.NewLine;
+                    text += "Type=" + me.MidiEventType + Environment.NewLine;
                     if (me.MidiEventType == MidiEventType.MetaEvent)
-                        text += "MetaEventType=" + me.MetaEventType + System.Environment.NewLine;
+                        text += "MetaEventType=" + me.MetaEventType + Environment.NewLine;
                     if (me.MetaEventType == MetaEventType.Tempo)
                     {
-                        text += "BeatsMinute=" + me.Arg2 + System.Environment.NewLine;
+                        text += "BeatsMinute=" + me.Arg2 + Environment.NewLine;
                         bpm = me.Arg2;
                         tempoChanges.Add(new TempoChange(bpm, me.Time));
                         print("Sets Ticks/Sec to " + TickPerSecond(bpm) + " at time " + me.Time);
                     }
                     else
                     {
-                        text += "Channel=" + me.Channel + System.Environment.NewLine;
-                        text += "Note=" + me.Note + System.Environment.NewLine;
-                        text += "Velocity=" + me.Velocity + System.Environment.NewLine;
+                        text += "Channel=" + me.Channel + Environment.NewLine;
+                        text += "Note=" + me.Note + Environment.NewLine;
+                        text += "Velocity=" + me.Velocity + Environment.NewLine;
                     }
-                    if (me.MidiEventType == MidiEventType.ControlChange) text += "ControlChangeType=" + me.ControlChangeType + System.Environment.NewLine;
-                    text += System.Environment.NewLine;
+                    if (me.MidiEventType == MidiEventType.ControlChange) text += "ControlChangeType=" + me.ControlChangeType + Environment.NewLine;
+                    text += Environment.NewLine;
                 }
             }
             for (int j = 0; j < t.TextEvents.Count; ++j)
             {
                 TextEvent te = t.TextEvents[j];
-                text += "[TextEvent" + j + "]" + System.Environment.NewLine;
-                text += "Time=" + te.Time + System.Environment.NewLine;
-                text += "Type=" + te.TextEventType + System.Environment.NewLine;
-                text += "Value=" + te.Value + System.Environment.NewLine;
-                text += System.Environment.NewLine;
+                text += "[TextEvent" + j + "]" + Environment.NewLine;
+                text += "Time=" + te.Time + Environment.NewLine;
+                text += "Type=" + te.TextEventType + Environment.NewLine;
+                text += "Value=" + te.Value + Environment.NewLine;
+                text += Environment.NewLine;
+
+                if (te.TextEventType == TextEventType.TrackName) trackNames[i] = te.Value;
             }
-            text += System.Environment.NewLine;
-            text += System.Environment.NewLine;
-            text += System.Environment.NewLine;
+            text += Environment.NewLine;
+            text += Environment.NewLine;
+            text += Environment.NewLine;
             File.WriteAllText("Dump/Track" + i + ".txt", text);
         }
     }
-
+    public static void PrepareAllTracks()
+    {
+        for (int i = 0; i < tracks.Length; ++i) PrepareTrack(i);
+    }
     public static void PrepareTrack(int t)
     {
         tracks[t].Sort((a, b) => a.startTime.CompareTo(b.startTime));
@@ -283,6 +283,8 @@ public class MidiTranslator : MonoBehaviour
             for (int i = 0; i < tempoIdx; ++i)
                 timeSum += tempoChanges[i].timeLast;
             n.startTimeInSec = (n.startTime - tempoChanges[tempoIdx].startTime) * TickPerSecond(tempoChanges[tempoIdx].tempo) + timeSum;
+            n.lengthInSec = n.length * TickPerSecond(tempoChanges[tempoIdx].tempo);
+            if (n.startTimeInSec + n.lengthInSec > endTime) endTime = n.startTimeInSec + n.lengthInSec;
             tracks[t][h] = n;
         }
         curTrack = t;
