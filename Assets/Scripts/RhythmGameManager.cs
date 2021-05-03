@@ -26,16 +26,12 @@ public struct GeneralSettings
     public static float musicStartTime;
     public static float fallingTime = 3;
     public static bool midiTrack = false;
-    
-    // 难度: 0=困难, 1=中等, 2=简单
-    public static int difficulty = 0;
     public static void Reset()
     {
         mode = 0;
         exitCount = 0;
         delay = 0;
         specialMode = 0;
-        difficulty = 0;
         musicStartTime = 0;
         fallingTime = 3;
         midiTrack = false;
@@ -145,10 +141,6 @@ public class RhythmGameManager : MonoBehaviour
 
     public bool autoMode;
     public Platform platform;
-
-    [Header("Resources")]
-    public Sprite[] UpNotes;
-    public Sprite[] DownNotes;
 
     private void Awake()
     {

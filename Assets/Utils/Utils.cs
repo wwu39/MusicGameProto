@@ -66,4 +66,6 @@ public class Utils
         for (ushort u = 0; u < vp.audioTrackCount; ++u)
             vp.SetDirectAudioVolume(u, volume);
     }
+    public static bool ControlKeyHeldDown() => Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl);
+    public static bool AltKeyHeldDown() => Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt);
 }

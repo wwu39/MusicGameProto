@@ -45,6 +45,7 @@ public class Timeline : MonoBehaviour
         GeneralSettings.Reset();
         GeneralSettings.fallingTime = fallingTime;
         Dictionary<string, Dictionary<string, string>> sections;
+        Interpreter.platform = RhythmGameManager.ins.platform;
         Interpreter.Open(scriptName, out ins.keyData, out sections);
         GeneralSettings.exitCount = int.Parse(sections["General"]["Exit"]);
         string musicName;
@@ -52,7 +53,6 @@ public class Timeline : MonoBehaviour
         string str;
         if (sections["General"].TryGetValue("GameMode", out str)) GeneralSettings.mode = int.Parse(str); else GeneralSettings.mode = 0;
         if (sections["General"].TryGetValue("Delay", out str)) GeneralSettings.delay = float.Parse(str); else GeneralSettings.delay = 3;
-        if (sections["General"].TryGetValue("Difficulty", out str)) GeneralSettings.difficulty = int.Parse(str); else GeneralSettings.difficulty = 0;
         if (sections["General"].TryGetValue("MusicStartPosition", out str)) GeneralSettings.musicStartTime = float.Parse(str); else GeneralSettings.musicStartTime = 0;
         if (sections["General"].TryGetValue("MidiTrack", out str)) GeneralSettings.midiTrack = str == "yes";
 

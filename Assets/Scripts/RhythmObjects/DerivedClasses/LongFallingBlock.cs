@@ -91,7 +91,7 @@ public class LongFallingBlock : RhythmObject
         bg.rectTransform.sizeDelta = shadow.rectTransform.sizeDelta = sizeDelta + new Vector2(15, 15);
         frame.rectTransform.anchoredPosition = bg.rectTransform.anchoredPosition = shadow.rectTransform.anchoredPosition = anchoredPosition;
 
-        Sprite[] s = Random.Range(0, 2) == 1 ? RhythmGameManager.ins.UpNotes : RhythmGameManager.ins.DownNotes;
+        Sprite[] s = Random.Range(0, 2) == 1 ? ResourceManager.ins.UpNotes : ResourceManager.ins.DownNotes;
         noteImages = new Sprite[length];
         for (int i = 0; i < length; ++i)
         {

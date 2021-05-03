@@ -13,7 +13,7 @@ public class FallingBlock : RhythmObject
     protected override void Start()
     {
         base.Start();
-        Sprite[] s = Random.Range(0, 2) == 1 ? RhythmGameManager.ins.UpNotes : RhythmGameManager.ins.DownNotes;
+        Sprite[] s = Random.Range(0, 2) == 1 ? ResourceManager.ins.UpNotes : ResourceManager.ins.DownNotes;
         noteImage.sprite = s[Random.Range(0, s.Length)];
         noteImages = new Sprite[] { noteImage.sprite };
     }

@@ -33,6 +33,12 @@ public class HorizontalMove : RhythmObject
         line.color = c != null ? c.Value / 2 : Color.grey;
         return ret;
     }
+    public override RhythmObject Initialize_LevelEditor(int _exit, PanelType _panel, Color? c = null)
+    {
+        var ret = base.Initialize_LevelEditor(_exit, _panel, c);
+        line.color = c != null ? c.Value / 2 : Color.grey;
+        return ret;
+    }
 
     float notTouchedTimeCount;
     protected override void Update_Activated()
@@ -162,7 +168,7 @@ public class HorizontalMove : RhythmObject
         outterFrame.rectTransform.sizeDelta = line.rectTransform.sizeDelta + new Vector2(-10, -10);
         outterBg.rectTransform.sizeDelta = line.rectTransform.sizeDelta + new Vector2(15, 15);
 
-        Sprite[] s = Random.Range(0, 2) == 1 ? RhythmGameManager.ins.UpNotes : RhythmGameManager.ins.DownNotes;
+        Sprite[] s = Random.Range(0, 2) == 1 ? ResourceManager.ins.UpNotes : ResourceManager.ins.DownNotes;
         noteImages = new Sprite[width];
         for (int i = 0; i < width; ++i)
         {

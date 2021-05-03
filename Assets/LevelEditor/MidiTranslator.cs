@@ -35,7 +35,7 @@ public class ExtraInfoEmbeddedInVelocity
     }
 }
 
-public struct Note
+public class Note
 {
     public int idx;
     public int track;

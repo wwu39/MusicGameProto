@@ -7,11 +7,12 @@ using System.Text.RegularExpressions;
 
 public class Interpreter
 {
+    public static Platform platform;
     public static void Open(string filename, out List<KeyData> keyData, out Dictionary<string, Dictionary<string, string>> sections)
     {
         keyData = new List<KeyData>();
         sections = new Dictionary<string, Dictionary<string, string>>();
-        TextAsset[] tas = Resources.LoadAll<TextAsset>(RhythmGameManager.ins.platform + "/" + filename);
+        TextAsset[] tas = Resources.LoadAll<TextAsset>(platform + "/" + filename);
         for (int i = 0; i < tas.Length; ++i)
         {
             bool isSection = true;

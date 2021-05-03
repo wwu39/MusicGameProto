@@ -56,6 +56,7 @@ public struct SoundStruct
 
 public abstract class RhythmObject : MonoBehaviour
 {
+    public bool noUpdate;
     [HideInInspector] public int perfectScore = 20;
     [HideInInspector] public int goodScore = 10;
     [HideInInspector] public int badScore = 0;
@@ -114,6 +115,7 @@ public abstract class RhythmObject : MonoBehaviour
     }
     protected virtual void Update()
     {
+        if (noUpdate) return;
         Update_Falling();
         if (destroyPending)
             Update_DestroyPending(); // 检查此对象是否准备被删除
@@ -139,6 +141,16 @@ public abstract class RhythmObject : MonoBehaviour
         transform.position = GetExit().obj.transform.position;
         end = start = (transform as RectTransform).anchoredPosition;
         end.x = GetBottom() + (panel == PanelType.Left ? -BlockSize.x : BlockSize.x) / 2f; // 延迟声效
+        return this;
+    }
+    public virtual RhythmObject Initialize_LevelEditor(int _exit, PanelType _panel, Color? c = null)
+    {
+        if (c != null) foreach (Graphic g in coloringParts) g.color = c.Value;
+        rt = transform as RectTransform;
+        exit = _exit;
+        panel = _panel;
+        exits = MusicalLevelEditor.exits;
+        exitCount = 3;
         return this;
     }
     protected virtual void Activate()
