@@ -68,7 +68,6 @@ public class MusicalLevelEditor : MonoBehaviour
         }
         editingPage.SetActive(false);
         mousePositionInScroll = new Vector2[3];
-        selectPads = new SelectPad[3];
     }
 
     void SelectTab(EditingPage tab)
@@ -88,6 +87,7 @@ public class MusicalLevelEditor : MonoBehaviour
             }
         }
         curPage = tab;
+        if (LevelPage.refreshPending && curPage == EditingPage.Panel_Left) LevelPage.ins.Refresh();
     }
     public float TimeToPagePosX(EditingPage page, float t)
     {

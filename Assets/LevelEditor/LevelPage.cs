@@ -33,6 +33,7 @@ public class LevelPage : MonoBehaviour
     {
         0, 0.6f, 0.6f, 0.6f, 0.6f, 0.6f, 0f
     };
+    public static bool refreshPending;
     [SerializeField] InputField ExitCount;
     [SerializeField] InputField MusicEvent;
     [SerializeField] InputField GameMode;
@@ -45,6 +46,7 @@ public class LevelPage : MonoBehaviour
     [SerializeField] Toggle reverseRight;
     [SerializeField] Text selectInfo;
     [SerializeField] EventOperation eventOperationPanel;
+    [SerializeField] GameObject multiSelectPanel;
     [Header("Prefabs")]
     public GameObject metaEvent;
     public GameObject check;
@@ -86,6 +88,7 @@ public class LevelPage : MonoBehaviour
         right.onValueChanged.AddListener(OnLevelPageRightDragged);
         reverseRight.isOn = false;
         reverseRight.onValueChanged.AddListener(ReverseRight);
+        multiSelectPanel.GetComponentInChildren<Button>().onClick.AddListener(DeleteSelected);
     }
 
     private void Update()
@@ -168,6 +171,14 @@ public class LevelPage : MonoBehaviour
                 to.GetComponent<RectTransform>().anchoredPosition = new Vector2(ContentStart + i * lengthPerSec, -8);
                 to.GetComponent<Text>().text = "^\n" + i;
             }
+            // 时间标尺交互
+            line = Instantiate(MusicalLevelEditor.ins.rulerInteractable, ruler.transform);
+            line.GetComponent<RulerClickable>().page = (EditingPage)page;
+            line.GetComponent<Image>().color = new Color(1, 0, 0, 0.5f);
+            line.name = "Time Ruler Interactable";
+            rt = line.GetComponent<RectTransform>();
+            rt.sizeDelta = new Vector2(ContentWidth, 40);
+            rt.anchoredPosition = new Vector2(0, -20);
         }
         // parse all events
         keyData.Sort((x, y) => x.startTime.CompareTo(y.startTime));
@@ -187,8 +198,9 @@ public class LevelPage : MonoBehaviour
         RefreshInfoPanel();
     }
 
-    void Refresh()
+    public void Refresh()
     {
+        refreshPending = false;
         DeselectAll();
         if (nodes[0]) Destroy(nodes[0].gameObject);
         if (nodes[1]) Destroy(nodes[1].gameObject);
@@ -319,11 +331,45 @@ public class LevelPage : MonoBehaviour
         ins.selected.Remove(e);
         ins.RefreshInfoPanel();
     }
+    int FindEventLeft(float time) => FindEvent(leftEvents, 0, leftEvents.Count - 1, time);
+    int FindEventRight(float time) => FindEvent(rightEvents, 0, rightEvents.Count - 1, time);
+    int FindEvent(List<EditorEvent> list, int st, int ed, float time)
+    {
+        if (ed - st < 16)
+        {
+            for (int i = st; i <= ed; ++i)
+                if (list[i].kd.startTime >= time)
+                    return i;
+            return ed;
+        }
+        int mid = (st + ed) / 2;
+        if (time > list[mid].kd.startTime) return FindEvent(list, mid + 1, ed, time);
+        else if (time < list[mid].kd.startTime) return FindEvent(list, st, mid - 1, time);
+        else return mid;
+    }
     public static void SelectRangeLeft(float startTime, float endTime)
     {
+        DeselectAll();
+        int stIdx = ins.FindEventLeft(startTime);
+        int edIdx = ins.FindEventLeft(endTime);
+        for (int i = stIdx; i < edIdx; ++i)
+        {
+            ins.selected.Add(ins.leftEvents[i]);
+            ins.leftEvents[i].RefreshSelectedState();
+        }
+        ins.RefreshInfoPanel();
     }
     public static void SelectRangeRight(float startTime, float endTime)
     {
+        DeselectAll();
+        int stIdx = ins.FindEventRight(startTime);
+        int edIdx = ins.FindEventRight(endTime);
+        for (int i = stIdx; i < edIdx; ++i)
+        {
+            ins.selected.Add(ins.rightEvents[i]);
+            ins.rightEvents[i].RefreshSelectedState();
+        }
+        ins.RefreshInfoPanel();
     }
     public static void DeselectAll()
     {
@@ -352,8 +398,9 @@ public class LevelPage : MonoBehaviour
             selectInfo.text = "已选择" + selected.Count + "个事件";
             (selectInfo.transform.parent as RectTransform).anchoredPosition = new Vector2(785, -505);
             eventOperationPanel.gameObject.SetActive(false);
+            multiSelectPanel.SetActive(false);
         }
-        else if(selected.Count == 1)
+        else if (selected.Count == 1)
         {
             selectInfo.text = "已选择" + selected.Count + "个事件";
             (selectInfo.transform.parent as RectTransform).anchoredPosition = new Vector2(785, 13);
@@ -361,12 +408,14 @@ public class LevelPage : MonoBehaviour
             foreach (var ee in selected) e = ee;
             eventOperationPanel.gameObject.SetActive(true);
             eventOperationPanel.Show(e);
+            multiSelectPanel.SetActive(false);
         }
         else
         {
             selectInfo.text = "已选择" + selected.Count + "个事件";
-            (selectInfo.transform.parent as RectTransform).anchoredPosition = new Vector2(785, -505);
+            (selectInfo.transform.parent as RectTransform).anchoredPosition = new Vector2(785, -447);
             eventOperationPanel.gameObject.SetActive(false);
+            multiSelectPanel.SetActive(true);
         }
     }
     void OnLevelPageLeftDragged(Vector2 pos)

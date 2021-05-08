@@ -46,7 +46,7 @@ public class RulerClickable : MonoBehaviour, IPointerDownHandler // 继承这个
     {
         dragging = true;
         MusicalLevelEditor.ins.scrolls[(int)page].horizontal = false;
-        MusicalLevelEditor.ins.scrolls[(int)page].vertical= false;
+        if (page == EditingPage.Midi) MusicalLevelEditor.ins.scrolls[(int)page].vertical = false;
         selectPad.Interactable = false;
         x1 = MusicalLevelEditor.ins.mousePositionInScroll[(int)page].x;
     }
@@ -54,7 +54,7 @@ public class RulerClickable : MonoBehaviour, IPointerDownHandler // 继承这个
     {
         dragging = false;
         MusicalLevelEditor.ins.scrolls[(int)page].horizontal = true;
-        MusicalLevelEditor.ins.scrolls[(int)page].vertical = true;
+        if (page == EditingPage.Midi) MusicalLevelEditor.ins.scrolls[(int)page].vertical = true;
         selectPad.Interactable = true;
         selectPad.OnSelectButtonClicked();
     }

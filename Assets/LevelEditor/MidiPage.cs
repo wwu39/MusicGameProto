@@ -47,7 +47,7 @@ public class MidiPage : MonoBehaviour
     float endTime;
     float absoluteStartTime;
     List<NoteBar> allNotes;
-    HashSet<NoteBar> selected;
+    public HashSet<NoteBar> selected;
     int curNote;
     GameObject playButton;
     GameObject center;
@@ -101,7 +101,7 @@ public class MidiPage : MonoBehaviour
         }
     }
 
-    public int FindNote(float time) => FindNote(0, allNotes.Count - 1, time);
+    int FindNote(float time) => FindNote(0, allNotes.Count - 1, time);
     int FindNote(int st, int ed, float time)
     {
         if (ed - st < 16)
