@@ -53,7 +53,7 @@ public class Interpreter
                                 Debug.Log("Detect Variable " + varName + "=" + curTimeString);
                                 vars.Add(varName, curTime);
                             }
-                            KeyData kd = new KeyData(curTime + (needAddition ? vars[varName] : 0));
+                            KeyData kd = new KeyData(curTime + (needAddition ? vars[varName] : 0), tas[i].name);
                             keyData.Add(kd);
                             isSection = false;
                         }
@@ -71,5 +71,10 @@ public class Interpreter
                 }
             }
         }
+    }
+
+    public static void Save(string filename, in List<KeyData> keyData)
+    {
+
     }
 }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using MLE = MusicalLevelEditor;
 
 public class SelectPad : MonoBehaviour
 {
@@ -11,12 +10,10 @@ public class SelectPad : MonoBehaviour
     [SerializeField] Button selectButton;
     public EditingPage page;
     Image selectionBox;
-    MLE mle;
     bool canClick;
     float startTime, endTime;
     void Start()
     {
-        mle = MLE.ins;
         startTimeIF.onValueChanged.AddListener(OnValueChanged);
         endTimeIF.onValueChanged.AddListener(OnValueChanged);
         selectButton.onClick.AddListener(OnSelectButtonClicked);
@@ -33,18 +30,31 @@ public class SelectPad : MonoBehaviour
         canClick = true;
         if (!selectionBox)
         {
-            selectionBox = Instantiate(mle.barImage, mle.contents[0]).GetComponent<Image>();
+            selectionBox = Instantiate(MusicalLevelEditor.ins.barImage, MusicalLevelEditor.ins.contents[(int)page]).GetComponent<Image>();
             selectionBox.color = new Color32(73, 174, 190, 60);
             selectionBox.name = "SelectBox";
             selectionBox.raycastTarget = false;
         }
-        selectionBox.rectTransform.anchoredPosition = new Vector2(mle.TimeToPagePosX(page, (startTime + endTime) / 2), 0);
-        selectionBox.rectTransform.sizeDelta = new Vector2(MLE.lengthPerSec_midiPage * (endTime - startTime), mle.MidiContentHeight);
+        selectionBox.rectTransform.anchoredPosition = new Vector2(MusicalLevelEditor.ins.TimeToPagePosX(page, (startTime + endTime) / 2), 0);
+        float lengthPerSec = page == EditingPage.Midi ? MidiPage.lengthPerSec : LevelPage.lengthPerSec;
+        float contentHeight = page == EditingPage.Midi ? MidiPage.ContentHeight : LevelPage.ContentHeight;
+        selectionBox.rectTransform.sizeDelta = new Vector2(lengthPerSec * (endTime - startTime), contentHeight);
     }
     public void OnSelectButtonClicked()
     {
         if (!canClick) return;
-        MLE.SelectRange(startTime, endTime);
+        switch (page)
+        {
+            case EditingPage.Midi:
+                MidiPage.SelectRange(startTime, endTime);
+                break;
+            case EditingPage.Panel_Left:
+                LevelPage.SelectRangeLeft(startTime, endTime);
+                break;
+            case EditingPage.Panel_Right:
+                LevelPage.SelectRangeRight(startTime, endTime);
+                break;
+        }
     }
 
     public void SetRange(float t1, float t2)

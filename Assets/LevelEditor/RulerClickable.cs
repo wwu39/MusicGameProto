@@ -48,7 +48,7 @@ public class RulerClickable : MonoBehaviour, IPointerDownHandler // 继承这个
         MusicalLevelEditor.ins.scrolls[(int)page].horizontal = false;
         MusicalLevelEditor.ins.scrolls[(int)page].vertical= false;
         selectPad.Interactable = false;
-        x1 = MusicalLevelEditor.ins.mousePositionInScroll[0].x;
+        x1 = MusicalLevelEditor.ins.mousePositionInScroll[(int)page].x;
     }
     void DragEnd()
     {

@@ -149,7 +149,7 @@ public abstract class RhythmObject : MonoBehaviour
         rt = transform as RectTransform;
         exit = _exit;
         panel = _panel;
-        exits = MusicalLevelEditor.exits;
+        exits = LevelPage.exits;
         exitCount = 3;
         return this;
     }

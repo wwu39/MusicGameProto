@@ -2,34 +2,49 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
-public enum EventType
+public enum LevelEventType
 {
     Note, Meta
 }
-public class EditorEvent : MonoBehaviour
+public class EditorEvent : MonoBehaviour, IPointerDownHandler
 {
     [SerializeField] Button btn;
-    public EventType eventType;
+    public LevelEventType eventType;
     public KeyData kd;
-    private void OnValidate()
+    [HideInInspector] public EditorEvent mirror;
+    [HideInInspector] public bool dragging;
+    public float pointerDownStartTime = -1;
+    Image check;
+    private void Start()
     {
-        btn = GetComponent<Button>();
+        check = Instantiate(LevelPage.ins.check, transform).GetComponent<Image>();
+        check.enabled = false;
     }
-    // Start is called before the first frame update
-    void Start()
+    public void OnPointerDown(PointerEventData eventData)
     {
-        btn.onClick.AddListener(OnClicked);
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            Pressed();
+        }
     }
-
-    // Update is called once per frame
-    void Update()
+    void Pressed()
     {
-
+        pointerDownStartTime = Time.time;
+        if (Utils.ControlKeyHeldDown()) LevelPage.SelectEvent(this, true);
+        else if (Utils.AltKeyHeldDown()) LevelPage.DeselectEvent(this);
+        else LevelPage.SelectEvent(this, false);
+        RefreshSelectedState();
     }
-
-    void OnClicked()
+    public void DragEnd()
     {
-        // add select
+        dragging = false;
+    }
+    public void RefreshSelectedState()
+    {
+        if (eventType == LevelEventType.Meta)
+            mirror.check.enabled = check.enabled = LevelPage.IsSelected(this) || LevelPage.IsSelected(mirror);
+        else check.enabled = LevelPage.IsSelected(this);
     }
 }

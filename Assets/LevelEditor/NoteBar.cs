@@ -15,9 +15,9 @@ public class NoteBar : MonoBehaviour
     public void Pressed()
     {
         FMODUnity.RuntimeManager.PlayOneShot("event:/MidiNotes/" + note.note);
-        if (Utils.ControlKeyHeldDown()) MusicalLevelEditor.SelectNote(this, true);
-        else if (Utils.AltKeyHeldDown()) MusicalLevelEditor.DeselectNote(this);
-        else MusicalLevelEditor.SelectNote(this, false);
+        if (Utils.ControlKeyHeldDown()) MidiPage.SelectNote(this, true);
+        else if (Utils.AltKeyHeldDown()) MidiPage.DeselectNote(this);
+        else MidiPage.SelectNote(this, false);
         RefreshSelectedState();
     }
     public void PlaySound()
@@ -26,6 +26,6 @@ public class NoteBar : MonoBehaviour
     }
     public void RefreshSelectedState()
     {
-        GetComponent<Outline>().enabled = MusicalLevelEditor.IsSelected(this);
+        GetComponent<Outline>().enabled = MidiPage.IsSelected(this);
     }
 }

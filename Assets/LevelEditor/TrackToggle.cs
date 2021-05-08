@@ -7,6 +7,6 @@ public class TrackToggle : MonoBehaviour
     [HideInInspector] public int trackNum;
     public void OnValueChanged(bool val)
     {
-        MusicalLevelEditor.trackOfbars[trackNum].SetActive(val);
+        MidiPage.trackOfbars[trackNum].SetActive(val);
     }
 }

@@ -4,13 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
 
-public struct KeyData
+public class KeyData
 {
     public float startTime;
+    public string filename; // used by editor
+    public bool deleted; // used by editor
     public Dictionary<string, string> prop;
-    public KeyData(float st)
+    public KeyData(float st, string _filename)
     {
         startTime = st;
+        filename = _filename;
         prop = new Dictionary<string, string>();
     }
 }
