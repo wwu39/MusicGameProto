@@ -25,7 +25,7 @@ public class RightClickMenu : MonoBehaviour
     void Done()
     {
         float timeval = float.Parse(timeIF.text);
-        KeyData newkd = new KeyData(timeval, "00");
+        KeyData newkd = new KeyData(timeval);
         newkd.prop[EventTags.Type] = EventTypes.Meta[eventDP.value];
         LevelPage.ins.keyData.Add(newkd);
         LevelPage.ins.MetaEventShow(newkd, LevelPage.metaEventColor[eventDP.value], LevelPage.chineseMetaEvent[eventDP.value], timeval, LevelPage.metaEventLengths[eventDP.value]);

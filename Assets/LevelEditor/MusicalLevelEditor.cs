@@ -87,7 +87,10 @@ public class MusicalLevelEditor : MonoBehaviour
             }
         }
         curPage = tab;
-        if (LevelPage.refreshPending && curPage == EditingPage.Panel_Left) LevelPage.ins.Refresh();
+        if (LevelPage.refreshPending && curPage == EditingPage.Panel_Left)
+        {
+            LevelPage.ins.Refresh();
+        }
     }
     public float TimeToPagePosX(EditingPage page, float t)
     {

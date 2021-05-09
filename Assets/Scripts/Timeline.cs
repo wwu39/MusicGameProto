@@ -10,7 +10,7 @@ public class KeyData
     public string filename; // used by editor
     public bool deleted; // used by editor
     public Dictionary<string, string> prop;
-    public KeyData(float st, string _filename)
+    public KeyData(float st, string _filename = "00")
     {
         startTime = st;
         filename = _filename;

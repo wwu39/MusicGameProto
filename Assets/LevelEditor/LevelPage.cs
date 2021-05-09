@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -118,6 +119,8 @@ public class LevelPage : MonoBehaviour
     public void Setup()
     {
         Interpreter.Open(MidiTranslator.filename, out keyData, out sections);
+        leftEvents.Clear();
+        rightEvents.Clear();
         string str;
         ExitCount.text = sections["General"]["Exit"];
         if (sections["General"].TryGetValue("Music", out str)) MusicEvent.text = str; else MusicEvent.text = MidiTranslator.filename;
@@ -208,7 +211,7 @@ public class LevelPage : MonoBehaviour
         sections = null;
         Setup();
     }
-    void SaveToFile()
+    public void SaveToFile()
     {
         Dictionary<string, List<KeyData>> files = new Dictionary<string, List<KeyData>>();
         foreach (var kd in keyData)
@@ -249,6 +252,7 @@ public class LevelPage : MonoBehaviour
             }
             File.WriteAllText(savePath, text);
         }
+        AssetDatabase.Refresh(); // 刷新Unity Editor的缓存
     }
     float ExitPos(int exitIdx) => (1 - exitIdx) * PanelSize.y * 0.3f;
     void ParseKeyData(KeyData kd)

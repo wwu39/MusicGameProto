@@ -106,7 +106,7 @@ public class MidiPage : MonoBehaviour
     {
         if (ed - st < 16)
         {
-            for (int i = st; i <= ed; ++i)
+            for (int i = st; i < ed; ++i)
                 if (allNotes[i].note.startTimeInSec >= time)
                     return i;
             return ed;
@@ -323,7 +323,7 @@ public class MidiPage : MonoBehaviour
         ins.curNote = stIdx;
         ins.selectStartTime = ins.startTime = startTime;
         ins.endTime = endTime;
-        for (int i = stIdx; i < edIdx; ++i)
+        for (int i = stIdx; i <= edIdx; ++i)
         {
             if (ins.allNotes[i].gameObject.activeInHierarchy)
             {

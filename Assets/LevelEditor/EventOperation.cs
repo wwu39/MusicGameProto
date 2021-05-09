@@ -8,6 +8,7 @@ public class EventOperation : MonoBehaviour
     [SerializeField] GameObject[] pages;
     [SerializeField] Dropdown eventTypeDP;
     [SerializeField] InputField startTimeIF;
+    [SerializeField] Text midiDesc;
     [SerializeField] Button delete;
     EditorEvent currentEvent;
     Dictionary<string, int> eventTypeNameToIndex;
@@ -80,7 +81,9 @@ public class EventOperation : MonoBehaviour
         }
         else
         {
-
+            string text = "StartTime: " + e.kd.startTime + "\n";
+            foreach (var kv in e.kd.prop) text += kv.Key + ": " + kv.Value + "\n";
+            midiDesc.text = text;
         }
     }
     void OnEventTypeChanged(int idx)

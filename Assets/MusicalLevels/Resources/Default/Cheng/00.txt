@@ -7,9 +7,32 @@ GameMode=0
 MusicStartPosition=0
 MidiTrack=no
 
-[1.432362]
+[0.7597178]
 Type=ShowLeftPanel
 
-[205.76]
-Type=GameOver
+[1.69184]
+Type=LongFallingBlock
+Panel=Left
+Exit=0
+Length=6
+Note=48,64,55,60,62,64,50,65,57,60,64
+Delays=0.006944418,0.407986,0.4175348,0.4149306,0.2022569,0.2170138,0.00434041,0.4045138,0.4149303,0.4175348
+
+[15.02604]
+Type=FallingBlock
+Panel=Left
+Exit=2
+Note=56
+
+[15.85938]
+Type=FallingBlock
+Panel=Left
+Exit=0
+Note=65
+
+[16.69271]
+Type=FallingBlock
+Panel=Left
+Exit=2
+Note=57
 
