@@ -335,44 +335,26 @@ public class LevelPage : MonoBehaviour
         ins.selected.Remove(e);
         ins.RefreshInfoPanel();
     }
-    int FindEventLeft(float time) => FindEvent(leftEvents, 0, leftEvents.Count - 1, time);
-    int FindEventRight(float time) => FindEvent(rightEvents, 0, rightEvents.Count - 1, time);
-    int FindEvent(List<EditorEvent> list, int st, int ed, float time)
-    {
-        if (ed - st < 16)
-        {
-            for (int i = st; i <= ed; ++i)
-                if (list[i].kd.startTime >= time)
-                    return i;
-            return ed;
-        }
-        int mid = (st + ed) / 2;
-        if (time > list[mid].kd.startTime) return FindEvent(list, mid + 1, ed, time);
-        else if (time < list[mid].kd.startTime) return FindEvent(list, st, mid - 1, time);
-        else return mid;
-    }
     public static void SelectRangeLeft(float startTime, float endTime)
     {
         DeselectAll();
-        int stIdx = ins.FindEventLeft(startTime);
-        int edIdx = ins.FindEventLeft(endTime);
-        for (int i = stIdx; i < edIdx; ++i)
-        {
-            ins.selected.Add(ins.leftEvents[i]);
-            ins.leftEvents[i].RefreshSelectedState();
-        }
+        foreach (var ee in ins.leftEvents)
+            if (ee.kd.startTime >= startTime && ee.kd.startTime <= endTime)
+            {
+                ins.selected.Add(ee);
+                ee.RefreshSelectedState();
+            }
         ins.RefreshInfoPanel();
     }
     public static void SelectRangeRight(float startTime, float endTime)
     {
         DeselectAll();
-        int stIdx = ins.FindEventRight(startTime);
-        int edIdx = ins.FindEventRight(endTime);
-        for (int i = stIdx; i < edIdx; ++i)
-        {
-            ins.selected.Add(ins.rightEvents[i]);
-            ins.rightEvents[i].RefreshSelectedState();
-        }
+        foreach (var ee in ins.rightEvents)
+            if (ee.kd.startTime >= startTime && ee.kd.startTime <= endTime)
+            {
+                ins.selected.Add(ee);
+                ee.RefreshSelectedState();
+            }
         ins.RefreshInfoPanel();
     }
     public static void DeselectAll()

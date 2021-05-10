@@ -11,7 +11,7 @@ public class MidiOperation : MonoBehaviour
     [Header("FallingBlock")]
     [SerializeField] Dropdown orderByDP; // 0=按音高 1=按出口顺序
     [SerializeField] Dropdown ascendingDP; // 0=升序 1=降序
-    [Header("HorizontalMove")]
+    [Header("VerticalSwipe")]
     [SerializeField] Dropdown headExitDP;
     [SerializeField] Dropdown directionDP;
     [SerializeField] Dropdown widthDP;
@@ -23,6 +23,10 @@ public class MidiOperation : MonoBehaviour
         SelectPage(selection.value);
         selection.onValueChanged.AddListener(SelectPage);
         start.onClick.AddListener(StartConvertion);
+
+        // 关于竖滑转化的一些限制
+        headExitDP.onValueChanged.AddListener(OnVerticalSwipeExitChanged);
+        headExitDP.value = 1;
     }
     private void OnEnable()
     {
@@ -32,6 +36,30 @@ public class MidiOperation : MonoBehaviour
     void SelectPage(int idx)
     {
         for (int i = 0; i < pages.Length; ++i) pages[i].SetActive(i == idx);
+    }
+    void OnVerticalSwipeExitChanged(int val)
+    {
+        if (val == 0)
+        {
+            // 出口选为上时, 朝向只能选往下
+            directionDP.value = 1;
+            directionDP.interactable = false;
+            widthDP.interactable = true;
+        }
+        else if (val == 1)
+        {
+            // 出口选为中时, 宽度只能选2
+            directionDP.interactable = true;
+            widthDP.value = 0;
+            widthDP.interactable = false;
+        }
+        else if (val == 2)
+        {
+            // 出口选为下时, 朝向只能选往上
+            directionDP.value = 0;
+            directionDP.interactable = false;
+            widthDP.interactable = true;
+        }
     }
     void StartConvertion()
     {
@@ -112,7 +140,26 @@ public class MidiOperation : MonoBehaviour
     }
     void MergeIntoVerticalSwipe(List<Note> input)
     {
-
+        List<int> noteVals = new List<int>() { input[0].note };
+        List<float> delays = new List<float>();
+        for (int i = 1; i < input.Count; ++i)
+        {
+            noteVals.Add(input[i].note);
+            delays.Add(input[i].startTimeInSec - input[i - 1].startTimeInSec);
+        }
+        KeyData kd = new KeyData(input[0].startTimeInSec);
+        kd.prop[EventTags.Type] = EventTypes.HorizontalMove;
+        kd.prop[EventTags.Panel] = ((PanelType)panelDP.value).ToString();
+        kd.prop[EventTags.Exit] = headExitDP.value.ToString();
+        kd.prop[EventTags.Direction] = ((Direction)directionDP.value).ToString();
+        kd.prop[EventTags.Width] = (widthDP.value + 2).ToString();
+        string temp = "";
+        for (int i = 0; i < noteVals.Count; ++i) temp += noteVals[i] + (i == noteVals.Count - 1 ? "\n" : ",");
+        kd.prop[EventTags.Note] = temp;
+        temp = "";
+        for (int i = 0; i < delays.Count; ++i) temp += delays[i] + (i == delays.Count - 1 ? "\n" : ",");
+        kd.prop[EventTags.Delays] = temp;
+        LevelPage.ins.keyData.Add(kd);
     }
     void MergeIntoLongPress(List<Note> input)
     {
