@@ -48,6 +48,7 @@ public class LevelPage : MonoBehaviour
     [SerializeField] Text selectInfo;
     [SerializeField] EventOperation eventOperationPanel;
     [SerializeField] GameObject multiSelectPanel;
+    [SerializeField] Button showAll;
     [Header("Prefabs")]
     public GameObject metaEvent;
     public GameObject check;
@@ -55,11 +56,14 @@ public class LevelPage : MonoBehaviour
     [HideInInspector] public List<KeyData> keyData;
     Dictionary<string, Dictionary<string, string>> sections;
     RectTransform[] nodes;
+    RectTransform[] metaEventNodes;
+    RectTransform[] midiEventNodes;
     RectTransform contentL, contentR;
     ScrollRect left, right;
-    List<EditorEvent> leftEvents = new List<EditorEvent>();
-    List<EditorEvent> rightEvents = new List<EditorEvent>();
+    HashSet<EditorEvent> leftEvents = new HashSet<EditorEvent>();
+    HashSet<EditorEvent> rightEvents = new HashSet<EditorEvent>();
     HashSet<EditorEvent> selected = new HashSet<EditorEvent>();
+    public HashSet<EditorEvent> hidden = new HashSet<EditorEvent>();
     GameObject mouseIdicatorLeft, mouseIdicatorRight;
     RightClickMenu rightClickMenu;
     private void Awake()
@@ -90,6 +94,7 @@ public class LevelPage : MonoBehaviour
         reverseRight.isOn = false;
         reverseRight.onValueChanged.AddListener(ReverseRight);
         multiSelectPanel.GetComponentInChildren<Button>().onClick.AddListener(DeleteSelected);
+        showAll.onClick.AddListener(ShowAllHiddenEvent);
     }
 
     private void Update()
@@ -131,6 +136,17 @@ public class LevelPage : MonoBehaviour
         nodes = new RectTransform[2];
         nodes[0] = Instantiate(MusicalLevelEditor.ins.node, contentL).GetComponent<RectTransform>();
         nodes[1] = Instantiate(MusicalLevelEditor.ins.node, contentR).GetComponent<RectTransform>();
+        metaEventNodes = new RectTransform[2];
+        metaEventNodes[0] = Instantiate(MusicalLevelEditor.ins.node, nodes[0]).GetComponent<RectTransform>();
+        metaEventNodes[1] = Instantiate(MusicalLevelEditor.ins.node, nodes[1]).GetComponent<RectTransform>();
+        metaEventNodes[0].name = "MetaEvents";
+        metaEventNodes[1].name = "MetaEvents";
+        midiEventNodes = new RectTransform[2];
+        midiEventNodes[0] = Instantiate(MusicalLevelEditor.ins.node, nodes[0]).GetComponent<RectTransform>();
+        midiEventNodes[1] = Instantiate(MusicalLevelEditor.ins.node, nodes[1]).GetComponent<RectTransform>();
+        midiEventNodes[0].name = "MidiEvents";
+        midiEventNodes[1].name = "MidiEvents";
+
         // find end pos
         GameObject line;
         RectTransform rt;
@@ -142,6 +158,7 @@ public class LevelPage : MonoBehaviour
         for (int page = 1; page <= 2; ++page)
         {
             line = Instantiate(MusicalLevelEditor.ins.barImage, nodes[page - 1]);
+            line.name = "Exits";
             line.GetComponent<Image>().color = new Color32(99, 198, 255, 255);
             rt = line.GetComponent<RectTransform>();
             rt.sizeDelta = new Vector2(4, ContentHeight);
@@ -279,7 +296,7 @@ public class LevelPage : MonoBehaviour
                 seg = str.Split(',');
                 c = new Color32(byte.Parse(seg[0]), byte.Parse(seg[1]), byte.Parse(seg[2]), 255);
             }
-            RhythmObject ro = Instantiate(Resources.Load<GameObject>(blockType), nodes[(int)panel]).GetComponent<RhythmObject>().Initialize_LevelEditor(exit, panel, c);
+            RhythmObject ro = Instantiate(Resources.Load<GameObject>(blockType), midiEventNodes[(int)panel]).GetComponent<RhythmObject>().Initialize_LevelEditor(exit, panel, c);
             ro.rt.anchoredPosition = new Vector2(ContentStart + kd.startTime * lengthPerSec, ExitPos(exit));
             ro.noUpdate = true;
             var e = ro.gameObject.AddComponent<EditorEvent>();
@@ -308,7 +325,7 @@ public class LevelPage : MonoBehaviour
         EditorEvent[] e = new EditorEvent[2];
         for (int i = 0; i <= 1; ++i)
         {
-            var line = Instantiate(metaEvent, nodes[i]);
+            var line = Instantiate(metaEvent, metaEventNodes[i]);
             line.GetComponent<Image>().color = c;
             line.GetComponentInChildren<Text>().text = txt;
             var rt = line.GetComponent<RectTransform>();
@@ -322,6 +339,7 @@ public class LevelPage : MonoBehaviour
         e[1].mirror = e[0];
         leftEvents.Add(e[0]);
         rightEvents.Add(e[1]);
+        eventOperationPanel.ResizeEvent(e[0]);
     }
     public static bool IsSelected(EditorEvent ee) => ins.selected.Contains(ee);
     public static void SelectEvent(EditorEvent e, bool adding)
@@ -339,7 +357,7 @@ public class LevelPage : MonoBehaviour
     {
         DeselectAll();
         foreach (var ee in ins.leftEvents)
-            if (ee.kd.startTime >= startTime && ee.kd.startTime <= endTime)
+            if (ee.gameObject.activeInHierarchy && ee.kd.startTime >= startTime && ee.kd.startTime <= endTime)
             {
                 ins.selected.Add(ee);
                 ee.RefreshSelectedState();
@@ -350,7 +368,7 @@ public class LevelPage : MonoBehaviour
     {
         DeselectAll();
         foreach (var ee in ins.rightEvents)
-            if (ee.kd.startTime >= startTime && ee.kd.startTime <= endTime)
+            if (ee.gameObject.activeInHierarchy && ee.kd.startTime >= startTime && ee.kd.startTime <= endTime)
             {
                 ins.selected.Add(ee);
                 ee.RefreshSelectedState();
@@ -371,7 +389,14 @@ public class LevelPage : MonoBehaviour
         foreach (var ee in ins.selected)
         {
             ee.kd.deleted = true;
-            if (ee.mirror) Destroy(ee.mirror.gameObject);
+            ins.leftEvents.Remove(ee);
+            ins.rightEvents.Remove(ee);
+            if (ee.mirror)
+            {
+                ins.leftEvents.Remove(ee.mirror);
+                ins.rightEvents.Remove(ee.mirror);
+                Destroy(ee.mirror.gameObject);
+            }
             Destroy(ee.gameObject);
         }
         ins.selected.Clear();
@@ -443,5 +468,16 @@ public class LevelPage : MonoBehaviour
         }
         idx = -1;
         return false;
+    }
+
+    void ShowAllHiddenEvent()
+    {
+        foreach (var ee in hidden)
+        {
+            ee.gameObject.SetActive(true);
+            ee.mirror?.gameObject.SetActive(true);
+        }
+        eventOperationPanel.RefreshHiddenToggle();
+        hidden.Clear();
     }
 }

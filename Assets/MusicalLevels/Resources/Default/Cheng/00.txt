@@ -19,6 +19,12 @@ Width=3
 Note=48,64,55
 Delays=0.006944418,0.407986
 
+[3.188348]
+Type=GameOver
+SFX=bbb
+VideoVolumeFadeOut=3
+MusicFadeIn=2
+
 [5.018229]
 Type=HorizontalMove
 Panel=Right

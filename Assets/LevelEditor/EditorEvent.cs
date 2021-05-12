@@ -17,6 +17,11 @@ public class EditorEvent : MonoBehaviour, IPointerDownHandler
     [HideInInspector] public bool dragging;
     public float pointerDownStartTime = -1;
     Image check;
+    public RectTransform rt;
+    private void OnValidate()
+    {
+        rt = GetComponent<RectTransform>();
+    }
     private void Start()
     {
         check = Instantiate(LevelPage.ins.check, transform).GetComponent<Image>();
