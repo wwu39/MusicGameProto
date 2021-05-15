@@ -123,6 +123,13 @@ public class LevelPage : MonoBehaviour
     }
     public void Setup()
     {
+        string path = Application.dataPath + "/MusicalLevels/Resources/" + Interpreter.platform + "/" + MidiTranslator.filename;
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+            File.WriteAllText(path + "/00.txt", "[" + SectionNames.General + "]\n" + GeneralTags.Exit + "=3\n");
+            AssetDatabase.Refresh();
+        }
         Interpreter.Open(MidiTranslator.filename, out keyData, out sections);
         leftEvents.Clear();
         rightEvents.Clear();
