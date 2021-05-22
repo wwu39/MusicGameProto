@@ -44,10 +44,11 @@ public class LevelPage : MonoBehaviour
     [SerializeField] Button enterGame;
     [SerializeField] Button refresh;
     [SerializeField] Button save;
+    [SerializeField] Button openTXT;
     [SerializeField] Toggle reverseRight;
     [SerializeField] Text selectInfo;
     [SerializeField] EventOperation eventOperationPanel;
-    [SerializeField] GameObject multiSelectPanel;
+    [SerializeField] MultiSelectPanel multiSelectPanel;
     [SerializeField] Button showAll;
     [Header("Prefabs")]
     public GameObject metaEvent;
@@ -57,11 +58,11 @@ public class LevelPage : MonoBehaviour
     Dictionary<string, Dictionary<string, string>> sections;
     RectTransform[] nodes;
     RectTransform[] metaEventNodes;
-    RectTransform[] midiEventNodes;
+    public RectTransform[] midiEventNodes;
     RectTransform contentL, contentR;
     ScrollRect left, right;
-    HashSet<EditorEvent> leftEvents = new HashSet<EditorEvent>();
-    HashSet<EditorEvent> rightEvents = new HashSet<EditorEvent>();
+    public HashSet<EditorEvent> leftEvents = new HashSet<EditorEvent>();
+    public HashSet<EditorEvent> rightEvents = new HashSet<EditorEvent>();
     HashSet<EditorEvent> selected = new HashSet<EditorEvent>();
     public HashSet<EditorEvent> hidden = new HashSet<EditorEvent>();
     GameObject mouseIdicatorLeft, mouseIdicatorRight;
@@ -93,18 +94,21 @@ public class LevelPage : MonoBehaviour
         right.onValueChanged.AddListener(OnLevelPageRightDragged);
         reverseRight.isOn = false;
         reverseRight.onValueChanged.AddListener(ReverseRight);
-        multiSelectPanel.GetComponentInChildren<Button>().onClick.AddListener(DeleteSelected);
         showAll.onClick.AddListener(ShowAllHiddenEvent);
+        openTXT.onClick.AddListener(() =>
+        {
+            EditorUtility.RevealInFinder(Application.dataPath + "/MusicalLevels/Resources/" + Interpreter.platform + "/" + MidiTranslator.filename + "/00.txt");
+        });
     }
 
     private void Update()
     {
         // debug
-        if (mouseIdicatorLeft) 
+        if (mouseIdicatorLeft)
             MusicalLevelEditor.ins.mousePositionInScroll[1] = (mouseIdicatorLeft.transform as RectTransform).anchoredPosition = Utils.ScreenToCanvasPos(Input.mousePosition) + GetLeftScrollLocalCenter() - (left.transform as RectTransform).anchoredPosition;
         if (mouseIdicatorRight)
             MusicalLevelEditor.ins.mousePositionInScroll[2] = (mouseIdicatorRight.transform as RectTransform).anchoredPosition = Utils.ScreenToCanvasPos(Input.mousePosition) + GetRightScrollLocalCenter() - (right.transform as RectTransform).anchoredPosition;
-        
+
         // control
         if (Input.GetMouseButtonDown(1)) // mouse right click
         {
@@ -278,7 +282,7 @@ public class LevelPage : MonoBehaviour
         }
         AssetDatabase.Refresh(); // 刷新Unity Editor的缓存
     }
-    float ExitPos(int exitIdx) => (1 - exitIdx) * PanelSize.y * 0.3f;
+    public float ExitPos(int exitIdx) => (1 - exitIdx) * PanelSize.y * 0.3f;
     void ParseKeyData(KeyData kd)
     {
         int exit = 0;
@@ -416,7 +420,7 @@ public class LevelPage : MonoBehaviour
             selectInfo.text = "已选择" + selected.Count + "个事件";
             (selectInfo.transform.parent as RectTransform).anchoredPosition = new Vector2(785, -505);
             eventOperationPanel.gameObject.SetActive(false);
-            multiSelectPanel.SetActive(false);
+            multiSelectPanel.gameObject.SetActive(false);
         }
         else if (selected.Count == 1)
         {
@@ -426,14 +430,15 @@ public class LevelPage : MonoBehaviour
             foreach (var ee in selected) e = ee;
             eventOperationPanel.gameObject.SetActive(true);
             eventOperationPanel.Show(e);
-            multiSelectPanel.SetActive(false);
+            multiSelectPanel.gameObject.SetActive(false);
         }
         else
         {
             selectInfo.text = "已选择" + selected.Count + "个事件";
             (selectInfo.transform.parent as RectTransform).anchoredPosition = new Vector2(785, -447);
             eventOperationPanel.gameObject.SetActive(false);
-            multiSelectPanel.SetActive(true);
+            multiSelectPanel.gameObject.SetActive(true);
+            multiSelectPanel.Refresh();
         }
     }
     void OnLevelPageLeftDragged(Vector2 pos)
@@ -463,6 +468,20 @@ public class LevelPage : MonoBehaviour
         return new Vector2((-0.5f + center.x) * (ContentWidth - scrollSize.x), (-0.5f + center.y) * (ContentHeight - scrollSize.y));
     }
     public static bool OneSelection => ins.selected.Count == 1;
+    public static bool SelectionContainsOnlyFallingBlock()
+    {
+        foreach (var e in ins.selected)
+        {
+            string str;
+            if (e.kd.prop.TryGetValue(EventTags.Type, out str))
+            {
+                if (str != EventTypes.FallingBlock)
+                    return false;
+            }
+            else return false;
+        }
+        return true;
+    }
     public static bool TryGetMetaEventIndex(string blockTypeName, out int idx)
     {
         for (int i = 0; i < EventTypes.Meta.Length; ++i)

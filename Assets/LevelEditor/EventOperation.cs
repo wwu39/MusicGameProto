@@ -5,13 +5,19 @@ using UnityEngine.UI;
 
 public class EventOperation : MonoBehaviour
 {
+    [Header("Meta")]
     [SerializeField] GameObject[] pages;
     [SerializeField] Dropdown eventTypeDP;
     [SerializeField] InputField startTimeIF;
-    [SerializeField] Text midiDesc;
     [SerializeField] Dropdown addTagDP;
     [SerializeField] Button doneAddTagBTN;
     [SerializeField] GameObject conflictDialog;
+    [Header("Midi")]
+    [SerializeField] Dropdown panelDP;
+    [SerializeField] Dropdown exitDP;
+    [SerializeField] Button dissolveBTN;
+    [SerializeField] Text midiDesc;
+    [Header("Other")]
     [SerializeField] Toggle hiddenTG;
     [SerializeField] Button delete;
     EditorEvent currentEvent;
@@ -60,6 +66,10 @@ public class EventOperation : MonoBehaviour
         new HashSet<string>(new string[] { EventTags.MusicFadeIn, EventTags.MusicFadeOut })
     };
     Dictionary<string, KeyValuePair<GameObject, int>> addedTags = new Dictionary<string, KeyValuePair<GameObject, int>>();
+    HashSet<string> midiPropDontShow = new HashSet<string>()
+    {
+        EventTags.Exit, EventTags.Panel
+    };
     private void Awake()
     {
         eventTypeDP.ClearOptions();
@@ -80,7 +90,9 @@ public class EventOperation : MonoBehaviour
         conflictDialog.GetComponentInChildren<Button>().onClick.AddListener(() => conflictDialog.SetActive(false));
         hiddenTG.onValueChanged.AddListener(OnHidden);
         delete.onClick.AddListener(LevelPage.DeleteSelected);
+        dissolveBTN.onClick.AddListener(DissolveCurrentEvent);
     }
+
     private void Update()
     {
         // handle dragging
@@ -113,6 +125,8 @@ public class EventOperation : MonoBehaviour
             {
                 currentEvent.dragging = false;
                 startTimeIF.interactable = true;
+                MusicalLevelEditor.ins.scrolls[1].horizontal = true;
+                MusicalLevelEditor.ins.scrolls[2].horizontal = true;
                 print("Dragging ends");
             }
         }
@@ -134,8 +148,40 @@ public class EventOperation : MonoBehaviour
         }
         else
         {
-            string text = "StartTime: " + e.kd.startTime + "\n";
-            foreach (var kv in e.kd.prop) text += kv.Key + ": " + kv.Value + "\n";
+            exitDP.onValueChanged.RemoveAllListeners();
+            if(e.kd.prop.TryGetValue(EventTags.Exit, out str))
+            {
+                exitDP.value = int.Parse(str);
+            }
+            else
+            {
+                e.kd.prop[EventTags.Exit] = "0";
+                exitDP.value = 0;
+            }
+            exitDP.onValueChanged.AddListener(OnExitChanged);
+            panelDP.onValueChanged.RemoveAllListeners();
+            if (e.kd.prop.TryGetValue(EventTags.Panel, out str))
+            {
+                panelDP.value = str == PanelType.Left.ToString() ? 0 : 1;
+            }
+            else
+            {
+                e.kd.prop[EventTags.Panel] = PanelType.Left.ToString();
+                panelDP.value = 0;
+            }
+            panelDP.onValueChanged.AddListener(OnPanelChanged);
+            if(e.kd.prop.TryGetValue(EventTags.Type, out str)) exitDP.interactable = str != EventTypes.HorizontalMove;
+            bool dissolvable = false;
+            if (e.kd.prop.TryGetValue(EventTags.Note, out str)) 
+                if (str.Split(',').Length > 1)
+                    dissolvable = true;
+            dissolveBTN.interactable = dissolvable;
+            dissolveBTN.GetComponentInChildren<Text>().text = dissolvable ? "分解" : "无法分解";
+
+            string text = "开始时间: " + e.kd.startTime + "\n";
+            foreach (var kv in e.kd.prop)
+                if (!midiPropDontShow.Contains(kv.Key))
+                    text += EventTags.GetChinese(kv.Key) + ": " + kv.Value + "\n";
             midiDesc.text = text;
         }
     }
@@ -238,13 +284,14 @@ public class EventOperation : MonoBehaviour
                     string str;
                     if (currentEvent.kd.prop.TryGetValue(EventTags.Ratio, out str))
                     {
-                        for (int i = 0; i < ratio.options.Count; ++i) 
+                        for (int i = 0; i < ratio.options.Count; ++i)
                             if (str == ratio.options[i].text)
                             {
                                 ratio.value = i;
                                 break;
                             }
                     }
+                    else currentEvent.kd.prop[EventTags.Ratio] = ratio.options[0].text;
                     if (currentEvent.kd.prop.TryGetValue(EventTags.VideoStartTime, out str))
                         ifs[1].text = str;
                     else ifs[1].text = "0";
@@ -319,5 +366,42 @@ public class EventOperation : MonoBehaviour
         Vector2 newSize = new Vector2(Mathf.Max(4, t * LevelPage.lengthPerSec), LevelPage.ContentHeight);
         e.rt.sizeDelta = newSize;
         if (e.mirror) e.mirror.rt.sizeDelta = newSize;
+    }
+
+    private void OnExitChanged(int val)
+    {
+        currentEvent.kd.prop[EventTags.Exit] = val.ToString();
+        if (currentEvent.kd.prop[EventTags.Type] == EventTypes.HorizontalMove)
+        {
+            Debug.LogError("不能随意改变竖滑的出口！");
+        }
+        else
+        {
+            var pos = currentEvent.rt.anchoredPosition;
+            pos.y = LevelPage.ins.ExitPos(val);
+            currentEvent.rt.anchoredPosition = pos;
+        }
+    }
+    private void OnPanelChanged(int arg0)
+    {
+        currentEvent.kd.prop[EventTags.Panel] = ((PanelType)arg0).ToString();
+        var pos = currentEvent.rt.anchoredPosition;
+        currentEvent.rt.parent = LevelPage.ins.midiEventNodes[arg0];
+        currentEvent.rt.anchoredPosition = pos;
+        if (arg0 == 0)
+        {
+            LevelPage.ins.leftEvents.Add(currentEvent);
+            LevelPage.ins.rightEvents.Remove(currentEvent);
+        }
+        else
+        {
+            LevelPage.ins.rightEvents.Add(currentEvent);
+            LevelPage.ins.leftEvents.Remove(currentEvent);
+        }
+    }
+
+    private void DissolveCurrentEvent()
+    {
+        throw new System.NotImplementedException();
     }
 }

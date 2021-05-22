@@ -67,6 +67,18 @@ public static class EventTags
     public static string ShowPreloadVideo = "ShowPreloadVideo";
     public static string PlayVideoClip = "PlayVideoClip";
     public static string PanelAlpha = "PanelAlpha";
+
+    static Dictionary<string, string> toChinese = new Dictionary<string, string>()
+    {
+        { Exit, "出口" }, { Panel, "谱面" }, { Type, "种类" }, { Color, "颜色" }, { Note, "包含音符值" }, { Delays, "各音符延迟" },
+        { Length, "节数" }, { Direction, "朝向" }, { Width, "长度" }
+    };
+    public static string GetChinese(string tag)
+    {
+        string chn;
+        if (toChinese.TryGetValue(tag, out chn)) return chn;
+        else return tag;
+    }
 }
 
 public static class EventTypes

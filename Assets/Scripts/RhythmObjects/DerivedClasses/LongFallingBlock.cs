@@ -84,7 +84,7 @@ public class LongFallingBlock : RhythmObject
     public void ApplyLength()
     {
         var sizeDelta = new Vector2(length * BlockSize.x, BlockSize.y);
-        var anchoredPosition = new Vector2((length - 1f) * BlockSize.x / 2, 0) * (panel == PanelType.Left ? 1 : -1);
+        var anchoredPosition = new Vector2((length - 1f) * BlockSize.x / 2, 0) * (noUpdate || panel == PanelType.Left ? 1 : -1);
 
         // temp art
         frame.rectTransform.sizeDelta = sizeDelta + new Vector2(-10, -10);
@@ -97,7 +97,7 @@ public class LongFallingBlock : RhythmObject
         {
             var n = Instantiate(Resources.Load<GameObject>("Note"), rt).GetComponent<Image>();
             noteImages[i] = n.sprite = s[Random.Range(0, s.Length)];
-            n.rectTransform.anchoredPosition = new Vector2(i * BlockSize.x, 0);
+            n.rectTransform.anchoredPosition = new Vector2(i * BlockSize.x, 0) * (noUpdate || panel == PanelType.Left ? 1 : -1);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +9,8 @@ public class SelectPad : MonoBehaviour
     [SerializeField] InputField startTimeIF;
     [SerializeField] InputField endTimeIF;
     [SerializeField] Button selectButton;
+    [SerializeField] Button selectAll;
+    [SerializeField] Button unselectAll;
     public EditingPage page;
     Image selectionBox;
     bool canClick;
@@ -17,11 +20,21 @@ public class SelectPad : MonoBehaviour
         startTimeIF.onValueChanged.AddListener(OnValueChanged);
         endTimeIF.onValueChanged.AddListener(OnValueChanged);
         selectButton.onClick.AddListener(OnSelectButtonClicked);
+        selectAll.onClick.AddListener(OnSelectAll);
+        unselectAll.onClick.AddListener(OnUnselectAll);
     }
 
+    private void OnSelectAll()
+    {
+        SetRange(0, MidiTranslator.endTime);
+    }
+    private void OnUnselectAll()
+    {
+        SetRange(-1, -1);
+    }
     void OnValueChanged(string val)
     {
-        if (!float.TryParse(startTimeIF.text, out startTime) || !float.TryParse(endTimeIF.text, out endTime) || startTime >= endTime)
+        if (!float.TryParse(startTimeIF.text, out startTime) || !float.TryParse(endTimeIF.text, out endTime) || startTime >= endTime || startTime < 0 || endTime < 0)
         {
             if (selectionBox) Destroy(selectionBox.gameObject);
             canClick = false;
