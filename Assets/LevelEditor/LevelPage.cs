@@ -54,6 +54,7 @@ public class LevelPage : MonoBehaviour
     public GameObject metaEvent;
     public GameObject check;
     public GameObject rightClickMenuPrefab;
+    public GameObject mergePagePrefab;
     [HideInInspector] public List<KeyData> keyData;
     Dictionary<string, Dictionary<string, string>> sections;
     RectTransform[] nodes;
@@ -214,6 +215,20 @@ public class LevelPage : MonoBehaviour
         // parse all events
         keyData.Sort((x, y) => x.startTime.CompareTo(y.startTime));
         foreach (var kd in keyData) ParseKeyData(kd);
+
+        // 前3秒警告
+        for (int i = 0; i <= 1; ++i)
+        {
+            line = Instantiate(metaEvent, metaEventNodes[i]);
+            line.GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+            var textComp = line.GetComponentInChildren<Text>();
+            textComp.text = "前3秒有音符的场合，因为要预留3秒下落时间，建议延迟填3秒以上";
+            textComp.rectTransform.localEulerAngles = new Vector3();
+            textComp.color = Color.red;
+            rt = line.GetComponent<RectTransform>();
+            rt.sizeDelta = new Vector2(3 * lengthPerSec, ContentHeight);
+            rt.anchoredPosition = new Vector2(ContentStart, 0);
+        }
 
         // Debug
         mouseIdicatorLeft = Instantiate(MusicalLevelEditor.ins.barImage, nodes[0]);

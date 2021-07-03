@@ -371,6 +371,8 @@ MonoBehaviour:
   check: {fileID: 8695781957594601656, guid: 735062d95bbe6a14c80db51dee59c64b, type: 3}
   rightClickMenuPrefab: {fileID: 3133706746344994809, guid: 1c400261d1a57644d9e79948300725f9,
     type: 3}
+  mergePagePrefab: {fileID: 3259375917822949950, guid: 5441addfd871a4d46b6e304b4c65bc1f,
+    type: 3}
   midiEventNodes: []
 --- !u!1 &74532931
 GameObject:
@@ -3601,6 +3603,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mergeBTN: {fileID: 728916946}
   deleteAllBTN: {fileID: 1855389954}
+  mergePagePrefab: {fileID: 3259375917822949950, guid: 5441addfd871a4d46b6e304b4c65bc1f,
+    type: 3}
 --- !u!1 &1067913666
 GameObject:
   m_ObjectHideFlags: 0

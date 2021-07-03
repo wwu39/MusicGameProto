@@ -31,6 +31,8 @@ public class SelectPad : MonoBehaviour
     private void OnUnselectAll()
     {
         SetRange(-1, -1);
+        if (selectionBox) Destroy(selectionBox.gameObject);
+        canClick = false;
     }
     void OnValueChanged(string val)
     {
@@ -81,6 +83,10 @@ public class SelectPad : MonoBehaviour
         {
             startTimeIF.text = t1.ToString();
             endTimeIF.text = t2.ToString();
+        }
+        else
+        {
+            startTimeIF.text = endTimeIF.text = "0";
         }
     }
     public bool Interactable

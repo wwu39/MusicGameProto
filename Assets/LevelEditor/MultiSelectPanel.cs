@@ -16,7 +16,7 @@ public class MultiSelectPanel : MonoBehaviour
 
     private void OnMergeButtonClicked()
     {
-        throw new NotImplementedException();
+        Instantiate(LevelPage.ins.mergePagePrefab, MusicalLevelEditor.ins.transform).GetComponent<MergePage>();
     }
     public void Refresh()
     {
