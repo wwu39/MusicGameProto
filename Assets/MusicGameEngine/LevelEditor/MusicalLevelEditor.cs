@@ -58,6 +58,7 @@ public class MusicalLevelEditor : MonoBehaviour
                 LevelPage.ins.Setup();
                 SelectTab(0);
                 for (int j = 0; j < 3; ++j) contents[j].anchoredPosition = new Vector2();
+                print(filename);
             });
             ++i;
         }

@@ -176,7 +176,7 @@ public class RhythmGameManager : MonoBehaviour
 
         if (!SelectLevel.ins)
         {
-            var info = new DirectoryInfo("Assets/MusicalLevels/Resources/" + platform);
+            var info = new DirectoryInfo("Assets/MusicGameEngine/MusicalLevels/Resources/" + platform);
             var dirs = info.GetDirectories();
             int i = 0;
             foreach (var d in dirs)

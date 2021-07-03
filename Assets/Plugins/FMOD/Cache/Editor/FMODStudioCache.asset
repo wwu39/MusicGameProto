@@ -16,7 +16,7 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 1
-  Exists: 1
+  Exists: 0
 --- !u!114 &-9217880154023198228
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49,7 +49,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/51
   guid: 9e4e894634aaab4ba21ba4b1856df8a7
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -107,7 +107,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/79
   guid: fc75161931d4364bb2aed9898dba36a6
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -182,7 +182,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/42
   guid: f682ef6810342e4a91ddaafae2ea7cd5
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -229,6 +229,24 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 705
+--- !u!114 &-8638993480861000142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637608804150986394
+  LoadResult: 0
+  FileSizes: []
+  Exists: 1
 --- !u!114 &-8637824492802601446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,7 +262,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/24
   guid: 39b470c00103e848abbd23c44883f4f5
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -267,7 +285,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/31
   guid: a49fb6834ba48c4c8b91e37cd9cb3a5c
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -308,7 +326,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/1
   guid: 7117740ebf0e2d4e9fe3203c53c0ac63
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -442,7 +460,7 @@ MonoBehaviour:
   Path: event:/820-3
   guid: 49b2c7cdde53e24aa9c9e6cbd60bc72e
   Banks:
-  - {fileID: 3630417884186759801}
+  - {fileID: -8638993480861000142}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -483,7 +501,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/34
   guid: f9b9b776863048429326904026ed84ba
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -560,7 +578,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/14
   guid: cc31893e5f655442b1bc6eff549b2160
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -636,7 +654,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/122
   guid: 4deda1e5f73e7f41a90eabb4d4bcc8df
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -699,7 +717,7 @@ MonoBehaviour:
   Path: event:/Jack06
   guid: 0651b9038e5751489f21cd0100665d3c
   Banks:
-  - {fileID: -1720849876427861341}
+  - {fileID: 5180798928151968380}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -831,7 +849,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/62
   guid: d63671b380473f48ba3e896a8107beff
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -854,7 +872,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/83
   guid: 0e02c2002828c647be738e5612a0bcaf
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -877,7 +895,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/29
   guid: 959459ce80294b438ab134a1c22fca90
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -975,7 +993,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/48
   guid: 21f8ce7d81eaed49987e04a2e8313634
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -998,7 +1016,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/58
   guid: 01cf473f92824147af912d60f561eeee
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -1057,7 +1075,7 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
-  Exists: 1
+  Exists: 0
 --- !u!114 &-6861631027940529621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1142,7 +1160,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/111
   guid: 2029c8cf34b00749b3463ca91510db92
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -1182,7 +1200,7 @@ MonoBehaviour:
   Path: event:/Rouxian1
   guid: 9da98404dac1cd41a13d57db27f695da
   Banks:
-  - {fileID: 3630417884186759801}
+  - {fileID: -8638993480861000142}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -1222,7 +1240,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/89
   guid: 967e4c20205eb84094f2d09b543c15d6
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -1245,7 +1263,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/45
   guid: 328e51b7c854e2439b5098c66920b352
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -1288,6 +1306,24 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 0
+--- !u!114 &-6305718413631542039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/MidiNotes.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/MidiNotes.bank
+  SubDir: 
+  lastModified: 637608804151225744
+  LoadResult: 0
+  FileSizes: []
+  Exists: 1
 --- !u!114 &-6291564045446626777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1303,7 +1339,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/38
   guid: 2a5639f4215afe4e9b997ab150d1f76a
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -1326,7 +1362,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/11
   guid: 3a58fa42a7daf34bb65fe808a3c2b8f3
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -1423,7 +1459,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/81
   guid: a6a93bbfc89b944d9a7c4a3e50dd735b
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -1553,7 +1589,7 @@ MonoBehaviour:
   Path: event:/Jack01
   guid: c406e2e4f2bfbe47b852dcd7855ec0c1
   Banks:
-  - {fileID: -1720849876427861341}
+  - {fileID: 5180798928151968380}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -1594,7 +1630,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/94
   guid: a3c6e22ff18b5e43a4cbf5867a979b13
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -1674,7 +1710,7 @@ MonoBehaviour:
   Path: event:/820-1
   guid: 6d3585f0771e8343aeb12d7a6aa87a48
   Banks:
-  - {fileID: 3630417884186759801}
+  - {fileID: -8638993480861000142}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -1697,7 +1733,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/105
   guid: 1c04dd0f33095d4983ac2091b95c41a2
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -1791,7 +1827,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/22
   guid: 491be1478709754793b814853b327f5d
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -1814,7 +1850,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/68
   guid: b1ed251785da2a45b28cd5f3f6f78bf6
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -1837,7 +1873,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/109
   guid: 60e57e1b0ec03c4ba57fcce8c4f2686b
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -1882,12 +1918,12 @@ MonoBehaviour:
   Path: event:/Cheng
   guid: d0c385d5a4ce6348ae172588a0a32ba8
   Banks:
-  - {fileID: 3630417884186759801}
+  - {fileID: -8638993480861000142}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
   Parameters:
-  - {fileID: -1089042812616363110}
+  - {fileID: -3012829977089230470}
   MinDistance: 0
   MaxDistance: 0
   Length: 213360
@@ -1924,7 +1960,7 @@ MonoBehaviour:
   Path: event:/818
   guid: d9a35c207f34d54d8d934c83428693a7
   Banks:
-  - {fileID: 3630417884186759801}
+  - {fileID: -8638993480861000142}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -1983,7 +2019,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/43
   guid: 1578c50e1d2eeb4cb2b5e693151d61e6
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -2006,7 +2042,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/69
   guid: 1dcd884fe5e76347ab640aa90ab9ac8a
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -2063,7 +2099,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/120
   guid: af0cedb5be89a644a854e530e819deb2
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -2104,7 +2140,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/4
   guid: 4cf72ddec774a54dafdfce2c105bc9b4
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -2144,7 +2180,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/117
   guid: f1506cccfceed34998edd1a140175521
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -2253,7 +2289,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/104
   guid: 355faac28749af4f80c29741ff33c192
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -2312,7 +2348,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/2
   guid: bd1e983e6bad0249b374da8333e2628b
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -2335,7 +2371,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/96
   guid: 98c5039653291947848fb70d7029c285
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -2455,7 +2491,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/59
   guid: a14804752267af4f8ad044d1d27de029
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -2513,7 +2549,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/57
   guid: 041f5712880638498e205394d2616beb
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -2588,7 +2624,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/21
   guid: 168063debd20ed40ad6d21bea9dedbdd
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -2611,7 +2647,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/37
   guid: 04c6ed62426faa449743a069872a8038
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -2634,7 +2670,7 @@ MonoBehaviour:
   Path: event:/Jack02
   guid: 05958089b2f04d4ea1f087ef56e6b5d6
   Banks:
-  - {fileID: -1720849876427861341}
+  - {fileID: 5180798928151968380}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -2657,7 +2693,7 @@ MonoBehaviour:
   Path: event:/Jack Battle
   guid: e6b96f5c2c63124a8aa311e6bd396f7e
   Banks:
-  - {fileID: 3630417884186759801}
+  - {fileID: -8638993480861000142}
   IsStream: 1
   Is3D: 0
   IsOneShot: 1
@@ -2810,7 +2846,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/93
   guid: 695412008d92ff43a8f544ceee68bd80
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -2850,7 +2886,7 @@ MonoBehaviour:
   Path: event:/821-2
   guid: 72aaf422f05aa146867c15deb41b8d45
   Banks:
-  - {fileID: 3630417884186759801}
+  - {fileID: -8638993480861000142}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -2876,6 +2912,23 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 0
+--- !u!114 &-3414311188542658472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Rubia/KeyOn
+  m_EditorClassIdentifier: 
+  Name: KeyOn
+  Min: 0
+  Max: 2
+  Default: 0
+  Exists: 1
 --- !u!114 &-3320874005979618461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2891,7 +2944,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/103
   guid: d81cdbe8a68b9b48806ac3b1a5d70b81
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -2914,7 +2967,7 @@ MonoBehaviour:
   Path: event:/TBC
   guid: 70dbcf8fee11f248978fd5313ce53f56
   Banks:
-  - {fileID: 3630417884186759801}
+  - {fileID: -8638993480861000142}
   IsStream: 1
   Is3D: 0
   IsOneShot: 1
@@ -2937,7 +2990,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/36
   guid: fc06a066fdfc9c42b6c6403ad779e559
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -2977,7 +3030,7 @@ MonoBehaviour:
   Path: event:/821-1
   guid: 83eff06f4a0c044ebb236b3912076b1a
   Banks:
-  - {fileID: 3630417884186759801}
+  - {fileID: -8638993480861000142}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -3000,7 +3053,7 @@ MonoBehaviour:
   Path: event:/Jack04
   guid: 8bea559f2916ba4ab698dd52432ca4d8
   Banks:
-  - {fileID: -1720849876427861341}
+  - {fileID: 5180798928151968380}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -3026,6 +3079,23 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 0
+--- !u!114 &-3012829977089230470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Cheng/BGVolumn
+  m_EditorClassIdentifier: 
+  Name: BGVolumn
+  Min: 0
+  Max: 1
+  Default: 1
+  Exists: 1
 --- !u!114 &-3007725412576016594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3041,7 +3111,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/71
   guid: ff38279e1504394aace761ed8cac2c19
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -3064,7 +3134,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/107
   guid: c5dacf930fae4a4388a9133712daa385
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -3122,7 +3192,7 @@ MonoBehaviour:
   Path: event:/WRONG
   guid: e6624788a28d034a8c458269b402f239
   Banks:
-  - {fileID: 3630417884186759801}
+  - {fileID: -8638993480861000142}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -3145,7 +3215,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/23
   guid: 58f63132d124074bb6308caae838eff4
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -3238,7 +3308,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/98
   guid: a6509a4357d0814c82ec8e2880eaebec
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -3420,7 +3490,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/9
   guid: 0b8f0b9e3a04f847aef8f7de2e5324f2
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -3479,7 +3549,7 @@ MonoBehaviour:
   Path: event:/820-2
   guid: 3f6cf7a0c6974145b0cee3ec57bdf8da
   Banks:
-  - {fileID: 3630417884186759801}
+  - {fileID: -8638993480861000142}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -3618,7 +3688,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/55
   guid: f1a213bc6ebd064e9a5a29fb8e7fee8c
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -3661,7 +3731,7 @@ MonoBehaviour:
   lastModified: 637566956163699618
   LoadResult: 0
   FileSizes: []
-  Exists: 1
+  Exists: 0
 --- !u!114 &-1680157101061441499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3711,7 +3781,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/70
   guid: 91b156b52a2dad44bd13e1cf51d5bbec
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -3751,7 +3821,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/125
   guid: f10bbdb94159104eabc8d98f705fae44
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -3774,7 +3844,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/97
   guid: b27b483a2604354c93870fc6dbbd8a1a
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -3814,7 +3884,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/61
   guid: 2628a560e9c259468f00e072bc3bc7ca
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -3837,7 +3907,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/46
   guid: 6e197dc452f5ac429a8d9db05090a32a
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -3860,7 +3930,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/41
   guid: f22c29edfac00d47a52879ffda21ce40
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -3884,7 +3954,7 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
-  Exists: 1
+  Exists: 0
 --- !u!114 &-1241376562278037189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3939,7 +4009,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/26
   guid: 502a3493741fa447a9de650a4459f9ef
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -4019,7 +4089,7 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 1
-  Exists: 1
+  Exists: 0
 --- !u!114 &-1030268578293241487
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4071,7 +4141,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/3
   guid: b32fed0702a2564e884a8be47986b04c
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -4111,7 +4181,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/49
   guid: 204d2f947f12af4596db266a9c7cfbe6
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -4170,7 +4240,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/30
   guid: 22b64a7027acdd46864c3ea8e5d399a2
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -4211,7 +4281,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/53
   guid: 8953a9f587620e4eb6068d3bb689d362
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -4234,7 +4304,7 @@ MonoBehaviour:
   Path: event:/The Bass Part
   guid: 4726c3910ac2cd46be58d4488cf78267
   Banks:
-  - {fileID: 3630417884186759801}
+  - {fileID: -8638993480861000142}
   IsStream: 1
   Is3D: 0
   IsOneShot: 1
@@ -4296,7 +4366,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/54
   guid: 8abe5d2052f6154d90cf3dcb68cfd84c
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -4341,7 +4411,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/100
   guid: b20ae60044f7b14cb1060efa7f2827ae
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -4416,7 +4486,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/47
   guid: ca8e1ae542e3bb418970e6e5cc351b03
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -4474,9 +4544,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EditorBanks:
   - {fileID: 7407921767779674772}
-  - {fileID: 3630417884186759801}
-  - {fileID: 3837106885597752086}
-  - {fileID: -1720849876427861341}
+  - {fileID: -8638993480861000142}
+  - {fileID: -6305718413631542039}
+  - {fileID: 5180798928151968380}
   EditorEvents:
   - {fileID: 474354688781625152}
   - {fileID: -625618225398449996}
@@ -4633,10 +4703,10 @@ MonoBehaviour:
   - {fileID: 951120046649609791}
   EditorParameters: []
   MasterBanks:
-  - {fileID: 3630417884186759801}
+  - {fileID: -8638993480861000142}
   StringsBanks:
   - {fileID: 7407921767779674772}
-  stringsBankWriteTime: 637566956154888602
+  stringsBankWriteTime: 637608804151006330
   cacheVersion: 3
 --- !u!114 &18418552791820621
 MonoBehaviour:
@@ -4758,7 +4828,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/64
   guid: 361c4fb0389b3d448e402111f3c76eca
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -4821,7 +4891,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/76
   guid: 0253111600e8054382e2d500e1a6ef55
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -4884,7 +4954,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/87
   guid: 354abb0d296f9b4eb947b760ce1f9442
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -4925,7 +4995,7 @@ MonoBehaviour:
   Path: event:/TestMusic
   guid: 395ec695d6053147863a9785fea3b6ad
   Banks:
-  - {fileID: 3630417884186759801}
+  - {fileID: -8638993480861000142}
   IsStream: 1
   Is3D: 0
   IsOneShot: 1
@@ -4983,13 +5053,13 @@ MonoBehaviour:
   Path: event:/Trust you
   guid: 448b19a311ad01419ccdabb1207f7fac
   Banks:
-  - {fileID: 3630417884186759801}
+  - {fileID: -8638993480861000142}
   IsStream: 1
   Is3D: 0
   IsOneShot: 1
   Parameters:
-  - {fileID: -1246177258345525518}
-  - {fileID: -6884131538545547988}
+  - {fileID: 4225008693171870356}
+  - {fileID: 4184666905412780414}
   MinDistance: 0
   MaxDistance: 0
   Length: 100257
@@ -5061,7 +5131,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/80
   guid: 799dcdeaf766d14aa4da7ad390a85f3f
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -5084,13 +5154,13 @@ MonoBehaviour:
   Path: event:/Rubia
   guid: 6842e59c7cfb2543bd3db7bd0d86539c
   Banks:
-  - {fileID: 3630417884186759801}
+  - {fileID: -8638993480861000142}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
   Parameters:
-  - {fileID: 6649587408798753751}
-  - {fileID: -9219326919498036950}
+  - {fileID: -3414311188542658472}
+  - {fileID: 7166863087167969853}
   MinDistance: 0
   MaxDistance: 0
   Length: 194558
@@ -5126,7 +5196,7 @@ MonoBehaviour:
   Path: event:/MyWar
   guid: 5db409cac57ad149a10d64977eece45b
   Banks:
-  - {fileID: 3630417884186759801}
+  - {fileID: -8638993480861000142}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -5149,7 +5219,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/99
   guid: 5c98c364cad57a419e5e5c8669ef0e66
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -5208,7 +5278,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/39
   guid: 7d6aa91763a3134d80b0fe4d44474448
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -5301,7 +5371,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/44
   guid: 5f2f0cf93f52a046a49ea4f105fde663
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -5404,7 +5474,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/35
   guid: 39f790043e94914885252d738694d99b
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -5462,7 +5532,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/102
   guid: 1a6b4f9729a37c4a90b33524c108a681
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -5520,7 +5590,7 @@ MonoBehaviour:
   Path: event:/TestMidi
   guid: 82e5b87d57f30b48bf8582c3665acaed
   Banks:
-  - {fileID: 3630417884186759801}
+  - {fileID: -8638993480861000142}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -5543,7 +5613,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/63
   guid: 7e466f15c274234dbe0ca3e43fdebf5a
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -5610,7 +5680,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/108
   guid: 67e7522781034847a094922f6cf60dff
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -5703,7 +5773,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/50
   guid: 7a2828b9400a8c448c9d86d012df5aa9
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -5834,7 +5904,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/118
   guid: 6ef2f44020369a4c974e9a748ac747c5
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -5874,7 +5944,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/110
   guid: 323954a226c7704f8275b635edcbaab6
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -5915,7 +5985,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/40
   guid: c828cd2549328d44b29eca298a5a8418
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -5938,7 +6008,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/91
   guid: 3ac0172852e3704cb4372de9f5702713
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -6001,7 +6071,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/13
   guid: 5dd28eda794f7148886e30ac5998d7e1
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -6059,7 +6129,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/127
   guid: e93e243adabc00429387fe2aec2169b5
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -6100,7 +6170,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/123
   guid: 60aa0bffd4a70d4faac13664792d0a60
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -6123,7 +6193,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/7
   guid: 8603f91addb7a948a26277b1f7f1a469
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -6180,7 +6250,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/92
   guid: 4fcf73e03ddce6469adcb228c7250de4
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -6222,7 +6292,7 @@ MonoBehaviour:
   lastModified: 637566956154492986
   LoadResult: 0
   FileSizes: []
-  Exists: 1
+  Exists: 0
 --- !u!114 &3673841516059367345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6238,7 +6308,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/25
   guid: 36c3f64928a88846b51dd87684f7c918
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -6301,7 +6371,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/74
   guid: 2dcf53de88614141bc683ab0abfc6cc3
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -6344,7 +6414,7 @@ MonoBehaviour:
   lastModified: 637566956161908772
   LoadResult: 0
   FileSizes: []
-  Exists: 1
+  Exists: 0
 --- !u!114 &3845150796292489997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6395,7 +6465,7 @@ MonoBehaviour:
   Path: event:/n733
   guid: 817d8f7e26273449946267f27d77d811
   Banks:
-  - {fileID: 3630417884186759801}
+  - {fileID: -8638993480861000142}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -6475,6 +6545,23 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 0
+--- !u!114 &4184666905412780414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/SingerOn
+  m_EditorClassIdentifier: 
+  Name: SingerOn
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 1
 --- !u!114 &4202267813135315388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6490,7 +6577,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/33
   guid: da2cf7d608769d4ea745d6c0d1e17175
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -6498,6 +6585,23 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 3024
+--- !u!114 &4225008693171870356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Trust you/Quality
+  m_EditorClassIdentifier: 
+  Name: Quality
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 1
 --- !u!114 &4285951209678520527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6589,7 +6693,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/86
   guid: 2833e8fcf1904648bf0bff33f0e2a29b
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -6647,7 +6751,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/82
   guid: 94d70ddc4a81f94fb10a7056737e5686
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -6741,7 +6845,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/119
   guid: 8f7bb4a4b4f71f4a8d6f72ae657bf1d1
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -6821,7 +6925,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/112
   guid: 95a54ccdb2a4144c93b7906653f75a1a
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -6844,7 +6948,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/85
   guid: 3a7c988b0ce40c47a101a07b5e601561
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -6920,7 +7024,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/27
   guid: 886ac88f737dd04f916346807ff9c0c1
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -6928,6 +7032,24 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 3024
+--- !u!114 &5180798928151968380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Voices.bank
+  m_EditorClassIdentifier: 
+  Path: FmodProj/Build/Desktop/Voices.bank
+  SubDir: 
+  lastModified: 637608804151235718
+  LoadResult: 0
+  FileSizes: []
+  Exists: 1
 --- !u!114 &5210296823996758064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6943,7 +7065,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/114
   guid: 7548451556d38f4d85b667956befa227
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -7000,7 +7122,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/113
   guid: 228ece2d55677549841efd42ebc06a84
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -7041,7 +7163,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/121
   guid: ef583b84f2262d4aab0404944ce84db9
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -7064,7 +7186,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/60
   guid: 99727493f154d6479c8b5af7fa46419f
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -7105,7 +7227,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/78
   guid: b8faaf1e8ccb2d449558e5e4dc9d4422
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -7128,7 +7250,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/67
   guid: 617e2dc107013a4fbe9173bdab0def26
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -7168,7 +7290,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/88
   guid: 9387b46ba4ef3e4e98672a1966b42beb
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -7209,7 +7331,7 @@ MonoBehaviour:
   Path: event:/816
   guid: e631ae64eaf71d449cd3925159153be1
   Banks:
-  - {fileID: -1720849876427861341}
+  - {fileID: 5180798928151968380}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -7272,7 +7394,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/77
   guid: e1301eeb51e5f0469d77f3be009c2cbe
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -7295,7 +7417,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/101
   guid: ea071e462db0cf46b08f71896d22702d
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -7335,7 +7457,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/0
   guid: 235bb0a4d4ec7b41806f78fe516acf40
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -7376,7 +7498,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/95
   guid: 44a94e5f516c1241a6e0125381282ed2
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -7434,7 +7556,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/15
   guid: 9eba8eb1f48d5749838fff375310e281
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -7457,7 +7579,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/52
   guid: 5956ac866ab2174892ee8107abefcced
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -7502,7 +7624,7 @@ MonoBehaviour:
   Path: event:/Jack03
   guid: abd7a0f5ff4305449069aa413556f0f5
   Banks:
-  - {fileID: -1720849876427861341}
+  - {fileID: 5180798928151968380}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -7525,7 +7647,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/17
   guid: 67d69a33e3155d44b39654805033ca5f
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -7566,7 +7688,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/75
   guid: f2d143d22a88dc4183cf48d555b82dd9
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -7589,7 +7711,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/12
   guid: 375326684020f84d9c2bdaf243de1cc8
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -7648,7 +7770,7 @@ MonoBehaviour:
   Min: 0
   Max: 2
   Default: 0
-  Exists: 1
+  Exists: 0
 --- !u!114 &6665297491386951364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7682,7 +7804,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/18
   guid: e82fee9df023734181555de41a10d33c
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -7705,7 +7827,7 @@ MonoBehaviour:
   Path: event:/Jack05
   guid: 264c43bd32a81d49b3ede225b3ce5b06
   Banks:
-  - {fileID: -1720849876427861341}
+  - {fileID: 5180798928151968380}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -7780,7 +7902,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/20
   guid: 1a7e9d81b97ac74aa7044b2efb490550
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -7803,7 +7925,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/56
   guid: 86691fce0fe3f943a2ec48ad5217dc03
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -7862,7 +7984,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/6
   guid: 0b0bce2b799594438c3687572292f410
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -7902,7 +8024,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/19
   guid: 5a6e5238469c0742934e59834ffda91d
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -7932,6 +8054,23 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 705
+--- !u!114 &7166863087167969853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Rubia/BGVolumn
+  m_EditorClassIdentifier: 
+  Name: BGVolumn
+  Min: 0
+  Max: 1
+  Default: 1
+  Exists: 1
 --- !u!114 &7175429762006628276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7947,7 +8086,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/16
   guid: beb5b95632cee54e9481e57835c28497
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -7970,7 +8109,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/8
   guid: ca0469781c874140bfb28d675374e69c
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -7993,7 +8132,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/124
   guid: b44b3402b7a2a147908f32dec70dd367
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -8033,7 +8172,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/65
   guid: 7d25cc19f53a4e4496f12ed762f70372
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -8055,7 +8194,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: FmodProj/Build/Desktop/Master.strings.bank
   SubDir: 
-  lastModified: 637566956154888602
+  lastModified: 637608804151006330
   LoadResult: 0
   FileSizes:
   - Name: Desktop
@@ -8076,7 +8215,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/106
   guid: 99dc0ed98b094747964954aea0d3b091
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -8150,7 +8289,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/115
   guid: 8b186634d5bd9d4ebb32b9929be06a3e
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -8173,7 +8312,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/66
   guid: a1504d815adc884194d3c3fd680a694a
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -8196,7 +8335,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/73
   guid: 4a78b2b1a6a453449718e6a042ec4348
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -8312,7 +8451,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/10
   guid: e1eae395395313419a1aaff39e9cf9ea
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -8568,7 +8707,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/126
   guid: 196352fcc456094eac0f01a4cab49217
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -8609,7 +8748,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/5
   guid: b594b4b8f1bcc545b8a781d9d8263947
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -8775,7 +8914,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/32
   guid: 4e78197c958f3f4196929600b9d65f3b
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -8924,7 +9063,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/90
   guid: a8a57d568bd37c40aaa34f08bf73f32b
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -8947,7 +9086,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/116
   guid: 3fd8c93512ff1d4599d7ff56c0dab16c
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -8970,7 +9109,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/28
   guid: b6a531bd58e8f94991add2db50a67da5
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -9015,7 +9154,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/72
   guid: 632adcf77274714ca25949c3682087c0
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
@@ -9038,7 +9177,7 @@ MonoBehaviour:
   Path: event:/MidiNotes/84
   guid: f2b36ecf43571a419513c52846644fd0
   Banks:
-  - {fileID: 3837106885597752086}
+  - {fileID: -6305718413631542039}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1

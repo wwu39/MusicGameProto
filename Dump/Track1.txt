@@ -1,11 +1,12 @@
 [Track1]
-MidiEventsCount=0
-TextEventsCount=1
+MidiEventsCount=1
+TextEventsCount=0
 
-[TextEvent0]
+[MidiEvent0]
 Time=0
-Type=TrackName
-Value=Bs - Berlin Leg
+Type=MetaEvent
+MetaEventType=Tempo
+BeatsMinute=143
 
 
 

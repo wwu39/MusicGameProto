@@ -128,7 +128,7 @@ public class LevelPage : MonoBehaviour
     }
     public void Setup()
     {
-        string path = Application.dataPath + "/MusicalLevels/Resources/" + Interpreter.platform + "/" + MidiTranslator.filename;
+        string path = Application.dataPath + "/MusicGameEngine/MusicalLevels/Resources/" + Interpreter.platform + "/" + MidiTranslator.filename;
         if (!Directory.Exists(path))
         {
             Directory.CreateDirectory(path);

@@ -12,6 +12,7 @@ public class Interpreter
     {
         keyData = new List<KeyData>();
         sections = new Dictionary<string, Dictionary<string, string>>();
+        Debug.Log(platform + "/" + filename);
         TextAsset[] tas = Resources.LoadAll<TextAsset>(platform + "/" + filename);
         for (int i = 0; i < tas.Length; ++i)
         {
